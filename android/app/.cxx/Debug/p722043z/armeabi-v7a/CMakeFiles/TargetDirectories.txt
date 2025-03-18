@@ -1,0 +1,2 @@
+/mnt/mydrive/flutter/aapka_vyapar_1/aapka_vyapar_1/android/app/.cxx/Debug/p722043z/armeabi-v7a/CMakeFiles/edit_cache.dir
+/mnt/mydrive/flutter/aapka_vyapar_1/aapka_vyapar_1/android/app/.cxx/Debug/p722043z/armeabi-v7a/CMakeFiles/rebuild_cache.dir
