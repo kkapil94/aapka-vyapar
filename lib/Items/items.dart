@@ -1,3 +1,4 @@
+import 'package:aapka_vyapar/Items/MyStorePage/myStore.dart';
 import 'package:aapka_vyapar/Items/itemCard.dart';
 import 'package:flutter/material.dart';
 
@@ -35,7 +36,17 @@ class ItemsPageContent extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  _buildQuickLinkItem(Icons.store, "Online Store"),
+                  _buildQuickLinkItem(
+                    Icons.store,
+                    "Online Store",
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => OnlineStoreScreen()),
+                      );
+                    },
+                  ),
                   _buildQuickLinkItem(Icons.show_chart, "Stock Summary"),
                   _buildQuickLinkItem(Icons.settings, "Txn Settings"),
                   _buildQuickLinkItem(Icons.arrow_forward, "Show All"),
@@ -132,21 +143,18 @@ class ItemsPageContent extends StatelessWidget {
     );
   }
 
-  Widget _buildQuickLinkItem(IconData icon, String label) {
-    return Column(
-      children: [
-        Container(
-          width: 60,
-          height: 60,
-          decoration: BoxDecoration(
-            color: Colors.blue.shade100,
-            borderRadius: BorderRadius.circular(8),
-          ),
-          child: Icon(icon, color: Colors.black),
-        ),
-        const SizedBox(height: 8),
-        Text(label, style: const TextStyle(fontSize: 12)),
-      ],
+  Widget _buildQuickLinkItem(IconData icon, String title,
+      {VoidCallback? onTap}) {
+    return InkWell(
+      onTap: onTap,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(icon, size: 24),
+          const SizedBox(height: 8),
+          Text(title, style: TextStyle(fontSize: 12)),
+        ],
+      ),
     );
   }
 

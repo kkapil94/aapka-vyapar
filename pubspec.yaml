@@ -2,7 +2,7 @@ name: aapka_vyapar
 description: "The Application is GST Ready Accounting & Inventory Management software application specifically designed for Micro and Small enterprises looking for a cost effective solution which can help them automate their various business functions like Accounts, Inventory, POS, Statutory reports, CRM & more."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -34,13 +34,13 @@ dependencies:
   remixicon: ^1.1.0
   image_picker: ^0.8.7+4
   flutter_launcher_icons: ^0.13.1
+  intl: ^0.18.0
 
 flutter_icons:
   android: true
   ios: true
   image_path: "assets/Images/Vyapar_logo.png"
   background_color: "#FF0000" # Red background color
-
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -62,7 +62,6 @@ dev_dependencies:
 
 # The following section is specific to Flutter packages.
 flutter:
-
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
