@@ -1,3 +1,5 @@
+import 'package:aapka_vyapar/Items/Edit%20Store%20Info/edit-store-info.dart';
+import 'package:aapka_vyapar/Items/Manage%20Items%20Screen/manage-items-screen.dart';
 import 'package:aapka_vyapar/Items/OrderScreen/OrderScreen.dart';
 import 'package:aapka_vyapar/Items/StorePreview/store_preview.dart';
 import 'package:flutter/material.dart';
@@ -99,7 +101,14 @@ class OnlineStoreScreen extends StatelessWidget {
                     Row(
                       children: [
                         TextButton.icon(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      const UpdateStoreInfoPage()),
+                            );
+                          },
                           icon: const Icon(Icons.edit, color: Colors.blue),
                           label: const Text('Edit store info',
                               style: TextStyle(color: Colors.blue)),
@@ -215,7 +224,13 @@ class OnlineStoreScreen extends StatelessWidget {
                       iconBgColor: const Color(0xFFFFEAD9),
                       title: 'Manage Items',
                       subtitle: 'Total items added - 10',
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const ManageItemsPage()),
+                        );
+                      },
                     ),
                     const Divider(height: 1),
                     _buildActionItem(
