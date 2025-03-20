@@ -1,4 +1,8 @@
 import 'package:aapka_vyapar/Items/Add%20New%20Sale/add-new-sale.dart';
+import 'package:aapka_vyapar/Items/Export%20%20Items/export-items.dart';
+import 'package:aapka_vyapar/Items/Item%20PnL%20Details/item-details.dart';
+import 'package:aapka_vyapar/Items/Item%20Wise%20PnL/item-wise-pnl.dart';
+import 'package:aapka_vyapar/Items/ItemDetails/itemDetails.dart';
 import 'package:aapka_vyapar/Items/MyStorePage/myStore.dart';
 import 'package:aapka_vyapar/Items/Stock%20Summary/stock_summary.dart';
 import 'package:aapka_vyapar/Items/itemCard.dart';
@@ -61,7 +65,105 @@ class ItemsPageContent extends StatelessWidget {
                     },
                   ),
                   _buildQuickLinkItem(Icons.settings, "Txn Settings"),
-                  _buildQuickLinkItem(Icons.arrow_forward, "Show All"),
+                  _buildQuickLinkItem(
+                    Icons.arrow_forward,
+                    "Show All",
+                    onTap: () {
+                      // Show the bottom sheet when 3-dot button is clicked
+                      showModalBottomSheet(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return Container(
+                            padding: const EdgeInsets.all(16),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text("More Option",
+                                        style: TextStyle(
+                                            fontSize: 24,
+                                            fontWeight: FontWeight.bold)),
+                                    IconButton(
+                                      icon: Icon(Icons.close),
+                                      onPressed: () => Navigator.pop(context),
+                                    ),
+                                  ],
+                                ),
+                                Divider(),
+                                SizedBox(height: 10),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    _buildGridOption(
+                                        Icons.add_box, "Import Items"),
+                                    _buildGridOption(
+                                      Icons.indeterminate_check_box,
+                                      "Export Items",
+                                      onPressed: () {
+                                        Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  ExportItemsScreen()),
+                                        );
+                                      },
+                                    ),
+                                    _buildGridOption(
+                                      Icons.bubble_chart,
+                                      "Item Wise PnL",
+                                      onPressed: () {
+                                        Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  ItemWiseProfitLossScreen()),
+                                        );
+                                      },
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(height: 30),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    _buildGridOption(
+                                      Icons.view_in_ar,
+                                      "Item Details",
+                                      onPressed: () {
+                                        Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  ItemDetailsPnL()),
+                                        );
+                                      },
+                                    ),
+                                    _buildGridOption(
+                                      Icons.inventory,
+                                      "Low Stock Summary",
+                                      onPressed: () {
+                                        Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  StockSummaryScreen()),
+                                        );
+                                      },
+                                    ),
+                                    SizedBox(
+                                        width:
+                                            80), // Empty space for the third column
+                                  ],
+                                ),
+                                SizedBox(height: 20),
+                              ],
+                            ),
+                          );
+                        },
+                      );
+                    },
+                  ),
                 ],
               ),
             ],
@@ -109,7 +211,49 @@ class ItemsPageContent extends StatelessWidget {
                 ),
                 child: IconButton(
                   icon: const Icon(Icons.more_vert),
-                  onPressed: () {},
+                  onPressed: () {
+                    // Show the bottom sheet when 3-dot button is clicked
+                    showModalBottomSheet(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return Container(
+                          padding: const EdgeInsets.all(16),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text("More Options",
+                                      style: TextStyle(
+                                          fontSize: 24,
+                                          fontWeight: FontWeight.bold)),
+                                  IconButton(
+                                    icon: Icon(Icons.close),
+                                    onPressed: () => Navigator.pop(context),
+                                  ),
+                                ],
+                              ),
+                              Divider(),
+                              _buildMenuOption(
+                                  "Mark Items Active", Icons.chevron_right),
+                              Divider(),
+                              _buildMenuOption(
+                                  "Mark Items Inactive", Icons.chevron_right),
+                              Divider(),
+                              _buildToggleOption("Show Inactive"),
+                              Divider(),
+                              _buildMenuOption("Units", Icons.chevron_right),
+                              Divider(),
+                              _buildMenuOption(
+                                  "Categories", Icons.chevron_right),
+                            ],
+                          ),
+                        );
+                      },
+                    );
+                  },
                 ),
               ),
             ],
@@ -197,4 +341,65 @@ class ItemsPageContent extends StatelessWidget {
       ],
     );
   }
+}
+
+Widget _buildMenuOption(String title, IconData iconData) {
+  return Padding(
+    padding: const EdgeInsets.symmetric(vertical: 12.0),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(title, style: TextStyle(fontSize: 18)),
+        Icon(iconData),
+      ],
+    ),
+  );
+}
+
+Widget _buildToggleOption(String title) {
+  return Padding(
+    padding: const EdgeInsets.symmetric(vertical: 12.0),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(title, style: TextStyle(fontSize: 18)),
+        Checkbox(
+          value: false,
+          onChanged: (bool? value) {
+            // Handle checkbox state here
+          },
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(4),
+          ),
+        ),
+      ],
+    ),
+  );
+}
+
+Widget _buildGridOption(IconData icon, String label,
+    {VoidCallback? onPressed}) {
+  return GestureDetector(
+    onTap: onPressed,
+    child: Column(
+      children: [
+        Container(
+          child: Icon(icon, size: 30),
+        ),
+        Container(
+          width: 50,
+          height: 30,
+          decoration: BoxDecoration(
+            color: Colors.blue.withOpacity(0.1),
+            borderRadius: BorderRadius.circular(8),
+          ),
+        ),
+        Text(
+          label,
+          style: TextStyle(fontSize: 14),
+          textAlign: TextAlign.center,
+        ),
+      ],
+    ),
+  );
 }
