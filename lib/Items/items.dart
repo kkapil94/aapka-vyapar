@@ -1,3 +1,4 @@
+import 'package:aapka_vyapar/Items/Add%20New%20Sale/add-new-sale.dart';
 import 'package:aapka_vyapar/Items/MyStorePage/myStore.dart';
 import 'package:aapka_vyapar/Items/Stock%20Summary/stock_summary.dart';
 import 'package:aapka_vyapar/Items/itemCard.dart';
@@ -137,7 +138,11 @@ class ItemsPageContent extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.all(16.0),
           child: ElevatedButton.icon(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => const AddItemScreen()),
+              );
+            },
             icon: const Icon(Icons.add_box),
             label: const Text("Add New Sale", style: TextStyle(fontSize: 16)),
             style: ElevatedButton.styleFrom(
