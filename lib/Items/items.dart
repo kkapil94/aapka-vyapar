@@ -1,4 +1,5 @@
 import 'package:aapka_vyapar/Items/MyStorePage/myStore.dart';
+import 'package:aapka_vyapar/Items/Stock%20Summary/stock_summary.dart';
 import 'package:aapka_vyapar/Items/itemCard.dart';
 import 'package:flutter/material.dart';
 
@@ -47,7 +48,17 @@ class ItemsPageContent extends StatelessWidget {
                       );
                     },
                   ),
-                  _buildQuickLinkItem(Icons.show_chart, "Stock Summary"),
+                  _buildQuickLinkItem(
+                    Icons.show_chart,
+                    "Stock Summary",
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => StockSummaryScreen()),
+                      );
+                    },
+                  ),
                   _buildQuickLinkItem(Icons.settings, "Txn Settings"),
                   _buildQuickLinkItem(Icons.arrow_forward, "Show All"),
                 ],
