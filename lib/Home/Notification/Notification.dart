@@ -212,7 +212,7 @@ class _Notification extends State<Notification_page>
                       child: Row(
                         children: [
                           Text("${selected_timeDuration}"),
-                          SizedBox(width: 50,),
+                          SizedBox(width: 5,),
                           Icon(Icons.arrow_drop_down,color: Colors.blueAccent,),
                         ],
                       ),

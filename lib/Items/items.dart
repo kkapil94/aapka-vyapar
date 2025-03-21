@@ -1,14 +1,21 @@
 import 'package:demo/Home/Home.dart';
-import 'package:demo/Items/ItemDetails/itemDetails.dart';
-import 'package:demo/Items/MyStorePage/myStore.dart';
-import 'package:demo/Items/itemCard.dart';
+import 'package:demo/Items/Online%20Store/MyStorePage/myStore.dart';
+import 'package:demo/Items/Stock%20Summary%20Report/Stock_summary_report.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_remix/flutter_remix.dart';
 import 'package:remixicon/remixicon.dart';
 
+import 'ItemDetails/itemDetails.dart';
+
+class ItemsPageContent extends StatefulWidget {
+  const ItemsPageContent({super.key});
+
+  @override
+  State<ItemsPageContent> createState() => _ItemsPageContentState();
+}
+
 // Items Page Content
-class ItemsPageContent extends StatelessWidget {
-  const ItemsPageContent({Key? key}) : super(key: key);
+class _ItemsPageContentState extends State<ItemsPageContent> {
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +64,7 @@ class ItemsPageContent extends StatelessWidget {
                         icon: FlutterRemix.funds_line,
                         label: "Stock Summary",
                         onTap: () {
-
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=>Stock_Summary_Report()));
                         },
                       ),
                       //Txn settings
@@ -74,6 +81,7 @@ class ItemsPageContent extends StatelessWidget {
                         icon: FlutterRemix.arrow_right_circle_line,
                         label: "Show All",
                         onTap: () {
+                          More_Option(context);
                         },
                       ),
                     ],
@@ -211,5 +219,87 @@ class ItemsPageContent extends StatelessWidget {
       ),
     );
   }
+  void More_Option(BuildContext context)
+  {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      builder: (BuildContext context) {
+        return Container(
+          color: Colors.white,
+          height: MediaQuery.of(context).size.height*0.30,
+          child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Sale Transactions Header
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 8),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Text(
+                              "More Option",
+                              style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
+                            ),
+                          ),
+                          InkWell(
+                            onTap: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: Icon(Icons.close),
+                          ),
+                        ],
+                      ),
+                    ),
+                    Divider(color: Colors.grey.shade200,thickness: 1,),
+                    GridView.builder(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 3,
+                        childAspectRatio: 1.5,
+                      ),
+                      itemBuilder: (context, index) {
+                        return InkWell(
+                          onTap: (){
+                            if(index==0){
+                            }
+                            if(index==1){
+                            }
+                            if(index==2){
+                            }
+                            if(index==3){
+                            }
+                          },
+                          child: QuickLink(
+                            icon: iconOf_moreOption[index],
+                            label: labelOf_moreOption[index],
+                            backgroundColor: default_color,
+                          ),
+                        );
+                      },
+                      itemCount: iconOf_moreOption.length,
+                    ),
+
+                  ],
+                ),
+        );
+      },
+    );
+  }
+  var iconOf_moreOption = [
+    Remix.sticky_note_add_line,
+    Remix.delete_bin_line,
+    Remix.bubble_chart_line,
+    Remix.instance_line,
+    Remix.box_2_line,
+  ];
+  var labelOf_moreOption = [
+    "Import Items",
+    "Export Items",
+    "Item Wise PnL",
+    "Item Deetails",
+    "Low Stock Summary",
+  ];
 
 }

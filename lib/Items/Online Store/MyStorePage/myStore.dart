@@ -1,14 +1,31 @@
 import 'package:demo/Home/Prefered_underline_appbar.dart';
-import 'package:demo/Items/Edit%20Store%20Info/edit-store-info.dart';
-import 'package:demo/Items/Manage%20Items%20Screen/manage-items-screen.dart';
+import 'package:demo/Items/Online%20Store/Edit%20Store%20Info/edit-store-info.dart';
 import 'package:flutter/material.dart';
 import 'package:remixicon/remixicon.dart';
 
+import '../Manage Items Screen/manage-items-screen.dart';
 import '../OrderScreen/OrderScreen.dart';
 import '../StorePreview/store_preview.dart';
 
-class OnlineStoreScreen extends StatelessWidget {
-  const OnlineStoreScreen({Key? key}) : super(key: key);
+class OnlineStoreScreen extends StatefulWidget {
+  const OnlineStoreScreen({super.key});
+
+  @override
+  State<OnlineStoreScreen> createState() => _OnlineStoreScreenState();
+}
+
+class _OnlineStoreScreenState extends State<OnlineStoreScreen>{
+  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+
+  bool acceptOrders = true;
+  bool minOrderAmount = false;
+  bool additionalCharges = true;
+  bool itemDiscounts = false;
+  bool linkStock = false;
+
+  bool deliveryCharges = false;
+  bool addTaxes = false;
+  bool extraDeliveryCharges = false;
 
   @override
   Widget build(BuildContext context) {
@@ -17,6 +34,222 @@ class OnlineStoreScreen extends StatelessWidget {
     double screenheight = MediaQuery.of(context).size.height;
 
     return Scaffold(
+      key: scaffoldKey,
+      endDrawer: Drawer(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(0),
+        ),
+        child: Container(
+          color: Colors.white,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(top: 30, left: 10, right: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "Store Settings",
+                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
+                    IconButton(
+                      icon: Icon(Icons.close),
+                      onPressed: () => Navigator.pop(context),
+                    ),
+                  ],
+                ),
+              ),
+
+              Divider(color: Colors.grey.shade200),
+
+              // Accept Online Orders
+              Transform.scale(
+                scale: 0.9,
+                child: SwitchListTile(
+                  title: Text("Accept Online Orders", style: TextStyle(fontSize: 18)),
+                  value: acceptOrders,
+                  onChanged: (value) {
+                    setState(() {
+                      acceptOrders = value;
+                    });
+                  },
+                  activeTrackColor: Colors.blueAccent,
+                  activeColor: Colors.white,
+                  inactiveThumbColor: Colors.white,
+                  materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                ),
+              ),
+
+              // Set Min Order Amount
+              Transform.scale(
+                scale: 0.9,
+                child: SwitchListTile(
+                  title: Text("Set Min Order Amount", style: TextStyle(fontSize: 18)),
+                  value: minOrderAmount,
+                  onChanged: (value) {
+                    setState(() {
+                      minOrderAmount = value;
+                    });
+                  },
+                  activeTrackColor: Colors.blueAccent,
+                  activeColor: Colors.white,
+                  inactiveThumbColor: Colors.white,
+                  materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                ),
+              ),
+
+              // Additional Charges
+              Container(
+                color: Colors.grey.shade200,
+                child: Column(
+                  children: [
+
+                    Transform.scale(
+                      scale: 0.9,
+                      child: SwitchListTile(
+                        title: Text("Additional Charges", style: TextStyle(fontSize: 18)),
+                        value: additionalCharges,
+                        onChanged: (value) {
+                          setState(() {
+                            additionalCharges = value;
+                          });
+                        },
+                        activeTrackColor: Colors.blueAccent,
+                        activeColor: Colors.white,
+                        inactiveThumbColor: Colors.white,
+                        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      ),
+                    ),
+
+                    if (additionalCharges) ...[
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                        child: Row(
+                          children: [
+                            Transform.scale(
+                              scale: 0.9,
+                              child: Checkbox(
+                                value: deliveryCharges,
+                                onChanged: (value) {
+                                  setState(() {
+                                    deliveryCharges = value!;
+                                  });
+                                },
+                                activeColor: Colors.blue,
+                              ),
+                            ),
+                            Text("Delivery Charges", style: TextStyle(fontSize: 16)),
+                          ],
+                        ),
+                      ),
+
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                        child: Row(
+                          children: [
+                            Transform.scale(
+                              scale: 0.9,
+                              child: Checkbox(
+                                value: addTaxes,
+                                onChanged: (value) {
+                                  setState(() {
+                                    addTaxes = value!;
+                                  });
+                                },
+                                activeColor: Colors.blue,
+                              ),
+                            ),
+                            Text("Add Taxes into Cart Value", style: TextStyle(fontSize: 16)),
+                          ],
+                        ),
+                      ),
+
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                        child: Row(
+                          children: [
+                            Transform.scale(
+                              scale: 0.9,
+                              child: Checkbox(
+                                value: extraDeliveryCharges,
+                                onChanged: (value) {
+                                  setState(() {
+                                    extraDeliveryCharges = value!;
+                                  });
+                                },
+                                activeColor: Colors.blue,
+                              ),
+                            ),
+                            Text("Extra Delivery Charges", style: TextStyle(fontSize: 16)),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ],
+                ),
+              ),
+
+
+              // Item Discounts
+              Transform.scale(
+                scale: 0.9,
+                child: SwitchListTile(
+                  title: Text("Item Discounts", style: TextStyle(fontSize: 18)),
+                  value: itemDiscounts,
+                  onChanged: (value) {
+                    setState(() {
+                      itemDiscounts = value;
+                    });
+                  },
+                  activeTrackColor: Colors.blueAccent,
+                  activeColor: Colors.white,
+                  inactiveThumbColor: Colors.white,
+                  materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                ),
+              ),
+
+              Transform.scale(
+                scale: 0.9,
+                child: SwitchListTile(
+                  title: Text("Link Stock to Online Store", style: TextStyle(fontSize: 18)),
+                  value: linkStock,
+                  onChanged: (value) {
+                    setState(() {
+                      linkStock = value;
+                    });
+                  },
+                  activeTrackColor: Colors.blueAccent,
+                  activeColor: Colors.white,
+                  inactiveThumbColor: Colors.white,
+                  materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                ),
+              ),
+
+              // Apply Button
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.red,
+                      padding: EdgeInsets.symmetric(vertical: 10),
+                    ),
+                    child: Text(
+                      "Apply",
+                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color:Colors.white),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
       appBar: AppBar(
         surfaceTintColor: Colors.white,
         backgroundColor: Colors.white,
@@ -24,18 +257,20 @@ class OnlineStoreScreen extends StatelessWidget {
         bottom: Prefered_underline_appbar(),
         actions: [
           IconButton(
-            icon: Icon(Icons.visibility, color: Colors.black),
+            icon: Icon(Remix.eye_line, color: Colors.black),
             onPressed: () {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => const StorePreviewScreen()),
+                    builder: (context) => const Store_Preview()),
               );
             },
           ),
           IconButton(
-            icon: Icon(Icons.settings, color: Colors.black),
-            onPressed: () {},
+            icon: Icon(Remix.settings_2_line, color: Colors.black),
+            onPressed: () {
+              scaffoldKey.currentState!.openEndDrawer(); // Open Right Drawer
+            },
           ),
         ],
       ),
@@ -167,18 +402,23 @@ class OnlineStoreScreen extends StatelessWidget {
                     ),
                     SizedBox(width: screenwidth*0.01,),
                     Expanded(
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        padding: EdgeInsets.all(8),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text("Open Orders",style: TextStyle(fontSize: 16),),
-                            Text("0",style: TextStyle(fontSize: 16),)
-                          ],
+                      child:GestureDetector(
+                        onTap: (){
+                          Navigator.push(context, MaterialPageRoute(builder: (context)=>OrdersScreen()));
+                        },
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          padding: EdgeInsets.all(8),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text("Open Orders",style: TextStyle(fontSize: 16),),
+                              Text("0",style: TextStyle(fontSize: 16),)
+                            ],
+                          ),
                         ),
                       ),
                     ),
@@ -245,62 +485,72 @@ class OnlineStoreScreen extends StatelessWidget {
                       ///Manage Items
                       Padding(
                         padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              children: [
-                                Container(
-                                  padding: EdgeInsets.all(16),
-                                  decoration: BoxDecoration(
-                                    color: Colors.orange.shade50,
-                                    borderRadius: BorderRadius.circular(90),
+                        child: GestureDetector(
+                            onTap: (){
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=>ManageItemsPage()));
+                            },
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Row(
+                                children: [
+                                  Container(
+                                    padding: EdgeInsets.all(16),
+                                    decoration: BoxDecoration(
+                                      color: Colors.orange.shade50,
+                                      borderRadius: BorderRadius.circular(90),
+                                    ),
+                                    child: Icon(Remix.box_3_line,size: 30,color: Colors.orange.shade800,),
                                   ),
-                                  child: Icon(Remix.box_3_line,size: 30,color: Colors.orange.shade800,),
-                                ),
-                                SizedBox(width: screenwidth*0.04,),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text("Manage Items",style: TextStyle(fontSize: 15),),
-                                    Text("Total items added - 10"),
-                                  ],
-                                ),
-                              ],
-                            ),
-                            Icon(Remix.arrow_right_s_line,color: Colors.blueAccent,),
-                          ],
+                                  SizedBox(width: screenwidth*0.04,),
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text("Manage Items",style: TextStyle(fontSize: 15),),
+                                      Text("Total items added - 10"),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                              Icon(Remix.arrow_right_s_line,color: Colors.blueAccent,),
+                            ],
+                          ),
                         ),
                       ),
                       Divider(color: Colors.grey.shade200,thickness: 1,),
                       ///Manage Orders
                       Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              children: [
-                                Container(
-                                  padding: EdgeInsets.all(16),
-                                  decoration: BoxDecoration(
-                                    color: Colors.red.shade50,
-                                    borderRadius: BorderRadius.circular(90),
+                        padding: EdgeInsets.all(8.0),
+                        child: GestureDetector(
+                          onTap: (){
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=>OrdersScreen()));
+                          },
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Row(
+                                children: [
+                                  Container(
+                                    padding: EdgeInsets.all(16),
+                                    decoration: BoxDecoration(
+                                      color: Colors.red.shade50,
+                                      borderRadius: BorderRadius.circular(90),
+                                    ),
+                                    child: Icon(Remix.truck_line,size: 30,color: Color(0xFFE03537),),
                                   ),
-                                  child: Icon(Remix.truck_line,size: 30,color: Color(0xFFE03537),),
-                                ),
-                                SizedBox(width: screenwidth*0.04,),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text("Manage Orders",style: TextStyle(fontSize: 15),),
-                                    Text("Order delivered till date - 0"),
-                                  ],
-                                ),
-                              ],
-                            ),
-                            Icon(Remix.arrow_right_s_line,color: Colors.blueAccent,),
-                          ],
+                                  SizedBox(width: screenwidth*0.04,),
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text("Manage Orders",style: TextStyle(fontSize: 15),),
+                                      Text("Order delivered till date - 0"),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                              Icon(Remix.arrow_right_s_line,color: Colors.blueAccent,),
+                            ],
+                          ),
                         ),
                       ),
                       Divider(color: Colors.grey.shade200,thickness: 1,),

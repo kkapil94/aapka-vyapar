@@ -719,12 +719,19 @@ class _OrdersScreenState extends State<OrdersScreen>
                   Row(
                     children: [
                       Expanded(
-                        child: ElevatedButton(
-                            onPressed: (){},
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.blueAccent
-                            ),
-                            child: Text("Apply")
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8.0,vertical: 4),
+                          child: ElevatedButton(
+                              onPressed: (){},
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.blueAccent,
+                                padding: EdgeInsets.symmetric(vertical: 12),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                )
+                              ),
+                              child: Text("Apply",style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold,),)
+                          ),
                         ),
                       ),
                     ],

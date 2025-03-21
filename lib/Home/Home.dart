@@ -29,21 +29,23 @@ class HomePage extends StatelessWidget {
               overlayColor: MaterialStateProperty.all(Colors.transparent), // Remove ripple effect
               tabs: [
                 Tab(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 18.0),
+                  child: Container(
+                    width: double.infinity,
                     child: Text(
-                      "Transaction Details",
-                      style: TextStyle(fontSize: 12),
-                    ),
+                        "Transaction Details",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(fontSize: 12),
+                      ),
                   ),
                 ),
                 Tab(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 18.0),
+                  child: Container(
+                    width: double.infinity,
                     child: Text(
-                      "Party Details",
-                      style: TextStyle(fontSize: 12),
-                    ),
+                        "Party Details",
+                        textAlign: TextAlign.center,
+                        style: TextStyle(fontSize: 12),
+                      ),
                   ),
                 ),
               ],

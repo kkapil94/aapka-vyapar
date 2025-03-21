@@ -1,5 +1,6 @@
 import 'package:demo/Dashboard/Dashboard.dart';
 import 'package:demo/Home/Notification/Notification.dart';
+import 'package:demo/Menu/Menu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_remix/flutter_remix.dart';
@@ -45,7 +46,7 @@ class _MyHomePageState extends State<MyHomePage> {
     HomePage(),
     Dashboard(),
     ItemsPageContent(),
-    Text("4",style: TextStyle(fontSize: 41,color: Colors.black),),
+    Menu(),
   ];
   @override
   Widget build(BuildContext context) {

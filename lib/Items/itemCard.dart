@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import "ItemDetails/itemDetails.dart";
+
+import 'ItemDetails/itemDetails.dart';
 
 Widget buildItemCard(BuildContext context, String itemName, double salePrice,
     double purchasePrice, double inStock, String category) {

@@ -708,6 +708,27 @@ class _TransactionDetailsTab extends State<TransactionDetailsTab> {
     );
   }
 }
+var iconOf_moreOption = [
+  FlutterRemix.bank_line,
+  FlutterRemix.book_open_line,
+  FlutterRemix.sticky_note_line,
+  FlutterRemix.arrow_up_down_line,
+  FlutterRemix.article_line,
+  Remix.mobile_download_line,
+  FlutterRemix.printer_line,
+  Remix.chat_settings_line,
+];
+var labelOf_moreOption = [
+  "Bank Accounts",
+  "Day Book",
+  "All Txns Report",
+  "Profit & Loss",
+  "Balance Sheet",
+  "Billwise PnL",
+  "Print Settings",
+  "Txn SMS Settings"
+];
+
 void ShowAll(BuildContext context)
 {
   showModalBottomSheet(
@@ -828,26 +849,6 @@ var labelOf_OtherTransaction = [
   "P2P Transfer",
 ];
 
-var iconOf_moreOption = [
-  FlutterRemix.bank_line,
-  FlutterRemix.book_open_line,
-  FlutterRemix.sticky_note_line,
-  FlutterRemix.arrow_up_down_line,
-  FlutterRemix.article_line,
-  Remix.mobile_download_line,
-  FlutterRemix.printer_line,
-  Remix.chat_settings_line,
-];
-var labelOf_moreOption = [
-  "Bank Accounts",
-  "Day Book",
-  "All Txns Report",
-  "Profit & Loss",
-  "Balance Sheet",
-  "Billwise PnL",
-  "Print Settings",
-  "Txn SMS Settings"
-];
 
 
 void pop_up_modal(BuildContext context) {
