@@ -1,5 +1,6 @@
 import 'package:aapka_vyapar/Items/Add%20New%20Sale/add-new-sale.dart';
 import 'package:aapka_vyapar/Items/Export%20%20Items/export-items.dart';
+import 'package:aapka_vyapar/Items/Import%20Items/import-items.dart';
 import 'package:aapka_vyapar/Items/Item%20PnL%20Details/item-details.dart';
 import 'package:aapka_vyapar/Items/Item%20Wise%20PnL/item-wise-pnl.dart';
 import 'package:aapka_vyapar/Items/ItemDetails/itemDetails.dart';
@@ -99,7 +100,16 @@ class ItemsPageContent extends StatelessWidget {
                                       MainAxisAlignment.spaceEvenly,
                                   children: [
                                     _buildGridOption(
-                                        Icons.add_box, "Import Items"),
+                                      Icons.add_box,
+                                      "Import Items",
+                                      onPressed: () {
+                                        Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  ImportItemsPage()),
+                                        );
+                                      },
+                                    ),
                                     _buildGridOption(
                                       Icons.indeterminate_check_box,
                                       "Export Items",
