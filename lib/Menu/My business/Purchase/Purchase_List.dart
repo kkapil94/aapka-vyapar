@@ -1,4 +1,5 @@
 import 'package:demo/Home/Prefered_underline_appbar.dart';
+import 'package:demo/Home/Transaction%20Details/Add%20Txn/Purchase%20Transaction/purchase.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_remix/flutter_remix.dart';
@@ -6,14 +7,14 @@ import 'package:remixicon/remixicon.dart';
 
 import '../../../Home/Transaction Details/Add Txn/Sale Transaction/add_new_sales.dart';
 
-class Sale_List extends StatefulWidget {
-  const Sale_List({super.key});
+class Purchase_List extends StatefulWidget {
+  const Purchase_List({super.key});
 
   @override
-  State<Sale_List> createState() => _Sale_ListState();
+  State<Purchase_List> createState() => _Purchase_List();
 }
 
-class _Sale_ListState extends State<Sale_List> {
+class _Purchase_List extends State<Purchase_List> {
 
   bool is_searchbar = false;
 
@@ -22,37 +23,37 @@ class _Sale_ListState extends State<Sale_List> {
     return Scaffold(
       appBar: AppBar(
         title: is_searchbar?
-                   TextField(
-                     decoration: InputDecoration(
-                         hintText: "Search",
-                         border:OutlineInputBorder(
-                           borderSide: BorderSide.none,
-                         )
-                     ),
-                   ):
-                   Text("Sale List",style: TextStyle(color: Colors.black,fontSize: 18,fontWeight: FontWeight.bold),),
+        TextField(
+          decoration: InputDecoration(
+              hintText: "Search",
+              border:OutlineInputBorder(
+                borderSide: BorderSide.none,
+              )
+          ),
+        ):
+        Text("Purchase List",style: TextStyle(color: Colors.black,fontSize: 18,fontWeight: FontWeight.bold),),
         backgroundColor: Colors.white,
         bottom: Prefered_underline_appbar(),
         actions: [
           if(is_searchbar==false)
-          Row(
-            children: [
-              IconButton(
-                  onPressed: (){
-                    setState(() {
-                      is_searchbar = true;
-                    });
-                  },
-                  icon: Icon(Remix.search_2_line)
-              ),
-              Container(
-                height: 25,
-                width: 25,
-                child: Image.asset("Assets/Images/pdf.png"),
-              ),
-              SizedBox(width: 10,),
-            ],
-          ),
+            Row(
+              children: [
+                IconButton(
+                    onPressed: (){
+                      setState(() {
+                        is_searchbar = true;
+                      });
+                    },
+                    icon: Icon(Remix.search_2_line)
+                ),
+                Container(
+                  height: 25,
+                  width: 25,
+                  child: Image.asset("Assets/Images/pdf.png"),
+                ),
+                SizedBox(width: 10,),
+              ],
+            ),
           if(is_searchbar==true)
             IconButton(
               onPressed: () {
@@ -99,7 +100,7 @@ class _Sale_ListState extends State<Sale_List> {
                                   child: Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      Text("Total Sale",style: TextStyle(fontSize: 12,color: Colors.grey),),
+                                      Text("Total Purchase",style: TextStyle(fontSize: 12,color: Colors.grey),),
                                       Text("₹ 500.00",style: TextStyle(color: Colors.black,fontSize: 16,fontWeight: FontWeight.w700),)
                                     ],
                                   ),
@@ -197,18 +198,17 @@ class _Sale_ListState extends State<Sale_List> {
                                               CrossAxisAlignment.start,
                                               children: [
                                                 Text(
-                                                  "Total : ",
+                                                  "Balance : ",
                                                   style: TextStyle(
                                                     fontSize: 12,
                                                     color: Colors.grey,
                                                   ),
                                                 ),
-                                                SizedBox(width: 10,),
                                                 Text(
                                                   "₹ 500.00",
                                                   style: TextStyle(
-                                                    fontSize: 14,
-                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 13,
+                                                    fontWeight: FontWeight.w500,
                                                   ),
                                                 ),
                                               ],
@@ -225,8 +225,8 @@ class _Sale_ListState extends State<Sale_List> {
                                               child: GestureDetector(
                                                 onTap: (){},
                                                 child: Icon(
-                                                    FlutterRemix.printer_line,
-                                                    color: Colors.grey,
+                                                  FlutterRemix.printer_line,
+                                                  color: Colors.grey,
                                                 ),
                                               ),
                                             ),
@@ -234,7 +234,7 @@ class _Sale_ListState extends State<Sale_List> {
                                             Padding(
                                               padding: EdgeInsets.only(right: MediaQuery.of(context).size.width * 0.02),
                                               child: GestureDetector(
-                                                  onTap: () {
+                                                onTap: () {
                                                   double screenWidth = MediaQuery.of(context).size.width;
                                                   double screenHeight = MediaQuery.of(context).size.height;
 
@@ -395,7 +395,7 @@ class _Sale_ListState extends State<Sale_List> {
                                                     },
                                                   );
                                                 },
-                                                  child: Icon(
+                                                child: Icon(
                                                   FlutterRemix.share_forward_line,
                                                   color: Colors.grey,
                                                   size: MediaQuery.of(context).size.width * 0.06, // Responsive icon size
@@ -485,7 +485,7 @@ class _Sale_ListState extends State<Sale_List> {
                     backgroundColor: Color(0xFFE03537),
                   ),
                   onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=>Add_new_Sales()));
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=>Purchase()));
                   },
                   child:Row(
                     mainAxisSize: MainAxisSize.min,
@@ -494,7 +494,7 @@ class _Sale_ListState extends State<Sale_List> {
                       Icon(Remix.add_line,color: Colors.white,size: 20,),
                       const SizedBox(width: 8),
                       Text(
-                        "Add Sale",
+                        "Add Purchase",
                         style: TextStyle(color: Colors.white),
                       ),
                     ],

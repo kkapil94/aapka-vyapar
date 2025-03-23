@@ -575,7 +575,7 @@ class _OrdersScreenState extends State<OrdersScreen>
                                               ),
                                             ),
                                     ]
-                                                                    ),
+                                    ),
                                   ),
 
                                   SizedBox(height: 6),
