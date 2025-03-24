@@ -45,10 +45,53 @@ class _Manage_ComponyState extends State<Manage_Compony> with SingleTickerProvid
           ),
           IconButton(
             icon: Icon(Remix.more_2_line),
-            onPressed: () {},
+            onPressed: () {
+              showModalBottomSheet(
+                  backgroundColor: Colors.white,
+                  context: context,
+                  builder: (context){
+                    return Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(8)
+                      ),
+                      height: MediaQuery.of(context).size.height * 0.2,
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text("More Options",style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),
+                                IconButton(onPressed: (){}, icon: Icon(Remix.close_line)),
+                              ],
+                            ),
+                          ),
+                          Divider(color: Colors.grey.shade200,thickness: 1,),
+                          ListTile(
+                            contentPadding: EdgeInsets.symmetric(horizontal: 8),
+                            visualDensity: VisualDensity.compact,
+                            dense: true,
+                            title: Text("About Vyapar",),
+                          ),
+                          Divider(color: Colors.grey.shade200,thickness: 1,),
+                          ListTile(
+                            contentPadding: EdgeInsets.symmetric(horizontal: 8),
+                            visualDensity: VisualDensity.compact,
+                            dense: true,
+                            title: Text("Logout",),
+                          ),
+                        ],
+                      ),
+                    );
+                  }
+              );
+            },
           ),
         ],
       ),
+      backgroundColor: Colors.blue.shade50,
       body: Column(
         children: [
           Container(
@@ -94,8 +137,7 @@ class _Manage_ComponyState extends State<Manage_Compony> with SingleTickerProvid
     color: Colors.blue.shade50,
     child: Stack(
       children: [
-        Expanded(
-            child:ListView.builder(
+        ListView.builder(
                 itemCount: 1,
                 itemBuilder:(context,index){
                   return Padding(
@@ -127,7 +169,52 @@ class _Manage_ComponyState extends State<Manage_Compony> with SingleTickerProvid
                                     ),
                                   ],
                                 ),
-                                IconButton(onPressed: (){}, icon: Icon(Remix.more_2_line))
+                                IconButton(
+                                    onPressed: (){
+                                      showModalBottomSheet(
+                                          backgroundColor: Colors.white,
+                                          context: context,
+                                          builder: (context){
+                                            return Container(
+                                              decoration: BoxDecoration(
+                                                  color: Colors.white,
+                                                  borderRadius: BorderRadius.circular(8)
+                                              ),
+                                              height: MediaQuery.of(context).size.height * 0.2,
+                                              child: Column(
+                                                children: [
+                                                  Padding(
+                                                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                                    child: Row(
+                                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                      children: [
+                                                        Text("More Options",style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),
+                                                        IconButton(onPressed: (){}, icon: Icon(Remix.close_line)),
+                                                      ],
+                                                    ),
+                                                  ),
+                                                  Divider(color: Colors.grey.shade200,thickness: 1,),
+                                                  ListTile(
+                                                    contentPadding: EdgeInsets.symmetric(horizontal: 8),
+                                                    visualDensity: VisualDensity.compact,
+                                                    dense: true,
+                                                    title: Text("Rename Compony",),
+                                                  ),
+                                                  Divider(color: Colors.grey.shade200,thickness: 1,),
+                                                  ListTile(
+                                                    contentPadding: EdgeInsets.symmetric(horizontal: 8),
+                                                    visualDensity: VisualDensity.compact,
+                                                    dense: true,
+                                                    title: Text("Delete Compony",),
+                                                  ),
+                                                ],
+                                              ),
+                                            );
+                                          }
+                                      );
+                                    },
+                                    icon: Icon(Remix.more_2_line)
+                                ),
                               ],
                             ),
                           ),
@@ -154,7 +241,6 @@ class _Manage_ComponyState extends State<Manage_Compony> with SingleTickerProvid
                   );
                 }
             ),
-        ),
         Positioned(
           bottom: 10,
           left: 0,
@@ -209,7 +295,6 @@ class _Manage_ComponyState extends State<Manage_Compony> with SingleTickerProvid
             ],
           ),
         ),
-
       ],
     ),
    );

@@ -13,6 +13,7 @@ import 'package:demo/Menu/Cash%20&%20Bank/Cheque.dart';
 import 'package:demo/Menu/My%20business/Purchase/Purchase_List.dart';
 import 'package:demo/Menu/My%20business/Purchase/Purchase_Order.dart';
 import 'package:demo/Menu/My%20business/Purchase/Purchase_Return_Report.dart';
+import 'package:demo/Menu/My%20business/Report/report.dart';
 import 'package:demo/Menu/My%20business/Sale/Delivery_Challan_Details.dart';
 import 'package:demo/Menu/My%20business/Sale/Estimate_Details.dart';
 import 'package:demo/Menu/My%20business/Sale/Sale_Return_Report.dart';
@@ -129,7 +130,7 @@ class _MenuState extends State<Menu> {
                       Divider(),
 
                       // Reports
-                      _buildMenuItemWithIcon("Reports", Icons.bar_chart,(){}),
+                      _buildMenuItemWithIcon("Reports", Icons.bar_chart,(){Navigator.push(context, MaterialPageRoute(builder: (context)=>Report()));}),
                     ],
                   ),
                 ),
@@ -184,8 +185,32 @@ class _MenuState extends State<Menu> {
                     ],
                   ),
                 ),
+                SizedBox(height: 10,),
 
 
+                Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(12.0),
+                        child: Text(
+                          "Others",
+                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+
+                      Divider(),
+                      _buildMenuItemWithIcon("Settings", Remix.settings_2_line,(){Navigator.push(context, MaterialPageRoute(builder: (context)=>Manage_Compony()));}),
+                      _buildMenuItemWithIcon("Rate this app", Remix.sparkling_line,(){Navigator.push(context, MaterialPageRoute(builder: (context)=>Manage_Compony()));}),
+                    ],
+                  ),
+                ),
+                SizedBox(height: 10,),
               ],
             ),
           ),
