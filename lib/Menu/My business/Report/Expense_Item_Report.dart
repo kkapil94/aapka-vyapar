@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:remixicon/remixicon.dart';
 
-class Expense_Category_Report extends StatefulWidget {
-  Expense_Category_Report({super.key});
+class Expense_Item_Report extends StatefulWidget {
+  Expense_Item_Report({super.key});
 
   @override
-  State<Expense_Category_Report> createState() => _Expense_Category_Report();
+  State<Expense_Item_Report> createState() => _Expense_Item_Report();
 }
 
-class _Expense_Category_Report extends State<Expense_Category_Report> {
+class _Expense_Item_Report extends State<Expense_Item_Report> {
   var firstDate = DateTime.now();
   var lastDate = DateTime(DateTime.now().year, DateTime.now().month + 1, 0);
 
@@ -125,7 +125,7 @@ class _Expense_Category_Report extends State<Expense_Category_Report> {
       appBar: AppBar(
         backgroundColor: Color(0xFF0078AA),
         title: Text(
-          "Expense Category Report",
+          "Expense Item Report",
           style: TextStyle(color: Colors.white),
         ),
         iconTheme: IconThemeData(
@@ -215,7 +215,8 @@ class _Expense_Category_Report extends State<Expense_Category_Report> {
             child: const Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text("Expense Category", style: TextStyle(fontSize: 13)),
+                Expanded(child: Text("Expense Item", style: TextStyle(fontSize: 13))),
+                Expanded(child: Text("Qty", style: TextStyle(fontSize: 13))),
                 Text("Amount", style: TextStyle(fontSize: 13)),
               ],
             ),
@@ -229,9 +230,10 @@ class _Expense_Category_Report extends State<Expense_Category_Report> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("Petrol", style: TextStyle(fontSize: 13)),
+                      Expanded(child: Text("Petrol", style: TextStyle(fontSize: 13))),
+                      Expanded(child: Text("10", style: TextStyle(fontSize: 13))),
                       Text("₹ 100", style: TextStyle(fontSize: 13)),
-                   ],
+                    ],
                   ),
                 );
               },

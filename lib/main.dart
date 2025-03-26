@@ -4,6 +4,7 @@ import 'package:demo/Menu/Menu.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_remix/flutter_remix.dart';
+import 'package:remixicon/remixicon.dart';
 
 import 'Home/Compony_Detail_Page/Business_Details.dart';
 import 'Home/Home.dart';
@@ -66,10 +67,10 @@ class _MyHomePageState extends State<MyHomePage> {
             selectedItemColor: Colors.blue,
             unselectedItemColor: Colors.black54,
             items: const [
-              BottomNavigationBarItem(icon: Icon(FlutterRemix.home_8_line), label: 'Home'),
-              BottomNavigationBarItem(icon: Icon(FlutterRemix.dashboard_line), label: 'Dashboard'),
-              BottomNavigationBarItem(icon: Icon(FlutterRemix.add_box_fill), label: 'Items'),
-              BottomNavigationBarItem(icon: Icon(FlutterRemix.menu_2_fill), label: 'Menu'),
+              BottomNavigationBarItem(icon: Icon(Remix.home_8_line), label: 'Home'),
+              BottomNavigationBarItem(icon: Icon(Remix.dashboard_line), label: 'Dashboard'),
+              BottomNavigationBarItem(icon: Icon(Remix.box_3_line), label: 'Items'),
+              BottomNavigationBarItem(icon: Icon(Remix.menu_2_fill), label: 'Menu'),
             ],
           ),
           AnimatedPositioned(

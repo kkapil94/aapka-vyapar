@@ -1,6 +1,12 @@
 import 'package:demo/Home/Home.dart';
+import 'package:demo/Items/More%20Option/Inactive_Items.dart';
 import 'package:demo/Items/Online%20Store/MyStorePage/myStore.dart';
+import 'package:demo/Items/Show%20All/Export%20%20Items/export-items.dart';
+import 'package:demo/Items/Show%20All/Import%20Items/import-items.dart';
 import 'package:demo/Items/Stock%20Summary%20Report/Stock_summary_report.dart';
+import 'package:demo/Menu/My%20business/Report/Item_Detail_Report.dart';
+import 'package:demo/Menu/My%20business/Report/Item_Wise_Profit_And_Loss.dart';
+import 'package:demo/Menu/My%20business/Report/Low_Stock_Summary.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_remix/flutter_remix.dart';
 import 'package:remixicon/remixicon.dart';
@@ -92,6 +98,7 @@ class _ItemsPageContentState extends State<ItemsPageContent> {
             SizedBox(height: 10,),
 
 
+            ///searchabar
             Container(
               height: 40,
               decoration: BoxDecoration(
@@ -131,7 +138,84 @@ class _ItemsPageContentState extends State<ItemsPageContent> {
                     ),
                     height: 40,
                     width: 40,
-                    child: IconButton(onPressed: (){}, icon: Icon(Remix.more_2_line)),
+                    child: IconButton(
+                        onPressed: (){
+                          showModalBottomSheet(
+                              backgroundColor: Colors.white,
+                              context: context,
+                              builder: (context){
+                                return Container(
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  height: MediaQuery.of(context).size.height * 0.34,
+                                  child: Column(
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                        child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Text("More Options",style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),
+                                            IconButton(
+                                                onPressed: (){
+                                                  Navigator.pop(context);
+                                                },
+                                                icon: Icon(Remix.close_line)
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      Divider(color: Colors.grey.shade200,thickness: 1,),
+                                      
+                                      ListTile(
+                                        onTap: (){
+                                          Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=>Inactive_Items()));
+                                        },
+                                        dense: true,
+                                        visualDensity: VisualDensity.compact,
+                                        contentPadding: EdgeInsets.symmetric(horizontal: 8),
+                                        title: Text("Mark Items Active",style: TextStyle(fontSize: 15),),
+                                        trailing: Icon(Remix.arrow_right_s_line,size:22,),
+                                      ),
+                                      Divider(color: Colors.grey.shade200,thickness: 1,),
+
+
+                                      ListTile(
+                                        dense: true,
+                                        visualDensity: VisualDensity.compact,
+                                        contentPadding: EdgeInsets.symmetric(horizontal: 8),
+                                        title: Text("Mark Items Inactive",style: TextStyle(fontSize: 15),),
+                                        trailing: Icon(Remix.arrow_right_s_line,size:22,),
+                                      ),
+                                      Divider(color: Colors.grey.shade200,thickness: 1,),
+
+                                      ListTile(
+                                        dense: true,
+                                        visualDensity: VisualDensity.compact,
+                                        contentPadding: EdgeInsets.symmetric(horizontal: 8),
+                                        title: Text("Untis",style: TextStyle(fontSize: 15),),
+                                        trailing: Icon(Remix.arrow_right_s_line,size:22,),
+                                      ),
+                                      Divider(color: Colors.grey.shade200,thickness: 1,),
+
+                                      ListTile(
+                                        dense: true,
+                                        visualDensity: VisualDensity.compact,
+                                        contentPadding: EdgeInsets.symmetric(horizontal: 8),
+                                        title: Text("Categories",style: TextStyle(fontSize: 15),),
+                                        trailing: Icon(Remix.arrow_right_s_line,size:22,),
+                                      ),
+
+                                    ],
+                                  ),
+                                );
+                              }
+                          );
+                        },
+                        icon: Icon(Remix.more_2_line)
+                    ),
                   ),
                 ],
               ),
@@ -263,12 +347,19 @@ class _ItemsPageContentState extends State<ItemsPageContent> {
                         return InkWell(
                           onTap: (){
                             if(index==0){
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=>ImportItemsPage()));
                             }
                             if(index==1){
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=>ExportItemsScreen()));
                             }
                             if(index==2){
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=>Item_Wise_Profit_And_Loss()));
                             }
                             if(index==3){
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=>Item_Detail_Report()));
+                            }
+                            if(index==4){
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=>Low_Stock_Summary()));
                             }
                           },
                           child: QuickLink(
@@ -301,5 +392,4 @@ class _ItemsPageContentState extends State<ItemsPageContent> {
     "Item Deetails",
     "Low Stock Summary",
   ];
-
 }

@@ -44,6 +44,8 @@ dependencies:
   syncfusion_flutter_signaturepad: ^28.1.41
   url_launcher: ^6.1.14
   another_carousel_pro: ^1.0.2
+  file_picker: ^5.2.10 # For selecting Excel files
+  excel: ^2.1.0
 
 flutter_icons:
   android: true

@@ -9,6 +9,8 @@ import 'package:demo/Items/Stock%20Summary%20Report/Stock_summary_report.dart';
 import 'package:demo/Menu/My%20business/Report/Bank_Statement.dart';
 import 'package:demo/Menu/My%20business/Report/Cash_Flow.dart';
 import 'package:demo/Menu/My%20business/Report/Discount_Report.dart';
+import 'package:demo/Menu/My%20business/Report/Expense_Category_Report.dart';
+import 'package:demo/Menu/My%20business/Report/Expense_Item_Report.dart';
 import 'package:demo/Menu/My%20business/Report/Expense_Transaction.dart';
 import 'package:demo/Menu/My%20business/Report/Item_Detail_Report.dart';
 import 'package:demo/Menu/My%20business/Report/Item_Report_By_Party.dart';
@@ -18,6 +20,8 @@ import 'package:demo/Menu/My%20business/Report/Low_Stock_Summary.dart';
 import 'package:demo/Menu/My%20business/Report/Party_Report_By_Item.dart';
 import 'package:demo/Menu/My%20business/Report/Sale-Purchase_by_Party.dart';
 import 'package:demo/Menu/My%20business/Report/Sale_Purchase_By_Item_Category.dart';
+import 'package:demo/Menu/My%20business/Report/Sale_Purchase_Order_Transaction_Report.dart';
+import 'package:demo/Menu/My%20business/Report/Sale_Purchase_Order_item_Report.dart';
 import 'package:demo/Menu/My%20business/Report/Stock_Detail_Report.dart';
 import 'package:demo/Menu/My%20business/Report/Stock_Summary_By_Item_Category.dart';
 import 'package:flutter/material.dart';
@@ -88,7 +92,12 @@ class _ReportState extends State<Report> {
 
           _buildSectionTitle("Expenses reports"),
           _buildReportTile('Expenses Transaction Report',(){Navigator.push(context, MaterialPageRoute(builder: (context)=>Expense_Transaction()));}),
-          _buildReportTile('Expense Category Report',(){Navigator.push(context, MaterialPageRoute(builder: (context)=>Discount_Report()));}),
+          _buildReportTile('Expense Category Report',(){Navigator.push(context, MaterialPageRoute(builder: (context)=>Expense_Category_Report()));}),
+          _buildReportTile('Expense Item Report',(){Navigator.push(context, MaterialPageRoute(builder: (context)=>Expense_Item_Report()));}),
+
+          _buildSectionTitle('Sale/Purchase Order Report'),
+          _buildReportTile('Sale/Purchase Order Transaction Report',(){Navigator.push(context, MaterialPageRoute(builder: (context)=>Sale_Purchase_Order_Transaction_Report()));}),
+          _buildReportTile('Sale/Purchase Order Item Report',(){Navigator.push(context, MaterialPageRoute(builder: (context)=>Sale_Purchase_Order_Item_Report()));}),
 
         ],
       ),
