@@ -313,9 +313,9 @@ class _TransactionDetailsTab extends State<TransactionDetailsTab> {
                       itemCount: 1,
                       itemBuilder: (context, index) {
                         return Padding(
-                          padding: const EdgeInsets.only(bottom: 10.0),
+                          padding: EdgeInsets.only(bottom: 10.0),
                           child: Container(
-                            padding: EdgeInsets.all(15),
+                            padding: EdgeInsets.symmetric(horizontal: 15,vertical: 10),
                             decoration: BoxDecoration(
                               color: Colors.white,
                               borderRadius: BorderRadius.circular(10),
@@ -339,7 +339,7 @@ class _TransactionDetailsTab extends State<TransactionDetailsTab> {
                                     Text(
                                       "Mohit",
                                       style: TextStyle(
-                                        fontSize: 16,
+                                        fontSize: 15,
                                         fontWeight: FontWeight.w400,
                                       ),
                                     ),
@@ -357,15 +357,15 @@ class _TransactionDetailsTab extends State<TransactionDetailsTab> {
                                   decoration: BoxDecoration(
                                     color: Color(0xFFC0F1E1),
                                     borderRadius:
-                                    BorderRadius.circular(5),
+                                    BorderRadius.circular(30),
                                   ),
                                   child: Padding(
-                                    padding: const EdgeInsets.all(4.0),
+                                    padding: const EdgeInsets.symmetric(horizontal: 15.0,vertical: 5),
                                     child: Text(
-                                      "Party to party [RCVD]",
+                                      "Payment-in",
                                       style: TextStyle(
                                         fontSize: 11,
-                                        color: Colors.greenAccent,
+                                        color: Color(0xFF38C782),
                                       ),
                                     ),
                                   ),
@@ -390,7 +390,7 @@ class _TransactionDetailsTab extends State<TransactionDetailsTab> {
                                         Text(
                                           "₹ 500.00",
                                           style: TextStyle(
-                                            fontSize: 16,
+                                            fontSize: 14,
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
@@ -411,35 +411,30 @@ class _TransactionDetailsTab extends State<TransactionDetailsTab> {
                                         Text(
                                           "₹ 500.00",
                                           style: TextStyle(
-                                            fontSize: 16,
+                                            fontSize: 14,
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ),
                                       ],
                                     ),
                                     SizedBox(width: 9,),
-                                    Row(
-                                      children: [
-                                        Padding(
-                                          padding:
-                                          const EdgeInsets.only(
-                                              right: 10.0),
-                                          child: IconButton(
-                                            onPressed: (){
-                                            },
-                                            icon: Icon(
-                                              FlutterRemix.printer_line,
-                                              color: Colors.grey,
+                                    SizedBox(
+                                      width: MediaQuery.of(context).size.width*0.3,
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          GestureDetector(
+                                              child: Icon(
+                                                  FlutterRemix.printer_line,
+                                                  color: Colors.grey,
+                                                ),
                                             ),
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: EdgeInsets.only(right: MediaQuery.of(context).size.width * 0.02),
-                                          child: IconButton(
-                                            onPressed: () {
+                                      
+                                          GestureDetector(
+                                            onTap: () {
                                               double screenWidth = MediaQuery.of(context).size.width;
                                               double screenHeight = MediaQuery.of(context).size.height;
-
+                                      
                                               showModalBottomSheet(
                                                 backgroundColor: Colors.white,
                                                 context: context,
@@ -467,7 +462,7 @@ class _TransactionDetailsTab extends State<TransactionDetailsTab> {
                                                             ),
                                                           ),
                                                         ),
-
+                                      
                                                         // Row for Share as Image & Share as PDF
                                                         Row(
                                                           children: [
@@ -515,7 +510,7 @@ class _TransactionDetailsTab extends State<TransactionDetailsTab> {
                                                                 ),
                                                               ),
                                                             ),
-
+                                      
                                                             // Share as PDF
                                                             Expanded(
                                                               child: Padding(
@@ -562,7 +557,7 @@ class _TransactionDetailsTab extends State<TransactionDetailsTab> {
                                                             ),
                                                           ],
                                                         ),
-
+                                      
                                                         // Checkbox Row for Default Selection
                                                         Padding(
                                                           padding: EdgeInsets.only(top: screenHeight * 0.015),
@@ -597,26 +592,25 @@ class _TransactionDetailsTab extends State<TransactionDetailsTab> {
                                                 },
                                               );
                                             },
-                                            icon: Icon(
-                                              FlutterRemix.share_forward_line,
-                                              color: Colors.grey,
-                                              size: MediaQuery.of(context).size.width * 0.06, // Responsive icon size
-                                            ),
-                                          ),
-                                        ),
-
-                                        IconButton(
-                                            onPressed: () {
-                                              showModalBottomSheet(
-                                                backgroundColor: Colors.white,
-                                                context: context,
-                                                shape: RoundedRectangleBorder(
-                                                  borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-                                                ),
-                                                builder: (context) {
-                                                  return Container(
-                                                    height: screenHeight * 0.25,
-                                                    child: Column(
+                                            child:Icon(
+                                                FlutterRemix.share_forward_line,
+                                                color: Colors.grey,
+                                                size: MediaQuery.of(context).size.width * 0.06, // Responsive icon size
+                                              ),
+                                           ),
+                                      
+                                          GestureDetector(
+                                              onTap: () {
+                                                showModalBottomSheet(
+                                                  backgroundColor: Colors.white,
+                                                  context: context,
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+                                                  ),
+                                                  builder: (context) {
+                                                    return Container(
+                                                      height: screenHeight * 0.25,
+                                                      child: Column(
                                                         children: [
                                                           // Header with "More Options" and Close Button
                                                           Padding(
@@ -653,13 +647,14 @@ class _TransactionDetailsTab extends State<TransactionDetailsTab> {
                                                           ),
                                                         ],
                                                       ),
-                                                  );
-                                                },
-                                              );
-                                            },
-                                            icon:Icon(FlutterRemix.more_2_line)
-                                        ),
-                                      ],
+                                                    );
+                                                  },
+                                                );
+                                              },
+                                              child:Icon(FlutterRemix.more_2_line)
+                                          ),
+                                        ],
+                                      ),
                                     ),
                                   ],
                                 ),

@@ -5,58 +5,105 @@ import 'Transaction Details/TransactionDetailsTab.dart';
 
 
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  PageController _pageController = PageController();
+  int selectedIndex = 0;
+
+  void _onTabTapped(int index) {
+    setState(() {
+      selectedIndex = index;
+    });
+    _pageController.animateToPage(index,
+        duration: Duration(milliseconds: 300), curve: Curves.ease);
+  }
+
   @override
   Widget build(BuildContext context) {
-    return SafeArea( // Wrap with SafeArea to handle status bar
-      child: DefaultTabController(
-        length: 2, // Number of tabs
-        child: Scaffold(
-          backgroundColor: Colors.white, // White background to match the design
-          appBar: AppBar(
-            surfaceTintColor: Colors.white,
-            backgroundColor: Colors.white,
-            elevation: 0,
-            flexibleSpace: TabBar(
-              labelColor: Color(0xFFC41E3A),
-              unselectedLabelColor: Colors.black,
-              indicator: BoxDecoration(
-                color: Color(0xFFFADBD8),
-                borderRadius: BorderRadius.circular(30),
-                border: Border.all(color: Color(0xFFC41E3A)), // Red border
-              ),
-              indicatorPadding: EdgeInsets.symmetric(vertical: 8.0), // Align the indicator vertically
-              overlayColor: MaterialStateProperty.all(Colors.transparent), // Remove ripple effect
-              tabs: [
-                Tab(
-                  child: Container(
-                    width: double.infinity,
-                    child: Text(
-                        "Transaction Details",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 12),
-                      ),
-                  ),
-                ),
-                Tab(
-                  child: Container(
-                    width: double.infinity,
-                    child: Text(
-                        "Party Details",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(fontSize: 12),
-                      ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          body: TabBarView(
+    return SafeArea(
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        appBar: AppBar(
+          surfaceTintColor: Colors.white,
+          backgroundColor: Colors.white,
+          elevation: 0,
+          flexibleSpace: Column(
             children: [
-              TransactionDetailsTab(),
-              PartyDetailsTab(),
+              SizedBox(height: 20),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: () => _onTabTapped(0),
+                        child: Container(
+                          height: 30,
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                            color: selectedIndex == 0
+                                ? Color(0xFFFADBD8)
+                                : Colors.white,
+                            borderRadius: BorderRadius.circular(30),
+                            border: Border.all(color: selectedIndex==0?Color(0xFFC41E3A):Colors.grey),
+                          ),
+                          child: Text(
+                            "Transaction Details",
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: selectedIndex == 0 ? Color(0xFFC41E3A) : Colors.black,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    SizedBox(width: 10),
+                    Expanded(
+                      child: GestureDetector(
+                        onTap: () => _onTabTapped(1),
+                        child: Container(
+                          height: 30,
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                            color: selectedIndex == 1
+                                ? Color(0xFFFADBD8) // Selected color
+                                : Colors.white, // Unselected color
+                            borderRadius: BorderRadius.circular(30),
+                            border: Border.all(color: selectedIndex==1?Color(0xFFC41E3A):Colors.grey),
+                          ),
+                          child: Text(
+                            "Party Details",
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: selectedIndex == 1
+                                  ? Color(0xFFC41E3A) // Selected text color
+                                  : Colors.black, // Unselected text color
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ],
           ),
+        ),
+        body: PageView(
+          controller: _pageController,
+          onPageChanged: (index) {
+            setState(() {
+              selectedIndex = index;
+            });
+          },
+          children: [
+            TransactionDetailsTab(),
+            PartyDetailsTab(),
+          ],
         ),
       ),
     );

@@ -1,6 +1,7 @@
 import 'package:demo/Dashboard/Dashboard.dart';
 import 'package:demo/Home/Notification/Notification.dart';
 import 'package:demo/Menu/Menu.dart';
+import 'package:demo/Settings/Settings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_remix/flutter_remix.dart';
@@ -138,7 +139,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         Container(
           child: IconButton(icon: Icon(FlutterRemix.settings_2_line),
             onPressed: (){
-
+            Navigator.push(context, MaterialPageRoute(builder: (context)=>Settings()));
             }
           ,),
         )

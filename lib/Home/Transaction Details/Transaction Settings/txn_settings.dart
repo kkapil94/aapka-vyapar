@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:remixicon/remixicon.dart';
 
 class Transaction_Settings extends StatefulWidget {
   @override
@@ -36,16 +37,44 @@ class _TransactionSettingsState extends State<Transaction_Settings> {
   final List<String> options = ['My Company', 'Company A', 'Company B', 'Company C'];
   String selectedValue = 'My Company';
 
+  bool is_search = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          "Transaction",
-          style: TextStyle(color: Colors.black),
-        ),
-        backgroundColor: Color(0xFFDAE7F2),
+        title: is_search?
+            TextField(
+              decoration: InputDecoration(
+                hintText: "search",
+                border: InputBorder.none,
+              ),
+            ):
+        Text("Transaction", style: TextStyle(color: Colors.black,fontSize: 20),),
+        surfaceTintColor: Colors.blue.shade50,
+        backgroundColor: Colors.blue.shade50,
         iconTheme: IconThemeData(color: Colors.black),
+        actions: [
+          if(is_search==false)
+          IconButton(
+              onPressed: (){
+                setState(() {
+                  is_search=true;
+                });
+              },
+              icon: Icon(Icons.search)
+          ),
+
+          if(is_search==true)
+            IconButton(
+              onPressed: (){
+                setState(() {
+                  is_search=false;
+                });
+              },
+              icon: Icon(Icons.close)
+            )
+        ],
       ),
       body: Container(
         color: Colors.white,
@@ -133,158 +162,234 @@ class _TransactionSettingsState extends State<Transaction_Settings> {
             buildSectionHeader("Transaction Prefixes"),
 
             Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Row(
-            children: [
-              Expanded(
-                child: GestureDetector(
-                  onTap: () async {
-                    String? value = await showModalBottomSheet<String>(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return Container(
-                          padding: EdgeInsets.all(16.0),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: options.map((option) {
-                              return ListTile(
-                                title: Text(option),
-                                onTap: () {
-                                  Navigator.pop(context, option);
-                                },
-                              );
-                            }).toList(),
-                          ),
-                        );
-                      },
-                    );
-                    if (value != null) {
-                      setState(() {
-                        selectedValue = value;
-                      });
-                    }
-                  },
-                  child: AbsorbPointer(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 45,
                     child: TextField(
-                      readOnly: true,
-                      controller: TextEditingController(text: selectedValue),
                       decoration: InputDecoration(
                         labelText: "Firm",
+                        labelStyle: TextStyle(color: Colors.grey),
+                        suffixIcon: Icon(Remix.arrow_down_s_fill,size: 15,color: Colors.grey,),
                         border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8.0),
+                          borderSide: BorderSide(color: Colors.grey,width: 1),
+                          borderRadius: BorderRadius.circular(4),
                         ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8.0),
-                          borderSide: BorderSide(color: Colors.black45, width: 2.0),
+                        focusedBorder:OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.grey,width: 1),
+                          borderRadius: BorderRadius.circular(4),
                         ),
-                        suffixIcon: Icon(Icons.arrow_drop_down),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.grey,width: 1),
+                          borderRadius: BorderRadius.circular(4),
+                        ),
                       ),
                     ),
                   ),
-                ),
+
+                ],
               ),
-            ],
-          ),
-        ),
+            ),
+            Divider(color: Colors.grey.shade200,thickness: 1),
+
             Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Expanded(
-                    child: GestureDetector(
-                      onTap: () async {
-                        String? value = await showModalBottomSheet<String>(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return Container(
-                              padding: EdgeInsets.all(16.0),
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: options.map((option) {
-                                  return ListTile(
-                                    title: Text(option),
-                                    onTap: () {
-                                      Navigator.pop(context, option);
-                                    },
-                                  );
-                                }).toList(),
+                  SizedBox(
+                    height: 45,
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: TextField(
+                            decoration: InputDecoration(
+                              labelText: "Sale Invoice",
+                              labelStyle: TextStyle(color: Colors.grey),
+                              suffixIcon: Icon(Remix.arrow_down_s_fill,size: 15,color: Colors.grey,),
+                              border: OutlineInputBorder(
+                                borderSide: BorderSide(color: Colors.grey,width: 1),
+                                borderRadius: BorderRadius.circular(4),
                               ),
-                            );
-                          },
-                        );
-                        if (value != null) {
-                          setState(() {
-                            selectedValue = value;
-                          });
-                        }
-                      },
-                      child: AbsorbPointer(
-                        child: TextField(
-                          readOnly: true,
-                          controller: TextEditingController(text: selectedValue),
-                          decoration: InputDecoration(
-                            labelText: "Sale Invoice",
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8.0),
+                              focusedBorder:OutlineInputBorder(
+                                borderSide: BorderSide(color: Colors.grey,width: 1),
+                                borderRadius: BorderRadius.circular(4),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(color: Colors.grey,width: 1),
+                                borderRadius: BorderRadius.circular(4),
+                              ),
                             ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8.0),
-                              borderSide: BorderSide(color: Colors.black45, width: 2.0),
-                            ),
-                            suffixIcon: Icon(Icons.arrow_drop_down),
                           ),
                         ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(width: 10,),
-                  Expanded(
-                    child: GestureDetector(
-                      onTap: () async {
-                        String? value = await showModalBottomSheet<String>(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return Container(
-                              padding: EdgeInsets.all(16.0),
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: options.map((option) {
-                                  return ListTile(
-                                    title: Text(option),
-                                    onTap: () {
-                                      Navigator.pop(context, option);
-                                    },
-                                  );
-                                }).toList(),
+                        SizedBox(width: 10,),
+                        Expanded(
+                          child: TextField(
+                            decoration: InputDecoration(
+                              labelText: "Credit Note",
+                              labelStyle: TextStyle(color: Colors.grey),
+                              suffixIcon: Icon(Remix.arrow_down_s_fill,size: 15,color: Colors.grey,),
+                              border: OutlineInputBorder(
+                                borderSide: BorderSide(color: Colors.grey,width: 1),
+                                borderRadius: BorderRadius.circular(4),
                               ),
-                            );
-                          },
-                        );
-                        if (value != null) {
-                          setState(() {
-                            selectedValue = value;
-                          });
-                        }
-                      },
-                      child: AbsorbPointer(
-                        child: TextField(
-                          readOnly: true,
-                          controller: TextEditingController(text: selectedValue),
-                          decoration: InputDecoration(
-                            labelText: "Firm",
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8.0),
+                              focusedBorder:OutlineInputBorder(
+                                borderSide: BorderSide(color: Colors.grey,width: 1),
+                                borderRadius: BorderRadius.circular(4),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(color: Colors.grey,width: 1),
+                                borderRadius: BorderRadius.circular(4),
+                              ),
                             ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8.0),
-                              borderSide: BorderSide(color: Colors.black45, width: 2.0),
-                            ),
-                            suffixIcon: Icon(Icons.arrow_drop_down),
                           ),
                         ),
-                      ),
+
+                      ],
                     ),
                   ),
+                  SizedBox(height: 10,),
+
+                  SizedBox(
+                    height: 45,
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: TextField(
+                            decoration: InputDecoration(
+                              labelText: "Sale Order",
+                              labelStyle: TextStyle(color: Colors.grey),
+                              suffixIcon: Icon(Remix.arrow_down_s_fill,size: 15,color: Colors.grey,),
+                              border: OutlineInputBorder(
+                                borderSide: BorderSide(color: Colors.grey,width: 1),
+                                borderRadius: BorderRadius.circular(4),
+                              ),
+                              focusedBorder:OutlineInputBorder(
+                                borderSide: BorderSide(color: Colors.grey,width: 1),
+                                borderRadius: BorderRadius.circular(4),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(color: Colors.grey,width: 1),
+                                borderRadius: BorderRadius.circular(4),
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(width: 10,),
+                        Expanded(
+                          child: TextField(
+                            decoration: InputDecoration(
+                              labelText: "Purchase Order",
+                              labelStyle: TextStyle(color: Colors.grey),
+                              suffixIcon: Icon(Remix.arrow_down_s_fill,size: 15,color: Colors.grey,),
+                              border: OutlineInputBorder(
+                                borderSide: BorderSide(color: Colors.grey,width: 1),
+                                borderRadius: BorderRadius.circular(4),
+                              ),
+                              focusedBorder:OutlineInputBorder(
+                                borderSide: BorderSide(color: Colors.grey,width: 1),
+                                borderRadius: BorderRadius.circular(4),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(color: Colors.grey,width: 1),
+                                borderRadius: BorderRadius.circular(4),
+                              ),
+                            ),
+                          ),
+                        ),
+
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 10,),
+
+
+                  SizedBox(
+                    height: 45,
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: TextField(
+                            decoration: InputDecoration(
+                              labelText: "Estimate",
+                              labelStyle: TextStyle(color: Colors.grey),
+                              suffixIcon: Icon(Remix.arrow_down_s_fill,size: 15,color: Colors.grey,),
+                              border: OutlineInputBorder(
+                                borderSide: BorderSide(color: Colors.grey,width: 1),
+                                borderRadius: BorderRadius.circular(4),
+                              ),
+                              focusedBorder:OutlineInputBorder(
+                                borderSide: BorderSide(color: Colors.grey,width: 1),
+                                borderRadius: BorderRadius.circular(4),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(color: Colors.grey,width: 1),
+                                borderRadius: BorderRadius.circular(4),
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(width: 10,),
+                        Expanded(
+                          child: TextField(
+                            decoration: InputDecoration(
+                              labelText: "Delivery Challan",
+                              labelStyle: TextStyle(color: Colors.grey),
+                              suffixIcon: Icon(Remix.arrow_down_s_fill,size: 15,color: Colors.grey,),
+                              border: OutlineInputBorder(
+                                borderSide: BorderSide(color: Colors.grey,width: 1),
+                                borderRadius: BorderRadius.circular(4),
+                              ),
+                              focusedBorder:OutlineInputBorder(
+                                borderSide: BorderSide(color: Colors.grey,width: 1),
+                                borderRadius: BorderRadius.circular(4),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(color: Colors.grey,width: 1),
+                                borderRadius: BorderRadius.circular(4),
+                              ),
+                            ),
+                          ),
+                        ),
+
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 10,),
+
+                  SizedBox(
+                    height: 45,
+                    width: MediaQuery.of(context).size.width*0.5,
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: TextField(
+                            decoration: InputDecoration(
+                              labelText: "Payment-in",
+                              labelStyle: TextStyle(color: Colors.grey),
+                              suffixIcon: Icon(Remix.arrow_down_s_fill,size: 15,color: Colors.grey,),
+                              border: OutlineInputBorder(
+                                borderSide: BorderSide(color: Colors.grey,width: 1),
+                                borderRadius: BorderRadius.circular(4),
+                              ),
+                              focusedBorder:OutlineInputBorder(
+                                borderSide: BorderSide(color: Colors.grey,width: 1),
+                                borderRadius: BorderRadius.circular(4),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(color: Colors.grey,width: 1),
+                                borderRadius: BorderRadius.circular(4),
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(width: 20,),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 10,),
+
                 ],
               ),
             ),
@@ -297,7 +402,7 @@ class _TransactionSettingsState extends State<Transaction_Settings> {
   Widget buildSectionHeader(String title) {
     return Container(
       width: double.infinity,
-      color: Color(0xFFDAE7F2),
+      color: Colors.blue.shade50,
       padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
       child: Text(
         title,
@@ -313,15 +418,86 @@ class _TransactionSettingsState extends State<Transaction_Settings> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Expanded(child: Text(title)),
-          Switch(
-            value: value,
-            onChanged: onChanged,
-            activeColor: Colors.white,
-            activeTrackColor: Colors.blue.shade300,
-            inactiveThumbColor: Colors.white,
-            inactiveTrackColor: Colors.grey.shade400,
-            trackOutlineColor: MaterialStateProperty.all(Colors.transparent),
+
+          if(value==true)
+          GestureDetector(
+            onTap: () => onChanged(false),
+            child: Container(
+              width: 50, // Increased width
+              height: 30, // Increased height to fit the full circle
+              child: Stack(
+                alignment: Alignment.centerLeft, // Ensures correct positioning
+                children: [
+                  Container(
+                    height: 15,
+                    width: 35,
+                    decoration: BoxDecoration(
+                      color: Colors.blue.shade200,
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                  ),
+                  Positioned(
+                    top: 2, // Adjusted positioning to avoid cutting
+                    left: 20, // Adjust this dynamically based on toggle state
+                    child: Container(
+                      width: 25,
+                      height: 25,
+                      decoration: BoxDecoration(
+                        color: Colors.blueAccent,
+                        shape: BoxShape.circle, // More accurate way to create a circle
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ),
+
+          if(value==false)
+          GestureDetector(
+            onTap: () => onChanged(true),
+            child: Container(
+              width: 50, // Sufficient width
+              height: 30, // Increased height to fully fit the circle
+              child: Stack(
+                alignment: Alignment.centerLeft,
+                children: [
+                  // Background Track
+                  Container(
+                    height: 15,
+                    width: 45,
+                    decoration: BoxDecoration(
+                      color: Colors.grey.shade400,
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                  ),
+                  // Toggle Circle
+                  Positioned(
+                    left: 0,
+                    child: Container(
+                      width: 25,
+                      height: 25,
+                      decoration: BoxDecoration(
+                        color: Colors.grey.shade200,
+                        shape: BoxShape.circle,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          )
+
+
+          // Switch(
+          //   value: value,
+          //   onChanged: onChanged,
+          //   activeColor: Colors.white,
+          //   activeTrackColor: Colors.blue.shade300,
+          //   inactiveThumbColor: Colors.white,
+          //   inactiveTrackColor: Colors.grey.shade400,
+          //   trackOutlineColor: MaterialStateProperty.all(Colors.transparent),
+          // ),
 
         ],
       ),

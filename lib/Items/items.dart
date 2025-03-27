@@ -1,5 +1,7 @@
 import 'package:demo/Home/Home.dart';
+import 'package:demo/Items/More%20Option/Categories.dart';
 import 'package:demo/Items/More%20Option/Inactive_Items.dart';
+import 'package:demo/Items/More%20Option/Units.dart';
 import 'package:demo/Items/Online%20Store/MyStorePage/myStore.dart';
 import 'package:demo/Items/Show%20All/Export%20%20Items/export-items.dart';
 import 'package:demo/Items/Show%20All/Import%20Items/import-items.dart';
@@ -22,6 +24,8 @@ class ItemsPageContent extends StatefulWidget {
 
 // Items Page Content
 class _ItemsPageContentState extends State<ItemsPageContent> {
+
+  bool is_show_inactive = false;
 
   @override
   Widget build(BuildContext context) {
@@ -149,7 +153,7 @@ class _ItemsPageContentState extends State<ItemsPageContent> {
                                     color: Colors.white,
                                     borderRadius: BorderRadius.circular(8),
                                   ),
-                                  height: MediaQuery.of(context).size.height * 0.34,
+                                  height: MediaQuery.of(context).size.height * 0.40,
                                   child: Column(
                                     children: [
                                       Padding(
@@ -195,12 +199,36 @@ class _ItemsPageContentState extends State<ItemsPageContent> {
                                         dense: true,
                                         visualDensity: VisualDensity.compact,
                                         contentPadding: EdgeInsets.symmetric(horizontal: 8),
+                                        title: Text("Show Inactive",style: TextStyle(fontSize: 15),),
+                                        trailing: Checkbox(
+                                            activeColor: Colors.blueAccent,
+                                            value: is_show_inactive,
+                                            onChanged: (val){
+                                              setState(() {
+                                                is_show_inactive=val!;
+                                              });
+                                              Navigator.pop(context);
+                                            }
+                                        ),
+                                      ),
+                                      Divider(color: Colors.grey.shade200,thickness: 1,),
+
+                                      ListTile(
+                                        onTap: (){
+                                          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>Units()));
+                                        },
+                                        dense: true,
+                                        visualDensity: VisualDensity.compact,
+                                        contentPadding: EdgeInsets.symmetric(horizontal: 8),
                                         title: Text("Untis",style: TextStyle(fontSize: 15),),
                                         trailing: Icon(Remix.arrow_right_s_line,size:22,),
                                       ),
                                       Divider(color: Colors.grey.shade200,thickness: 1,),
 
                                       ListTile(
+                                        onTap: (){
+                                          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>Categories()));
+                                        },
                                         dense: true,
                                         visualDensity: VisualDensity.compact,
                                         contentPadding: EdgeInsets.symmetric(horizontal: 8),

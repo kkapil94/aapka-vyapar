@@ -1,5 +1,6 @@
 import 'package:demo/Home/Prefered_underline_appbar.dart';
 import 'package:flutter/material.dart';
+import 'package:remixicon/remixicon.dart';
 
 class Inactive_Items extends StatefulWidget {
   @override
@@ -167,9 +168,78 @@ class _InactiveItemsScreenState extends State<Inactive_Items> {
                     onPressed: () {
                       showModalBottomSheet(
                           context: context,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          backgroundColor: Colors.white,
                           builder: (context){
                             return Container(
-
+                              height: MediaQuery.of(context).size.height * 0.25,
+                              child: Column(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text("Mark Active",style: TextStyle(fontSize: 17,fontWeight: FontWeight.w500),),
+                                        IconButton(
+                                            onPressed: (){
+                                              Navigator.pop(context);
+                                            },
+                                            icon: Icon(Remix.close_line,size: 25,)
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(height: 10,),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text("Are you sure you want to make 1 item as Active ?",style: TextStyle(fontSize: 14,fontWeight: FontWeight.bold),),
+                                        Text("Marking some items as active or inactive will be reflected in all your stores",style: TextStyle(fontSize: 14),),
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(height: 20,),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                    child: Row(
+                                      children: [
+                                        Expanded(
+                                          child: ElevatedButton(
+                                              onPressed: (){},
+                                              style: ElevatedButton.styleFrom(
+                                                padding: EdgeInsets.symmetric(vertical: 15),
+                                                backgroundColor: Colors.grey.shade200,
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius: BorderRadius.circular(4),
+                                                )
+                                              ),
+                                              child: Text("No,Cancle",style: TextStyle(color: Colors.grey,fontWeight: FontWeight.w500),),
+                                          ),
+                                        ),
+                                        SizedBox(width: 10,),
+                                        Expanded(
+                                          child: ElevatedButton(
+                                            onPressed: (){},
+                                            style: ElevatedButton.styleFrom(
+                                                padding: EdgeInsets.symmetric(vertical: 15),
+                                                backgroundColor: Colors.blueAccent,
+                                                shape: RoundedRectangleBorder(
+                                                  borderRadius: BorderRadius.circular(4),
+                                                )
+                                            ),
+                                            child: Text("Confirm",style: TextStyle(color: Colors.white,fontWeight: FontWeight.w500,),),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
                             );
                           }
                       );

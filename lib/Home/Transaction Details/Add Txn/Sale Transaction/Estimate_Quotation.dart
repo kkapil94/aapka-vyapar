@@ -1,6 +1,9 @@
+import 'package:demo/Home/Prefered_underline_appbar.dart';
+import 'package:demo/Home/Transaction%20Details/Transaction%20Settings/txn_settings.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_remix/flutter_remix.dart';
 import 'package:remixicon/remixicon.dart';
 
@@ -18,34 +21,117 @@ class EstimateQuotation extends State<Estimate_Quotation> {
   var time = DateTime.now();
 
   var invoice_no = 0;
-  String? enteredText;
   String? selectedPaymentType = "Cash";
   String? Country = "Gujrat";
   // Selected state
 
+  TextEditingController customer_contorller = TextEditingController();
+  FocusNode customer_focusnode = FocusNode();
+  bool is_customer_focused = false;
+
+  TextEditingController total_amount_controller = TextEditingController();
+  FocusNode total_amount_focus = FocusNode();
+  bool is_total_focused = false;
+
+  TextEditingController description_controller = TextEditingController();
+  FocusNode description_focusnode = FocusNode();
+  bool is_description_focused = false;
+
+
+  bool isExpanded = true;
+
+
+  @override
+  void initState() {
+    super.initState();
+    customer_focusnode.addListener((){
+      setState(() {
+        is_customer_focused = customer_focusnode.hasFocus;
+      });
+    });
+
+    total_amount_focus.addListener(() {
+      setState(() {
+        is_total_focused = total_amount_focus.hasFocus;
+      });
+    });
+
+    description_focusnode.addListener((){
+      setState(() {
+        is_description_focused = description_focusnode.hasFocus;
+      });
+    });
+
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        systemOverlayStyle: SystemUiOverlayStyle(
+          statusBarColor: Colors.grey.shade300,
+          statusBarIconBrightness: Brightness.light,
+        ),
+        surfaceTintColor: Colors.white,
         backgroundColor: Colors.white,
-        title: Text('Estimate/Quotation'),
-        bottom: PreferredSize(
-            preferredSize: const Size.fromHeight(1.0),
-            child: Container(
-              height: 1,
-              color: Colors.grey.withOpacity(0.5),
-            )),
+        title: Text('Estimate/Quotation',style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),
+        bottom: Prefered_underline_appbar(),
         actions: [
           IconButton(
             icon: Icon(FlutterRemix.settings_2_line),
             onPressed: () {
-              // Add settings functionality here
+              Navigator.push(context, MaterialPageRoute(builder: (context)=>Transaction_Settings()));
             },
           ),
         ],
       ),
-      bottomNavigationBar: BottomNavbarSaveButton(leftButtonText: 'save & new', rightButtonText: 'save', leftButtonColor: Colors.white,rightButtonColor: Colors.blueAccent,onLeftButtonPressed: (){},onRightButtonPressed: (){},),
+      bottomNavigationBar: Row(
+        children: [
+          Expanded(
+            flex: 2,
+            child: ElevatedButton(
+              onPressed: (){},
+              style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.white,
+                  padding: EdgeInsets.symmetric(vertical: 12),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.zero,
+                  )
+              ),
+              child: Text("Save & New",style: TextStyle(fontSize: 16,fontWeight: FontWeight.w500,color: Colors.black),),
+            ),
+          ),
+          Expanded(
+            flex: 2,
+            child: ElevatedButton(
+              onPressed: (){},
+              style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.blueAccent,
+                  padding: EdgeInsets.symmetric(vertical: 12),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.zero,
+                  )
+              ),
+              child: Text("Save",style: TextStyle(fontSize: 16,fontWeight: FontWeight.w500,color: Colors.white),),
+            ),
+
+          ),
+
+          Expanded(
+            child: ElevatedButton(
+                onPressed: (){},
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.white,
+                    padding: EdgeInsets.symmetric(vertical: 12),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.zero,
+                    )
+                ),
+                child:Icon(Remix.share_forward_line,color: Colors.blueAccent,)
+            ),
+          ),
+        ],
+      ),
       body: Container(
         color:  Color(0xFFE8E8E8),
           child: Column(
@@ -154,56 +240,234 @@ class EstimateQuotation extends State<Estimate_Quotation> {
                         child: Column(
                           children: [
                             SizedBox(height: 16),
-                            TextField(
-                              decoration: InputDecoration(
-                                labelText: "Customer",
-                                hintText: "Customer name",
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(8.0),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(8.0),
-                                  borderSide: BorderSide(color: Colors.blue, width: 2.0),
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(8.0),
-                                  borderSide: BorderSide(color: Colors.grey, width: 1.0),
-                                ),
-                              ),
-                            ),
-                            SizedBox(height: 16),
-                            OutlinedButton(
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) {
-                                      return Add_Items_to_Sale(
-                                        title: 'Add Items Estimate/Quotation',
-                                      );
-                                    },
+                            SizedBox(
+                              height: 50,
+                              child: TextField(
+                                controller: customer_contorller,
+                                focusNode: customer_focusnode,
+                                decoration: InputDecoration(
+                                  floatingLabelStyle: TextStyle(color: is_customer_focused?Colors.blueAccent:Colors.grey),
+                                  labelText: "Customer Name *",
+                                  labelStyle: TextStyle(color: Colors.grey),
+                                  border: OutlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.grey, width: 1.0),
+                                    borderRadius: BorderRadius.circular(4.0),
                                   ),
-                                );
-                              },
-                              style: OutlinedButton.styleFrom(
-                                side: BorderSide(color: Colors.blueAccent),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8.0),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(4.0),
+                                    borderSide: BorderSide(color: Colors.blueAccent, width: 2.0),
+                                  ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(4.0),
+                                    borderSide: BorderSide(color: Colors.grey, width: 1.0),
+                                  ),
                                 ),
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(Icons.add, color: Colors.blueAccent),
-                                  SizedBox(width: 8),
-                                  Text("Add Items", style: TextStyle(color: Colors.blueAccent)),
-                                  SizedBox(width: 8),
-                                  Text("(Optional)", style: TextStyle(color: Colors.grey)),
-                                ],
                               ),
                             ),
                           ],
                         ),
+                      ),
+
+                      // if (addedItems.isNotEmpty)
+                      Container(
+                        color: Colors.white,
+                        padding: EdgeInsets.symmetric(horizontal: 16,vertical: 4),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            // Expand/Collapse Header
+                            GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  isExpanded = !isExpanded;
+                                });
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.blue[300],
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                padding: EdgeInsets.symmetric(vertical: 1, horizontal: 12),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      "Billed Items",
+                                      style: TextStyle(
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    Icon(
+                                      isExpanded ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
+                                      color: Colors.white,
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
+
+                            // Items List (Expandable)
+                            if (isExpanded)
+                              Container(
+                                margin: EdgeInsets.only(top: 5),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(8),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.withOpacity(0.2),
+                                      blurRadius: 5,
+                                      spreadRadius: 2,
+                                      offset: Offset(0, 2),
+                                    ),
+                                  ],
+                                ),
+                                child: Padding(
+                                  padding: EdgeInsets.all(12),
+                                  child: Column(
+                                    children: [
+                                      ListView.builder(
+                                        shrinkWrap: true,
+                                        physics: NeverScrollableScrollPhysics(),
+                                        itemCount: 1,
+                                        itemBuilder: (context, index) {
+
+                                          return GestureDetector(
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                // Item Row with Delete Button
+                                                Row(
+                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                  children: [
+                                                    Expanded(
+                                                      child: Text("#1 Maggie", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),),
+                                                    Text("₹ 100",
+                                                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                                                    IconButton(
+                                                      icon: Icon(Icons.delete, color: Colors.red),
+                                                      onPressed: () {
+                                                        setState(() {
+                                                        });
+                                                      },
+                                                    ),
+                                                  ],
+                                                ),
+                                                SizedBox(height: 5),
+
+                                                // Item Subtotal
+                                                Row(
+                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                  children: [
+                                                    Text("Item Subtotal:", style: TextStyle(color: Colors.grey[600])),
+                                                    Text(
+                                                      "1 x 55 = ₹ 55",
+                                                      style: TextStyle(color: Colors.grey[600]),
+                                                    ),
+                                                  ],
+                                                ),
+
+                                                SizedBox(height: 5),
+
+                                                // Discount Row
+                                                Row(
+                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                  children: [
+                                                    RichText(
+                                                      text: TextSpan(
+                                                        text: "Discount (%): ",
+                                                        style: TextStyle(color: Colors.orange[700], fontSize: 14),
+                                                        children: [
+                                                          TextSpan(text: "5", style: TextStyle(fontWeight: FontWeight.bold),),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                    Text(
+                                                      "₹ 25",
+                                                      style: TextStyle(color: Colors.orange[700], fontWeight: FontWeight.bold),
+                                                    ),
+                                                  ],
+                                                ),
+
+                                                SizedBox(height: 5),
+
+                                                // Tax Row
+                                                Row(
+                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                  children: [
+                                                    Text("GST (18 %):", style: TextStyle(color: Colors.grey[600])),
+                                                    Text(
+                                                      "₹ 0",
+                                                      style: TextStyle(color: Colors.green, fontWeight: FontWeight.bold),
+                                                    ),
+                                                  ],
+                                                ),
+
+                                                SizedBox(height: 10),
+                                              ],
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                      Divider(color: Colors.grey[300]),
+
+                                      // ✅ Total Calculation Section
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text("Total Discount: ₹ 0.0}"),
+                                          Text("Total Tax: ₹ 0"),
+                                        ],
+                                      ),
+                                      SizedBox(height: 5),
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text("Total Qty: 1"),
+                                          Text(
+                                            "Total Amount: ₹ 200",
+                                            style: TextStyle(fontWeight: FontWeight.bold),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                          color: Colors.white,
+                          padding: EdgeInsets.symmetric(horizontal: 16),
+                          child: Column(
+                            children: [
+                              OutlinedButton(
+                                onPressed: () {
+                                  Navigator.push(context, MaterialPageRoute(builder: (builder)=>Add_Items_to_Sale(title: "Add Items to Credit Note")));
+                                },
+                                style: OutlinedButton.styleFrom(
+                                  side: BorderSide(color: Colors.grey),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8.0),
+                                  ),
+                                ),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(Icons.add, color: Colors.blueAccent),
+                                    SizedBox(width: 8),
+                                    Text("Add Items", style: TextStyle(color: Colors.blueAccent)),
+                                    SizedBox(width: 8),
+                                    Text("(Optional)", style: TextStyle(color: Colors.grey)),
+                                  ],
+                                ),
+                              ),
+                              SizedBox(height: 16),
+                            ],
+                          )
                       ),
 
                       Container(
@@ -228,11 +492,11 @@ class EstimateQuotation extends State<Estimate_Quotation> {
                                   children: [
                                     // Dotted Border (Only Bottom)
                                     Positioned(
-                                      bottom: 0,
+                                      bottom: 10,
                                       left: 0,
                                       right: 0,
                                       child: DottedBorder(
-                                        color: Colors.grey,
+                                        color: is_total_focused?Colors.blueAccent:Colors.grey,
                                         strokeWidth: 1.5, // Border thickness
                                         dashPattern: [5, 3], // Dotted pattern
                                         borderType: BorderType.Rect, // Rectangle border
@@ -247,9 +511,11 @@ class EstimateQuotation extends State<Estimate_Quotation> {
                                       ),
                                     ),
                                     TextField(
+                                      controller: total_amount_controller,
+                                      focusNode: total_amount_focus,
                                       onChanged: (value) {
                                         setState(() {
-                                          enteredText = value;
+                                          total_amount_controller.text = value;
                                         });
                                       },
                                       keyboardType: TextInputType.number,
@@ -266,7 +532,8 @@ class EstimateQuotation extends State<Estimate_Quotation> {
                           ),
                       ),
                       SizedBox(height: 10,),
-                      if(enteredText!=null && enteredText!.isNotEmpty)
+
+                      if (total_amount_controller.text != null && total_amount_controller.text.isNotEmpty)
                         Container(
                           padding: EdgeInsets.only(left: 16,right: 16,top: 16),
                           color: Colors.white,
@@ -280,6 +547,7 @@ class EstimateQuotation extends State<Estimate_Quotation> {
                                   child: GestureDetector(
                                     onTap: () {
                                       showModalBottomSheet(
+                                        isScrollControlled: true,
                                         backgroundColor: Colors.white,
                                         context: context,
                                         shape: RoundedRectangleBorder(
@@ -288,16 +556,31 @@ class EstimateQuotation extends State<Estimate_Quotation> {
                                         builder: (context) {
                                           return StatefulBuilder(
                                             builder: (context, setStateModal) {
-                                              return Padding(
-                                                padding: const EdgeInsets.all(16.0),
+                                              return Container(
+                                                height: MediaQuery.of(context).size.height*0.80,
                                                 child: Column(
                                                   mainAxisSize: MainAxisSize.min,
                                                   children: [
-                                                    Text(
-                                                      "Select State",
-                                                      style: TextStyle(fontSize: 22),
+                                                    Padding(
+                                                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                                      child: Row(
+                                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                        children: [
+                                                          Text(
+                                                            "Select State",
+                                                            style: TextStyle(fontSize: 18),
+                                                          ),
+                                                          IconButton(
+                                                            onPressed: (){
+                                                              Navigator.pop(context);
+                                                            },
+                                                            icon: Icon(Remix.close_line),
+                                                          )
+                                                        ],
+                                                      ),
                                                     ),
-                                                    Divider(),
+
+                                                    Divider(color: Colors.grey.shade200,thickness: 1,),
                                                     Expanded(
                                                       child: ListView(
                                                         children: [
@@ -384,92 +667,96 @@ class EstimateQuotation extends State<Estimate_Quotation> {
                         ),
 
 
-                      if(enteredText!=null && enteredText!.isNotEmpty)
+                      if (total_amount_controller.text != null && total_amount_controller.text.isNotEmpty)
                         Column(
                           children: [
                             Container(height: 20,color: Colors.white,),
                             SizedBox(height: 10,),
                             Container(
+                              padding: const EdgeInsets.all(16.0),
                               color: Colors.white,
-                              padding: EdgeInsets.only(left: 16,right: 16.0,top: 8,bottom: 8),
-                              child: Column(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(vertical: 8.0),
-                                    child: SizedBox(
-                                      height:75,
-                                      child: Row(
-                                        children: [
-                                          Expanded(
-                                            child: TextField(
-                                              decoration: InputDecoration(
-                                                labelText: "Description",
-                                                hintText: 'Add Note',
-                                                border: OutlineInputBorder(
-                                                  borderRadius: BorderRadius.circular(8.0),
-                                                  borderSide: BorderSide(color: Colors.blue, width: 1.5),
-                                                ),
-                                                focusedBorder: OutlineInputBorder(
-                                                  borderRadius: BorderRadius.circular(8.0),
-                                                  borderSide: BorderSide(color: Colors.blue, width: 2.0),
-                                                ),
-                                                contentPadding: EdgeInsets.symmetric(
-                                                  vertical: 12.0,
-                                                  horizontal: 16.0,
-                                                ),
-                                              ),
-                                              maxLines: 3, // Allows multi-line input
-                                            ),
+                              child: SizedBox(
+                                height:75,
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                      child: TextField(
+                                        focusNode: description_focusnode,
+                                        controller: description_controller,
+                                        decoration: InputDecoration(
+                                          labelText: "Description",
+                                          hintText: 'Add Note',
+                                          floatingLabelStyle: TextStyle(color: is_description_focused?Colors.blueAccent:Colors.grey),
+                                          border: OutlineInputBorder(
+                                            borderRadius: BorderRadius.circular(4.0),
+                                            borderSide: BorderSide(color: Colors.grey, width: 1.0),
                                           ),
-                                          SizedBox(width: 10.0),
-                                          GestureDetector(
-                                            onTap:(){
-                                              showDialog(
-                                                context: context,
-                                                builder: (BuildContext context) {
-                                                  return AlertDialog(
-                                                    backgroundColor: Colors.white,
-                                                    shape: RoundedRectangleBorder(
-                                                      borderRadius: BorderRadius.zero,
-                                                    ),
-                                                    content: Column(
-                                                      mainAxisSize: MainAxisSize.min,
-                                                      children: [
-                                                        ListTile(
-                                                          title: Text("Camera"),
-                                                          onTap: () {
-                                                            Navigator.pop(context); // Close the dialog
-                                                          },
-                                                        ),
-                                                        Divider(),
-                                                        ListTile(
-                                                          title: Text("Gallery"),
-                                                          onTap: () {
-                                                            Navigator.pop(context); // Close the dialog
-                                                          },
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  );
-                                                },
-                                              );
-                                            }, // Show the dialog on tap
-                                            child: Container(
-                                              width: 75,
-                                              height: 75,
-                                              decoration: BoxDecoration(
-                                                border: Border.all(color: Colors.blue, width: 1.5),
-                                                borderRadius: BorderRadius.circular(8.0),
-                                                color: Colors.grey[100],
-                                              ),
-                                              child: Icon(FlutterRemix.camera_line),
-                                            ),
+                                          focusedBorder: OutlineInputBorder(
+                                            borderRadius: BorderRadius.circular(4.0),
+                                            borderSide: BorderSide(color: Colors.blueAccent, width: 2.0),
                                           ),
-                                        ],
+                                          enabledBorder: OutlineInputBorder(
+                                            borderRadius: BorderRadius.circular(4.0),
+                                            borderSide: BorderSide(color: Colors.grey, width: 1.0),
+                                          ),
+                                          contentPadding: EdgeInsets.symmetric(
+                                            vertical: 12.0,
+                                            horizontal: 16.0,
+                                          ),
+                                        ),
+                                        maxLines: 3, // Allows multi-line input
                                       ),
                                     ),
-                                  ),
-                                ],
+                                    SizedBox(width: 10.0),
+                                    GestureDetector(
+                                      onTap:(){
+                                        showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return AlertDialog(
+                                              backgroundColor: Colors.white,
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.zero,
+                                              ),
+                                              content: Column(
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: [
+                                                  ListTile(
+                                                    dense: true,
+                                                    visualDensity: VisualDensity.compact,
+                                                    title: Text("Camera"),
+                                                    onTap: () {
+                                                      Navigator.pop(context); // Close the dialog
+                                                    },
+                                                  ),
+                                                  Divider(),
+                                                  ListTile(
+                                                    dense: true,
+                                                    visualDensity: VisualDensity.compact,
+                                                    title: Text("Gallery"),
+                                                    onTap: () {
+                                                      Navigator.pop(context); // Close the dialog
+                                                    },
+                                                  ),
+                                                ],
+                                              ),
+                                            );
+                                          },
+                                        );
+                                      }, // Show the dialog on tap
+                                      child: Container(
+                                        width: 75,
+                                        height: 75,
+                                        decoration: BoxDecoration(
+                                          border: Border.all(color: Colors.blue, width: 1.5),
+                                          borderRadius: BorderRadius.circular(8.0),
+                                          color: Colors.grey[100],
+                                        ),
+                                        child: Icon(FlutterRemix.camera_line),
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                             SizedBox(height: 10,),

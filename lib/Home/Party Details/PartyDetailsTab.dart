@@ -1,3 +1,4 @@
+import 'package:demo/Home/Party%20Details/Show%20All/Party_Details.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_remix/flutter_remix.dart';
@@ -337,14 +338,18 @@ class _PartyDetailsTab extends State<PartyDetailsTab> {
                             borderRadius: BorderRadius.circular(8)
                         ),
                         child: ListTile(
+                          onTap: (){
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=>Party_Details()));
+                            },
                           title: Text("Mohit",style: TextStyle(fontSize: 13,fontWeight: FontWeight.w400,color: Colors.black),),
                           subtitle: Text("22 jan 25",style: TextStyle(fontSize: 12,color: Colors.grey),),
                           trailing: Padding(
                             padding: const EdgeInsets.only(top: 8.0),
                             child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
-                                Text("#200",style: TextStyle(fontSize: 13,color: Colors.greenAccent),),
-                                Text("you'll get",style: TextStyle(fontSize: 13,color: Colors.greenAccent),),
+                                Text("₹ 200",style: TextStyle(fontSize: 13,color: Color(0xFF38C782)),),
+                                Text("you'll get",style: TextStyle(fontSize: 13,color: Color(0xFF38C782)),),
                               ],
                             ),
                           ),
@@ -360,21 +365,17 @@ class _PartyDetailsTab extends State<PartyDetailsTab> {
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
                           padding: EdgeInsets.all(14),
-                          backgroundColor: Colors.red,
-                          // shape: RoundedRectangleBorder(
-                          //   borderRadius: BorderRadius.circular(15),
-                          // ),
+                          backgroundColor: Color(0xFFE03537),
                         ),
                         onPressed: () {
                           Navigator.push(context,MaterialPageRoute(builder: (context)=>Add_new_Party()));
                         },
-                        child: SizedBox(
-                          width: 130,
-                          child: Row(
+                        child: Row(
+                            mainAxisSize: MainAxisSize.min,
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Icon(FlutterRemix.user_3_line,color: Colors.white,size: 20,),
-                              const SizedBox(width: 8),
+                              SizedBox(width: 8),
                               Text(
                                 "Add New Party",
                                 style: TextStyle(color: Colors.white),
@@ -384,7 +385,6 @@ class _PartyDetailsTab extends State<PartyDetailsTab> {
                         ),
                       ),
                     ),
-                  ),
                 ],
               ),
             ),
