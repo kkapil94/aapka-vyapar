@@ -1,7 +1,11 @@
+import 'package:demo/Home/Transaction%20Details/Show%20All/add_bank_account.dart';
+import 'package:demo/Home/Transaction%20Details/Transaction%20Settings/txn_settings.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_remix/flutter_remix.dart';
+import 'package:intl/intl.dart';
 import 'package:remixicon/remixicon.dart';
 
 import '../../../BottomNavbar_save_buttons.dart';
@@ -15,22 +19,113 @@ class Sale_Order extends StatefulWidget {
 class SaleOrder extends State<Sale_Order> {
   var time = DateTime.now();
   var invoice_no = 0;
-  String? enteredText;
   String? selectedPaymentType = "Cash";
   String? Country = "Gujrat";
 
 
   // Selected state
   String? selectedState;
+  TextEditingController customer_contorller = TextEditingController();
+  FocusNode customer_focusnode = FocusNode();
+  bool is_customer_focused = false;
+
+  TextEditingController phone_number_controller = TextEditingController();
+  FocusNode phone_number_focusnode = FocusNode();
+  bool is_phone_number_focused = false;
+
+  TextEditingController due_date_controller = TextEditingController();
+  FocusNode due_date_focusnode = FocusNode();
+  bool is_due_date_focused = false;
+
+  TextEditingController total_amount_controller = TextEditingController();
+  FocusNode total_amount_focus = FocusNode();
+  bool is_total_focused = false;
+
+  TextEditingController advance_amount_controller = TextEditingController();
+  FocusNode advance_amount_focus = FocusNode();
+  bool is_advance_amount_focused = false;
+
+  TextEditingController balance_due_controller = TextEditingController();
+  FocusNode balance_due_focus = FocusNode();
+  bool is_balance_due_focused= false;
+
+
+  TextEditingController description_controller = TextEditingController();
+  FocusNode description_focusnode = FocusNode();
+  bool is_description_focused = false;
+
+  bool isExpanded = true;
+
+
+  Future<void> _selectDate(BuildContext context) async {
+    DateTime? pickedDate = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2101),
+      builder: (context, child) {
+        return Theme(
+          data: ThemeData.light().copyWith(
+            primaryColor: Colors.blue,
+            hintColor: Colors.blue,
+            colorScheme: ColorScheme.light(primary: Colors.blue),
+            buttonTheme: ButtonThemeData(textTheme: ButtonTextTheme.primary),
+          ),
+          child: child!,
+        );
+      },
+    );
+
+    if (pickedDate != null) {
+      setState(() {
+        due_date_controller.text =
+            DateFormat("dd/MM/yyyy").format(pickedDate);
+      });
+    }
+  }
+
+
+  @override
+  void initState() {
+    super.initState();
+    customer_focusnode.addListener((){
+      setState(() {
+        is_customer_focused = customer_focusnode.hasFocus;
+      });
+    });
+    phone_number_focusnode.addListener(() {
+      setState(() {
+        is_phone_number_focused = phone_number_focusnode.hasFocus;
+      });
+    });
+
+    total_amount_focus.addListener(() {
+      setState(() {
+        is_total_focused = total_amount_focus.hasFocus;
+      });
+    });
+
+    description_focusnode.addListener((){
+      setState(() {
+        is_description_focused = description_focusnode.hasFocus;
+      });
+    });
+
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        systemOverlayStyle: SystemUiOverlayStyle(
+          statusBarColor: Colors.grey.shade300,
+          statusBarIconBrightness: Brightness.light,
+        ),
+        surfaceTintColor: Colors.white,
         backgroundColor: Colors.white, // Ensures the background stays white
         elevation: 0, // Removes shadow
         foregroundColor: Colors.black, // Sets the color of icons and text
-        title: Text('Sale Order', style: TextStyle(color: Colors.black)),
+        title: Text('Sale Order',style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),
         bottom: PreferredSize(
             preferredSize: const Size.fromHeight(1.0),
             child: Container(
@@ -40,14 +135,60 @@ class SaleOrder extends State<Sale_Order> {
 
         actions: [
           IconButton(
-            icon: Icon(Icons.settings, color: Colors.black), // Ensures icon color is visible
+            icon: Icon(FlutterRemix.settings_2_line),
             onPressed: () {
-              // Add settings functionality here
+              Navigator.push(context, MaterialPageRoute(builder: (context)=>Transaction_Settings()));
             },
           ),
         ],
       ),
-      bottomNavigationBar: BottomNavbarSaveButton(leftButtonText: 'save & new', rightButtonText: 'save', leftButtonColor: Colors.white,rightButtonColor: Colors.blueAccent,onLeftButtonPressed: (){},onRightButtonPressed: (){},),
+      bottomNavigationBar: Row(
+        children: [
+          Expanded(
+            flex: 2,
+            child: ElevatedButton(
+              onPressed: (){},
+              style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.white,
+                  padding: EdgeInsets.symmetric(vertical: 12),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.zero,
+                  )
+              ),
+              child: Text("Save & New",style: TextStyle(fontSize: 16,fontWeight: FontWeight.w500,color: Colors.black),),
+            ),
+          ),
+          Expanded(
+            flex: 2,
+            child: ElevatedButton(
+              onPressed: (){},
+              style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.blueAccent,
+                  padding: EdgeInsets.symmetric(vertical: 12),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.zero,
+                  )
+              ),
+              child: Text("Save",style: TextStyle(fontSize: 16,fontWeight: FontWeight.w500,color: Colors.white),),
+            ),
+
+          ),
+
+          Expanded(
+            child: ElevatedButton(
+                onPressed: (){},
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.white,
+                    padding: EdgeInsets.symmetric(vertical: 12),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.zero,
+                    )
+                ),
+                child:Icon(Remix.share_forward_line,color: Colors.blueAccent,)
+            ),
+          ),
+        ],
+      ),
 
       // Prevent layout shifting when the keyboard opens
       body: Container(
@@ -156,60 +297,79 @@ class SaleOrder extends State<Sale_Order> {
                         padding: EdgeInsets.all(16),
                         child: Column(
                           children: [
-                            TextField(
-                              decoration: InputDecoration(
-                                labelText: "Customer",
-                                hintText: "Customer name",
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(8.0),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(8.0),
-                                  borderSide: BorderSide(color: Colors.blue, width: 2.0),
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(8.0),
-                                  borderSide: BorderSide(color: Colors.grey, width: 1.0),
+                            SizedBox(
+                              height: 50,
+                              child: TextField(
+                                controller: customer_contorller,
+                                focusNode: customer_focusnode,
+                                decoration: InputDecoration(
+                                  floatingLabelStyle: TextStyle(color: is_customer_focused?Colors.blueAccent:Colors.grey),
+                                  labelText: "Customer Name *",
+                                  labelStyle: TextStyle(color: Colors.grey),
+                                  border: OutlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.grey, width: 1.0),
+                                    borderRadius: BorderRadius.circular(4.0),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(4.0),
+                                    borderSide: BorderSide(color: Colors.blueAccent, width: 2.0),
+                                  ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(4.0),
+                                    borderSide: BorderSide(color: Colors.grey, width: 1.0),
+                                  ),
                                 ),
                               ),
                             ),
                             SizedBox(height: 16),
-                            TextField(
-                              keyboardType: TextInputType.phone,
-                              decoration: InputDecoration(
-                                labelText: "Phone Number",
-                                hintText: "Phone number",
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(8.0),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(8.0),
-                                  borderSide: BorderSide(color: Colors.blue, width: 2.0),
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(8.0),
-                                  borderSide: BorderSide(color: Colors.grey, width: 1.0),
+                            SizedBox(
+                              height: 50,
+                              child: TextField(
+                                controller: phone_number_controller,
+                                focusNode: phone_number_focusnode,
+                                decoration: InputDecoration(
+                                  floatingLabelStyle: TextStyle(color: is_phone_number_focused?Colors.blueAccent:Colors.grey),
+                                  labelText: "Phone Number",
+                                  labelStyle: TextStyle(color: Colors.grey),
+                                  border: OutlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.grey, width: 1.0),
+                                    borderRadius: BorderRadius.circular(4.0),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(4.0),
+                                    borderSide: BorderSide(color: Colors.blueAccent, width: 2.0),
+                                  ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(4.0),
+                                    borderSide: BorderSide(color: Colors.grey, width: 1.0),
+                                  ),
                                 ),
                               ),
                             ),
+
                             SizedBox(height: 16),
                             Row(
                               children: [
                                 Expanded(
                                   child: TextField(
-                                    keyboardType: TextInputType.datetime,
+                                    onTap: ()=>_selectDate(context),
+                                    readOnly: true,
+                                    controller: due_date_controller,
+                                    focusNode: due_date_focusnode,
                                     decoration: InputDecoration(
                                       labelText: "Due Date",
-                                      hintText: "Due Date",
+                                      labelStyle: TextStyle(color: Colors.grey),
+                                      suffixIcon: Icon(Remix.calendar_2_line),
                                       border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(8.0),
+                                        borderSide: BorderSide(color: Colors.grey, width: 1.0),
+                                        borderRadius: BorderRadius.circular(4.0),
                                       ),
                                       focusedBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(8.0),
-                                        borderSide: BorderSide(color: Colors.blue, width: 2.0),
+                                        borderRadius: BorderRadius.circular(4.0),
+                                        borderSide: BorderSide(color: Colors.blueAccent, width: 2.0),
                                       ),
                                       enabledBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(8.0),
+                                        borderRadius: BorderRadius.circular(4.0),
                                         borderSide: BorderSide(color: Colors.grey, width: 1.0),
                                       ),
                                     ),
@@ -218,31 +378,213 @@ class SaleOrder extends State<Sale_Order> {
                               ],
                             ),
                             SizedBox(height: 24),
-                            OutlinedButton(
-                              onPressed: () {
-                                Navigator.push(context, MaterialPageRoute(builder: (builder)=>Add_Items_to_Sale(title: "Add Items to Sale Order")));
-                              },
-                              style: OutlinedButton.styleFrom(
-                                side: BorderSide(color: Colors.blueAccent),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8.0),
-                                ),
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(Icons.add, color: Colors.blueAccent),
-                                  SizedBox(width: 8),
-                                  Text("Add Items", style: TextStyle(color: Colors.blueAccent)),
-                                  SizedBox(width: 8),
-                                  Text("(Optional)", style: TextStyle(color: Colors.grey)),
-                                ],
-                              ),
-                            ),
-                            SizedBox(height: 16),
                           ],
                         ),
                       ),
+
+                      // if (addedItems.isNotEmpty)
+                      Container(
+                        color: Colors.white,
+                        padding: EdgeInsets.symmetric(horizontal: 16,vertical: 4),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            // Expand/Collapse Header
+                            GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  isExpanded = !isExpanded;
+                                });
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.blue[300],
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                padding: EdgeInsets.symmetric(vertical: 1, horizontal: 12),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      "Billed Items",
+                                      style: TextStyle(
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    Icon(
+                                      isExpanded ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
+                                      color: Colors.white,
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
+
+                            // Items List (Expandable)
+                            if (isExpanded)
+                              Container(
+                                margin: EdgeInsets.only(top: 5),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(8),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.withOpacity(0.2),
+                                      blurRadius: 5,
+                                      spreadRadius: 2,
+                                      offset: Offset(0, 2),
+                                    ),
+                                  ],
+                                ),
+                                child: Padding(
+                                  padding: EdgeInsets.all(12),
+                                  child: Column(
+                                    children: [
+                                      ListView.builder(
+                                        shrinkWrap: true,
+                                        physics: NeverScrollableScrollPhysics(),
+                                        itemCount: 1,
+                                        itemBuilder: (context, index) {
+
+                                          return GestureDetector(
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                // Item Row with Delete Button
+                                                Row(
+                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                  children: [
+                                                    Expanded(
+                                                      child: Text("#1 Maggie", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),),
+                                                    Text("₹ 100",
+                                                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                                                    IconButton(
+                                                      icon: Icon(Icons.delete, color: Colors.red),
+                                                      onPressed: () {
+                                                        setState(() {
+                                                        });
+                                                      },
+                                                    ),
+                                                  ],
+                                                ),
+                                                SizedBox(height: 5),
+
+                                                // Item Subtotal
+                                                Row(
+                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                  children: [
+                                                    Text("Item Subtotal:", style: TextStyle(color: Colors.grey[600])),
+                                                    Text(
+                                                      "1 x 55 = ₹ 55",
+                                                      style: TextStyle(color: Colors.grey[600]),
+                                                    ),
+                                                  ],
+                                                ),
+
+                                                SizedBox(height: 5),
+
+                                                // Discount Row
+                                                Row(
+                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                  children: [
+                                                    RichText(
+                                                      text: TextSpan(
+                                                        text: "Discount (%): ",
+                                                        style: TextStyle(color: Colors.orange[700], fontSize: 14),
+                                                        children: [
+                                                          TextSpan(text: "5", style: TextStyle(fontWeight: FontWeight.bold),),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                    Text(
+                                                      "₹ 25",
+                                                      style: TextStyle(color: Colors.orange[700], fontWeight: FontWeight.bold),
+                                                    ),
+                                                  ],
+                                                ),
+
+                                                SizedBox(height: 5),
+
+                                                // Tax Row
+                                                Row(
+                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                  children: [
+                                                    Text("GST (18 %):", style: TextStyle(color: Colors.grey[600])),
+                                                    Text(
+                                                      "₹ 0",
+                                                      style: TextStyle(color: Colors.green, fontWeight: FontWeight.bold),
+                                                    ),
+                                                  ],
+                                                ),
+
+                                                SizedBox(height: 10),
+                                              ],
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                      Divider(color: Colors.grey[300]),
+
+                                      // ✅ Total Calculation Section
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text("Total Discount: ₹ 0.0}"),
+                                          Text("Total Tax: ₹ 0"),
+                                        ],
+                                      ),
+                                      SizedBox(height: 5),
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text("Total Qty: 1"),
+                                          Text(
+                                            "Total Amount: ₹ 200",
+                                            style: TextStyle(fontWeight: FontWeight.bold),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                          color: Colors.white,
+                          padding: EdgeInsets.symmetric(horizontal: 16),
+                          child: Column(
+                            children: [
+                              OutlinedButton(
+                                onPressed: () {
+                                  Navigator.push(context, MaterialPageRoute(builder: (builder)=>Add_Items_to_Sale(title: "Add Items to Credit Note")));
+                                },
+                                style: OutlinedButton.styleFrom(
+                                  side: BorderSide(color: Colors.grey),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8.0),
+                                  ),
+                                ),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(Icons.add, color: Colors.blueAccent),
+                                    SizedBox(width: 8),
+                                    Text("Add Items", style: TextStyle(color: Colors.blueAccent)),
+                                    SizedBox(width: 8),
+                                    Text("(Optional)", style: TextStyle(color: Colors.grey)),
+                                  ],
+                                ),
+                              ),
+                              SizedBox(height: 16),
+                            ],
+                          )
+                      ),
+
+
 
                       //Total Amount
                       Container(
@@ -270,11 +612,11 @@ class SaleOrder extends State<Sale_Order> {
                                       children: [
                                         // Dotted Border (Only Bottom)
                                         Positioned(
-                                          bottom: 0,
+                                          bottom:10,
                                           left: 0,
                                           right: 0,
                                           child: DottedBorder(
-                                            color: Colors.grey,
+                                            color: is_total_focused?Colors.blueAccent:Colors.grey,
                                             strokeWidth: 1.5, // Border thickness
                                             dashPattern: [5, 3], // Dotted pattern
                                             borderType: BorderType.Rect, // Rectangle border
@@ -291,9 +633,11 @@ class SaleOrder extends State<Sale_Order> {
 
                                         // TextField
                                         TextField(
+                                          controller: total_amount_controller,
+                                          focusNode: total_amount_focus,
                                           onChanged: (value) {
                                             setState(() {
-                                              enteredText = value;
+                                              total_amount_controller.text = value;
                                             });
                                           },
                                           keyboardType: TextInputType.number,
@@ -308,7 +652,7 @@ class SaleOrder extends State<Sale_Order> {
                                   ),
                                 ],
                               ),
-                            if (enteredText != null && enteredText!.isNotEmpty)
+                            if (total_amount_controller.text != null && total_amount_controller.text.isNotEmpty)
                               Row(
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
@@ -330,11 +674,11 @@ class SaleOrder extends State<Sale_Order> {
                                         children: [
                                           // Dotted Border (Only Bottom)
                                           Positioned(
-                                            bottom: 0,
+                                            bottom: 10,
                                             left: 0,
                                             right: 0,
                                             child: DottedBorder(
-                                              color: Colors.grey,
+                                              color: is_advance_amount_focused?Colors.blueAccent:Colors.grey,
                                               strokeWidth: 1.5, // Border thickness
                                               dashPattern: [5, 3], // Dotted pattern
                                               borderType: BorderType.Rect, // Rectangle border
@@ -351,9 +695,11 @@ class SaleOrder extends State<Sale_Order> {
 
                                           // TextField
                                           TextField(
+                                            controller: advance_amount_controller,
+                                            focusNode: advance_amount_focus,
                                             onChanged: (value) {
                                               setState(() {
-                                                enteredText = value;
+                                                advance_amount_controller.text = value;
                                               });
                                             },
                                             keyboardType: TextInputType.number,
@@ -369,7 +715,7 @@ class SaleOrder extends State<Sale_Order> {
                                   ],
                                 ),
 
-                            if (enteredText != null && enteredText!.isNotEmpty)
+                            if (total_amount_controller.text != null && total_amount_controller.text.isNotEmpty)
                               Padding(
                                 padding: const EdgeInsets.symmetric(vertical: 8.0),
                                 child: Row(
@@ -379,21 +725,19 @@ class SaleOrder extends State<Sale_Order> {
                                         flex: 2,
                                         child: Text(
                                           "Balance Due",
-                                          style: TextStyle(fontSize: 16, color: Colors.green),
+                                          style: TextStyle(fontSize: 16, color: Color(0xFF38C782)),
                                         ),
                                       ),
                                       SizedBox(
                                         width: 15, // Fixed width for rupee symbol
-                                        child: Icon(Icons.currency_rupee,
-                                            size: 15, color: Colors.green),
-                                      ),
+                                        child: Icon(Icons.currency_rupee, size: 15),),
                                       Expanded(
                                         flex: 1,
                                         child: Align(
                                           alignment: Alignment.centerRight,
                                           child: Text(
                                             "0",
-                                            style: TextStyle(color: Colors.green, fontSize: 16),
+                                            style: TextStyle(color: Color(0xFF38C782), fontSize: 16),
                                           ),
                                         ),
                                       ),
@@ -425,65 +769,7 @@ class SaleOrder extends State<Sale_Order> {
                                       child: Align(
                                         alignment: Alignment.topRight,
                                         child: GestureDetector(
-                                          onTap: () {
-                                            showModalBottomSheet(
-                                              backgroundColor: Colors.white,
-                                              context: context,
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-                                              ),
-                                              builder: (context) {
-                                                return StatefulBuilder(
-                                                  builder: (context, setStateModal) { // Use setStateModal for local state changes
-                                                    return Padding(
-                                                      padding: const EdgeInsets.all(16.0),
-                                                      child: Column(
-                                                        mainAxisSize: MainAxisSize.min,
-                                                        children: [
-                                                          Text("Payment Type",style: TextStyle(fontSize: 22),),
-                                                          ListTile(
-                                                            leading: Icon(Icons.money, color: Colors.green),
-                                                            title: Text("Cash"),
-                                                            onTap: () {
-                                                              setState(() {
-                                                                selectedPaymentType = "Cash";
-                                                              });
-                                                              Navigator.pop(context);
-                                                            },
-                                                            tileColor: selectedPaymentType == "Cash"
-                                                                ? Colors.grey[200]
-                                                                : null,
-                                                          ),
-                                                          ListTile(
-                                                            leading: Icon(Icons.receipt_long, color: Colors.yellow),
-                                                            title: Text("Cheque"),
-                                                            onTap: () {
-                                                              setState(() {
-                                                                selectedPaymentType = "Cheque";
-                                                              });
-                                                              Navigator.pop(context);
-                                                            },
-                                                            tileColor: selectedPaymentType == "Cheque"
-                                                                ? Colors.grey[200]
-                                                                : null,
-                                                          ),
-                                                          Divider(),
-                                                          ListTile(
-                                                            leading: Icon(Icons.add, color: Colors.blue),
-                                                            title: Text("Add Bank A/c"),
-                                                            onTap: () {
-                                                              // Handle "Add Bank A/c" logic
-                                                              Navigator.pop(context);
-                                                            },
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    );
-                                                  },
-                                                );
-                                              },
-                                            );
-                                          },
+                                          onTap: ()=>selectPaymentmethod(context),
                                           child: Row(
                                             mainAxisSize: MainAxisSize.min,
                                             children: [
@@ -521,7 +807,10 @@ class SaleOrder extends State<Sale_Order> {
                                   alignment: Alignment.topLeft,
                                   child: Padding(
                                     padding: const EdgeInsets.only(top: 8.0),
-                                    child: Text("+Add Payment Type",style: TextStyle(color: Colors.blueAccent,fontSize: 16),),
+                                    child: GestureDetector(
+                                        onTap: ()=>selectPaymentmethod(context),
+                                        child: Text("+Add Payment Type",style: TextStyle(color: Colors.blueAccent,fontSize: 16),)
+                                    ),
                                   )
                               ),
                             ],
@@ -615,6 +904,76 @@ class SaleOrder extends State<Sale_Order> {
           ],
         ),
       ),
+    );
+  }
+  void selectPaymentmethod(BuildContext context){
+    showModalBottomSheet(
+      backgroundColor: Colors.white,
+      context: context,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(8),
+      ),
+      builder: (context) {
+        return StatefulBuilder(
+          builder: (context, setStateModal) { // Use setStateModal for local state changes
+            return Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text("Payment Type",style: TextStyle(fontSize: 20),),
+                      IconButton(
+                          onPressed: (){
+                            Navigator.pop(context);
+                          },
+                          icon: Icon(Remix.close_line)
+                      ),
+                    ],
+                  ),
+                ),
+                Divider(color: Colors.grey.shade200,thickness: 1,),
+                ListTile(
+                  leading: Icon(Icons.money, color: Colors.green),
+                  title: Text("Cash"),
+                  onTap: () {
+                    setState(() {
+                      selectedPaymentType = "Cash";
+                    });
+                    Navigator.pop(context);
+                  },
+                  tileColor: selectedPaymentType == "Cash"
+                      ? Colors.grey[200]
+                      : null,
+                ),
+                ListTile(
+                  leading: Icon(Icons.receipt_long, color: Colors.yellow),
+                  title: Text("Cheque"),
+                  onTap: () {
+                    setState(() {
+                      selectedPaymentType = "Cheque";
+                    });
+                    Navigator.pop(context);
+                  },
+                  tileColor: selectedPaymentType == "Cheque"
+                      ? Colors.grey[200]
+                      : null,
+                ),
+                Divider(),
+                ListTile(
+                  leading: Icon(Icons.add, color: Colors.blue),
+                  title: Text("Add Bank A/c"),
+                  onTap: () {
+                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>Add_Bank_Account()));
+                  },
+                ),
+              ],
+            );
+          },
+        );
+      },
     );
   }
 }
