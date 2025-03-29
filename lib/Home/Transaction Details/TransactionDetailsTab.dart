@@ -708,8 +708,6 @@ var iconOf_moreOption = [
   FlutterRemix.book_open_line,
   FlutterRemix.sticky_note_line,
   FlutterRemix.arrow_up_down_line,
-  FlutterRemix.article_line,
-  Remix.mobile_download_line,
   FlutterRemix.printer_line,
   Remix.chat_settings_line,
 ];
@@ -718,8 +716,6 @@ var labelOf_moreOption = [
   "Day Book",
   "All Txns Report",
   "Profit & Loss",
-  "Balance Sheet",
-  "Billwise PnL",
   "Print Settings",
   "Txn SMS Settings"
 ];
@@ -733,34 +729,30 @@ void ShowAll(BuildContext context)
       return Container(
         color: Colors.white,
         child: FractionallySizedBox(
-          heightFactor: 0.42, // 95% of the screen height
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
+          heightFactor: 0.3,
+          child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Sale Transactions Header
                   Padding(
-                    padding: const EdgeInsets.only(bottom: 18.0,top: 8.0),
+                    padding: EdgeInsets.symmetric(horizontal: 10,vertical: 10),
                     child: Row(
                       children: [
                         Expanded(
                           child: Text(
-                            "Sale Transactions",
-                            style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500),
+                            "More Options",
+                            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                           ),
                         ),
                         InkWell(
                           onTap: () {
                             Navigator.of(context).pop();
                           },
-                          child: Icon(Icons.close),
+                          child: Icon(Remix.close_line,size: 25,),
                         ),
                       ],
                     ),
                   ),
+                  Divider(),
                   GridView.builder(
                     shrinkWrap: true,
                     physics: NeverScrollableScrollPhysics(),
@@ -793,12 +785,9 @@ void ShowAll(BuildContext context)
                     },
                     itemCount: iconOf_moreOption.length,
                   ),
-
                 ],
               ),
-            ),
           ),
-        ),
       );
     },
   );

@@ -1,6 +1,7 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_remix/flutter_remix.dart';
 
 import 'add_bank_account.dart';
@@ -18,6 +19,11 @@ class BankAccount extends State<Bank_Account>
 
     return Scaffold(
       appBar: AppBar(
+        systemOverlayStyle: SystemUiOverlayStyle(
+          statusBarColor: Colors.grey.shade300,
+          statusBarIconBrightness: Brightness.light,
+        ),
+        surfaceTintColor: Colors.white,
         title: Text("Bank Accounts"),
         backgroundColor: Colors.white,
         centerTitle: true,

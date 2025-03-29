@@ -2,6 +2,7 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_remix/flutter_remix.dart';
 import 'package:syncfusion_flutter_signaturepad/signaturepad.dart';
 
@@ -283,8 +284,45 @@ class BusinessDetails extends State<Business_Details>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: BottomNavbarSaveButton(leftButtonText: 'Cencle', rightButtonText: 'save', leftButtonColor: Colors.white,rightButtonColor: Colors.red,onLeftButtonPressed: (){},onRightButtonPressed: (){},),
+      bottomNavigationBar: Row(
+        children: [
+          Expanded(
+            flex: 2,
+            child: ElevatedButton(
+              onPressed: (){},
+              style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.white,
+                  padding: EdgeInsets.symmetric(vertical: 12),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.zero,
+                  )
+              ),
+              child: Text("Cencle",style: TextStyle(fontSize: 16,fontWeight: FontWeight.w500,color: Colors.black),),
+            ),
+          ),
+          Expanded(
+            flex: 2,
+            child: ElevatedButton(
+              onPressed: (){},
+              style: ElevatedButton.styleFrom(
+                  backgroundColor: Color(0xFFE03537),
+                  padding: EdgeInsets.symmetric(vertical: 12),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.zero,
+                  )
+              ),
+              child: Text("Save",style: TextStyle(fontSize: 16,fontWeight: FontWeight.w500,color: Colors.white),),
+            ),
+
+          ),
+        ],
+      ),
       appBar: AppBar(
+        systemOverlayStyle: SystemUiOverlayStyle(
+          statusBarColor: Colors.grey.shade300,
+          statusBarIconBrightness: Brightness.light,
+        ),
+        surfaceTintColor: Colors.white,
         backgroundColor: Colors.white,
         elevation: 0, // Removes shadow
         bottom: Prefered_underline_appbar(),

@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_remix/flutter_remix.dart';
+import 'package:intl/intl.dart';
+import 'package:remixicon/remixicon.dart';
 
 import '../Prefered_underline_appbar.dart';
 
@@ -10,7 +13,57 @@ class Party_Statement extends StatefulWidget {
 }
 
 class PartyStatement extends State<Party_Statement> {
-  var time = DateTime.now();
+  DateTime firstDate = DateTime.now();
+  DateTime lastDate = DateTime(DateTime.now().year, DateTime.now().month + 1, 0);
+
+  void _select_firstDate(BuildContext context) async{
+    DateTime? pickedDate = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2101),
+      builder: (context, child) {
+        return Theme(
+          data: ThemeData.light().copyWith(
+            primaryColor: Colors.blue,
+            hintColor: Colors.blue,
+            colorScheme: ColorScheme.light(primary: Colors.blue),
+            buttonTheme: ButtonThemeData(textTheme: ButtonTextTheme.primary),
+          ),
+          child: child!,
+        );
+      },
+    );
+    if (pickedDate != null) {
+      setState(() {
+        firstDate = DateFormat("dd/MM/yyyy").format(pickedDate) as DateTime;
+      });
+    }
+  }
+  void _select_lastDate(BuildContext context) async{
+    DateTime? pickedDate = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2101),
+      builder: (context, child) {
+        return Theme(
+          data: ThemeData.light().copyWith(
+            primaryColor: Colors.blue,
+            hintColor: Colors.blue,
+            colorScheme: ColorScheme.light(primary: Colors.blue),
+            buttonTheme: ButtonThemeData(textTheme: ButtonTextTheme.primary),
+          ),
+          child: child!,
+        );
+      },
+    );
+    if (pickedDate != null) {
+      setState(() {
+        lastDate = DateFormat("dd/MM/yyyy").format(pickedDate) as DateTime;
+      });
+    }
+  }
 
   String? selected_timeDuration = "This week";
   final List<String> time_duration_option = [
@@ -19,18 +72,9 @@ class PartyStatement extends State<Party_Statement> {
     'This month',
     'This quarter',
     'This Financial Year',
-    'custom'
+    'Custom'
   ];
   void _showTimeSelectionModal(BuildContext context) {
-    List<String> durations = [
-      "Today",
-      "This Week",
-      "This Month",
-      "This Quarter",
-      "This Financial Year",
-      "Custom",
-    ];
-
     showModalBottomSheet(
       backgroundColor: Colors.white,
       context: context,
@@ -39,12 +83,12 @@ class PartyStatement extends State<Party_Statement> {
       ),
       builder: (BuildContext context) {
         return Container(
-          padding: EdgeInsets.all(16),
+          height: MediaQuery.of(context).size.height*0.48,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
               Padding(
-                padding: const EdgeInsets.only(bottom: 10.0),
+                padding: const EdgeInsets.symmetric(horizontal: 10.0,vertical: 4),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -61,18 +105,24 @@ class PartyStatement extends State<Party_Statement> {
                   ],
                 ),
               ),
-              ListView.builder(
+              Divider(color: Colors.grey.shade200,thickness: 1,),
+              ListView.separated(
                 shrinkWrap: true,
-                itemCount: durations.length,
+                itemCount: time_duration_option.length,
+                separatorBuilder: (BuildContext context,int index){
+                  return Divider(color: Colors.grey.shade200,thickness: 1,);
+                },
                 itemBuilder: (BuildContext context, int index) {
                   return ListTile(
-                    title: Text(durations[index]),
-                    trailing: selected_timeDuration == durations[index]
+                    dense: true,
+                    visualDensity: VisualDensity.compact,
+                    title: Text(time_duration_option[index]),
+                    trailing: selected_timeDuration == time_duration_option[index]
                         ? Icon(Icons.circle, color: Colors.blue, size: 12)
                         : null,
                     onTap: () {
                       setState(() {
-                        selected_timeDuration = durations[index];
+                        selected_timeDuration = time_duration_option[index];
                       });
                       Navigator.pop(context);
                     },
@@ -86,33 +136,18 @@ class PartyStatement extends State<Party_Statement> {
     );
   }
 
-  var firstDate = DateTime.now();
-  var lastDate = DateTime(DateTime.now().year, DateTime.now().month + 1, 0);
 
-  void _select_firstDate(BuildContext context) {
-    showDatePicker(
-      context: context,
-      firstDate: DateTime(DateTime.monthsPerYear),
-      lastDate: DateTime(2030),
-    ).then((picked) {
-      if (picked != null) {
-        setState(() {
-          firstDate = picked;
-        });
-      }
-    });
-  }
-  void _select_lastDate(BuildContext context) {
-    showDatePicker(
-      context: context,
-      firstDate: DateTime.now(),
-      lastDate: DateTime(2030),
-    ).then((picked) {
-      if (picked != null) {
-        setState(() {
-          lastDate = picked;
-        });
-      }
+  TextEditingController search_controller = TextEditingController();
+  FocusNode search_focusnode = FocusNode();
+  bool is_search_focused =  false;
+
+  @override
+  void initState() {
+    super.initState();
+    search_focusnode.addListener((){
+      setState(() {
+        is_search_focused = search_focusnode.hasFocus;
+      });
     });
   }
 
@@ -120,23 +155,29 @@ class PartyStatement extends State<Party_Statement> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        systemOverlayStyle: SystemUiOverlayStyle(
+          statusBarColor: Colors.grey.shade300,
+          statusBarIconBrightness: Brightness.light,
+        ),
+        surfaceTintColor: Colors.white,
         backgroundColor: Colors.white,
-        elevation: 0, // Removes shadow
-        foregroundColor: Colors.black,
-        title: Text('Party Statement', style: TextStyle(color: Colors.black)),
+        elevation: 0,
         bottom: Prefered_underline_appbar(),
+        foregroundColor: Colors.black,
+        title: Text('Party Statement',style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),
         actions: [
           Container(
             height: 25,
             width: 25,
             child: Image.asset("Assets/Images/pdf.png"),
           ),
-          //xls
+          SizedBox(width: 10,),
           Container(
-            height: 30,
-            width: 50,
+            height: 25,
+            width: 25,
             child: Image.asset("Assets/Images/xls.png"),
           ),
+          SizedBox(width: 10,),
         ],
       ),
       resizeToAvoidBottomInset: false,
@@ -144,160 +185,154 @@ class PartyStatement extends State<Party_Statement> {
         color: Colors.white,
         child: Column(
           children: [
-            Expanded(
-              child: SingleChildScrollView(
-                physics: BouncingScrollPhysics(),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.only(left: 8.0,right: 8.0,top: 4,bottom: 4),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          GestureDetector(
-                            onTap: (){
-                              _showTimeSelectionModal(context);
-                            },
-                            child: Container(
-                              child: Row(
-                                children: [
-                                  Text("${selected_timeDuration}"),
-                                  SizedBox(width: 50,),
-                                  Icon(Icons.arrow_drop_down,color: Colors.blueAccent,),
-                                ],
-                              ),
-                            ),
-                          ),
-                          Container(
-                            height: 20,
-                            child: VerticalDivider(
-                              thickness: 1,
-                              color: Colors.grey,
-                            ),
-                          ),
+            Container(
+              padding: EdgeInsets.all(8),
+              color: Colors.white,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
 
-                          SizedBox(width: 8),
-                          GestureDetector(
-                            onTap: () => _select_firstDate(context),
-                            child: Text(
-                              '${firstDate.day}/${firstDate.month}/${firstDate.year}',
-                              style: TextStyle(fontSize: 12, color: Colors.black),
-                            ),
-                          ),
-                          SizedBox(width: 4),
-                          Text(
-                            'to',
-                            style: TextStyle(fontSize: 12, color: Colors.grey),
-                          ),
-                          SizedBox(width: 4),
-                          GestureDetector(
-                            onTap: () => _select_lastDate(context),
-                            child: Text(
-                              '${lastDate.day}/${lastDate.month}/${lastDate.year}',
-                              style: TextStyle(fontSize: 12, color: Colors.black),
-                            ),
-                          ),
-                          SizedBox(width: 20,),
-                          Icon(FlutterRemix.calendar_2_line,color: Colors.blueAccent,size: 15,),
+                  GestureDetector(
+                    onTap: (){
+                      _showTimeSelectionModal(context);
+                    },
+                    child: Container(
+                      child: Row(
+                        children: [
+                          Text("${selected_timeDuration}"),
+                          SizedBox(width: 5,),
+                          Icon(Remix.arrow_down_s_line,color: Colors.blueAccent,),
                         ],
                       ),
                     ),
-                    Divider(),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        children: [
-                          Row(
-                            children: [
-                              Expanded(
-                                  child: Text("Filters Applied :")
-                              ),
-                              SizedBox(
-                                height: 30,
-                                child: TextButton(
-                                    style: TextButton.styleFrom(
-                                      side: BorderSide(
-                                        color: Colors.grey,
-                                        width: 1,
-                                      ),
-                                    ),
-                                    onPressed: (){},
-                                    child: Row(
-                                      children: [
-                                        Icon(FlutterRemix.filter_2_line,size: 15,color: Colors.blue,),
-                                        Text("Filters")
-                                      ],
-                                    )),
-                              )
-                            ],
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
+                  ),
+                  Container(
+                    height: 20,
+                    child: VerticalDivider(
+                      thickness: 1,
+                      color: Colors.grey,
+                    ),
+                  ),
+                  Icon(FlutterRemix.calendar_2_line,color: Colors.blueAccent,size: 15,),
+                  SizedBox(width: 8),
+                  GestureDetector(
+                    onTap: () => _select_firstDate(context),
+                    child: Text(
+                      '${firstDate.day}/${firstDate.month}/${firstDate.year}',
+                      style: TextStyle(fontSize: 12, color: Colors.black),
+                    ),
+                  ),
+                  SizedBox(width: 4),
+                  Text(
+                    'to',
+                    style: TextStyle(fontSize: 12, color: Colors.grey),
+                  ),
+                  SizedBox(width: 4),
+                  GestureDetector(
+                    onTap: () => _select_lastDate(context),
+                    child: Text(
+                      '${lastDate.day}/${lastDate.month}/${lastDate.year}',
+                      style: TextStyle(fontSize: 12, color: Colors.black),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Divider(color: Colors.grey,thickness: 0.8,),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      Expanded(
+                          child: Text("Filters Applied :")
+                      ),
+                      SizedBox(
+                        height: 30,
+                        child: GestureDetector(
+                          onTap: (){
+                            ThemeChanged(context);
+                          },
+                          child: Container(
+                            padding: EdgeInsets.symmetric(horizontal: 15),
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(40),
+                                border: Border.all(color: Colors.grey.shade400,width: 1)
+                            ),
                             child: Row(
                               children: [
-                                SizedBox(
-                                  height: 30,
-                                  child: TextButton(
-                                      style: TextButton.styleFrom(
-                                        side: BorderSide(
-                                          color: Colors.grey,
-                                          width: 1,
-                                        ),
-                                        backgroundColor: Color(0xFFE8E8E8FF),
-                                      ),
-                                      onPressed: (){
-                                        ThemeChanged(context);
-                                      },
-                                      child: Center(child: Text("Theme - Acounting View",style: TextStyle(fontSize: 11,color: Colors.black),))
-                                  ),
-                                ),
+                                Icon(Remix.filter_2_line,color: Colors.blueAccent,size: 15,),
+                                Text("Filters",textAlign: TextAlign.center,style: TextStyle(fontSize: 13,color: Colors.black),)
                               ],
                             ),
                           ),
-
-                        ],
+                        ),
                       ),
+                    ],
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      children: [
+                        SizedBox(
+                          height: 30,
+                          child: TextButton(
+                              style: TextButton.styleFrom(
+                                backgroundColor: Colors.grey.shade200,
+                              ),
+                              onPressed: (){
+                                ThemeChanged(context);
+                              },
+                              child: Center(child: Text("Theme - Acounting View",style: TextStyle(fontSize: 11,color: Colors.black),))
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
+                  ),
+
+                ],
               ),
             ),
-            SizedBox(height: 10,),
+
             Expanded(
-              flex: 4,
               child: Container(
                 height: double.infinity,
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                     begin: Alignment.topCenter,
                     end: Alignment.center,
-                    colors: [Colors.blue.shade100, Colors.blue.shade50],
+                    colors: [Colors.blue.shade200, Colors.blue.shade50],
                   ),
                 ),
                 padding: EdgeInsets.all(8.0),
                 child: Column(
                   children: [
                     Container(
-                      height: 50,
+                      height: 45,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8),
                         color: Colors.white,
                       ),
-                      child: Center(
-                        child: TextField(
+                      child:  TextField(
+                          controller: search_controller,
+                          focusNode: search_focusnode,
                           decoration: InputDecoration(
+                            hintText: "Search",
+                            hintStyle: TextStyle(fontSize: 14),
                             prefixIcon: Icon(Icons.search,color: Colors.blue,size: 30,),
-                            suffixIcon: IconButton(
-                                onPressed: (){},
-                                icon: Icon(Icons.close)),
+                            suffixIcon: is_search_focused?IconButton(
+                                onPressed: (){
+                                  search_controller.clear();
+                                  search_focusnode.unfocus();
+                                },
+                                icon: Icon(Icons.close)):null,
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8),
                               borderSide: BorderSide.none,
                             ),
                           ),
                         ),
-                      ),
                     ),
                     SizedBox(height: 10),
 
@@ -308,7 +343,7 @@ class PartyStatement extends State<Party_Statement> {
                             child: Container(
                               decoration: BoxDecoration(
                                 color: Colors.white,
-                                borderRadius: BorderRadius.circular(8),
+                                borderRadius: BorderRadius.circular(4),
                               ),
                               padding: EdgeInsets.all(8.0),
                               child: Column(
@@ -317,7 +352,7 @@ class PartyStatement extends State<Party_Statement> {
                                   Text(
                                     "Total Debit",
                                     style: TextStyle(
-                                      fontWeight: FontWeight.bold,
+                                      fontSize: 14,
                                       color: Colors.grey,
                                     ),
                                   ),
@@ -335,13 +370,13 @@ class PartyStatement extends State<Party_Statement> {
                             ),
                           ),
                         if(selectedTheme=="Vyapar View")
-                          SizedBox(width: 10),
+                          SizedBox(width: 5),
                         if(selectedTheme=="Vyapar View")
                           Expanded(
                             child: Container(
                               decoration: BoxDecoration(
                                 color: Colors.white,
-                                borderRadius: BorderRadius.circular(8),
+                                borderRadius: BorderRadius.circular(4),
                               ),
                               padding: EdgeInsets.all(8.0),
                               child: Column(
@@ -350,7 +385,6 @@ class PartyStatement extends State<Party_Statement> {
                                   Text(
                                     "Total Credit",
                                     style: TextStyle(
-                                      fontWeight: FontWeight.bold,
                                       color: Colors.grey,
                                     ),
                                   ),
@@ -368,14 +402,14 @@ class PartyStatement extends State<Party_Statement> {
                             ),
                           ),
                         if(selectedTheme=="Vyapar View")
-                          SizedBox(width: 10),
+                          SizedBox(width: 5),
 
                         if(selectedTheme=="Accounting View")
-                          Expanded(
+                           Expanded(
                             child: Container(
                               decoration: BoxDecoration(
                                 color: Colors.white,
-                                borderRadius: BorderRadius.circular(8),
+                                borderRadius: BorderRadius.circular(4),
                               ),
                               padding: EdgeInsets.all(8.0),
                               child: Column(
@@ -384,7 +418,6 @@ class PartyStatement extends State<Party_Statement> {
                                   Text(
                                     "Total Debit",
                                     style: TextStyle(
-                                      fontWeight: FontWeight.bold,
                                       color: Colors.grey,
                                     ),
                                   ),
@@ -401,12 +434,12 @@ class PartyStatement extends State<Party_Statement> {
                               ),
                             ),
                           ),
-                        SizedBox(width: 10),
-                        Expanded(
+                           SizedBox(width: 5),
+                           Expanded(
                           child: Container(
                             decoration: BoxDecoration(
                               color: Colors.white,
-                              borderRadius: BorderRadius.circular(8),
+                              borderRadius: BorderRadius.circular(4),
                             ),
                             padding: EdgeInsets.all(8.0),
                             child: Column(
@@ -415,7 +448,6 @@ class PartyStatement extends State<Party_Statement> {
                                 Text(
                                   "Closing Debit",
                                   style: TextStyle(
-                                    fontWeight: FontWeight.bold,
                                     color: Colors.grey,
                                   ),
                                 ),

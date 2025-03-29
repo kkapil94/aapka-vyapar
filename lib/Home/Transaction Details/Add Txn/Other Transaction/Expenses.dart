@@ -1,7 +1,10 @@
 
+import 'package:demo/Home/Transaction%20Details/Show%20All/add_bank_account.dart';
+import 'package:demo/Home/Transaction%20Details/Transaction%20Settings/txn_settings.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_remix/flutter_remix.dart';
 import 'package:remixicon/remixicon.dart';
 
@@ -22,6 +25,9 @@ class _Expenses extends State<Expenses> {
   bool isChecked = false;
 
   String? selectedState;
+  TextEditingController description_controller = TextEditingController();
+  FocusNode description_focusnode = FocusNode();
+  bool is_description_focused = false;
 
   final List<String> _expenseCategories = [
     'Rent',
@@ -157,29 +163,83 @@ class _Expenses extends State<Expenses> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    description_focusnode.addListener((){
+      setState(() {
+        is_description_focused = description_focusnode.hasFocus;
+      });
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        surfaceTintColor: Colors.white,
+        systemOverlayStyle: SystemUiOverlayStyle(
+          statusBarColor: Colors.grey.shade300,
+          statusBarIconBrightness: Brightness.light,
+        ),
         backgroundColor: Colors.white,
-        title: Text('Expense'),
+        title: Text('Expense',style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),
         bottom: Prefered_underline_appbar(),
         actions: [
-          Switch(
-              trackOutlineColor: MaterialStateProperty.all(Colors.transparent),
-              value: false,
-              onChanged: (bool?value){
-
-              }
-              ),
           IconButton(
             icon: Icon(FlutterRemix.settings_2_line),
             onPressed: () {
-              // Add settings functionality here
+              Navigator.push(context, MaterialPageRoute(builder: (context)=>Transaction_Settings()));
             },
           ),
         ],
       ),
-      bottomNavigationBar: BottomNavbarSaveButton(leftButtonText: 'save & new', rightButtonText: 'save', leftButtonColor: Colors.white,rightButtonColor: Colors.blueAccent,onLeftButtonPressed: (){},onRightButtonPressed: (){},),
+      bottomNavigationBar: Row(
+        children: [
+          Expanded(
+            flex: 2,
+            child: ElevatedButton(
+              onPressed: (){},
+              style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.white,
+                  padding: EdgeInsets.symmetric(vertical: 12),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.zero,
+                  )
+              ),
+              child: Text("Save & New",style: TextStyle(fontSize: 16,fontWeight: FontWeight.w500,color: Colors.black),),
+            ),
+          ),
+          Expanded(
+            flex: 2,
+            child: ElevatedButton(
+              onPressed: (){},
+              style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.blueAccent,
+                  padding: EdgeInsets.symmetric(vertical: 12),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.zero,
+                  )
+              ),
+              child: Text("Save",style: TextStyle(fontSize: 16,fontWeight: FontWeight.w500,color: Colors.white),),
+            ),
+
+          ),
+
+          Expanded(
+            child: ElevatedButton(
+                onPressed: (){},
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.white,
+                    padding: EdgeInsets.symmetric(vertical: 12),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.zero,
+                    )
+                ),
+                child:Icon(Remix.share_forward_line,color: Colors.blueAccent,)
+            ),
+          ),
+        ],
+      ),
       body: Container(
         color:  Color(0xFFE8E8E8),
         child: Column(
@@ -661,202 +721,163 @@ class _Expenses extends State<Expenses> {
                         ),
                       ),
                       if (_calculateTotal() != null)
-                        Container(
-                          padding: EdgeInsets.all(16),
-                          color: Colors.white,
-                          child: Column(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        Column(
+                          children: [
+                            Container(
+                              color: Colors.white,
+                              child: Padding(
+                                padding: const EdgeInsets.only(left: 16.0,right: 16,bottom: 16,top: 16),
                                 child: Column(
                                   children: [
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text("Payment Type", style: TextStyle(fontSize: 15, color: Colors.black)),
-                                        Expanded(
-                                          child: Align(
-                                            alignment: Alignment.topRight,
-                                            child: GestureDetector(
-                                              onTap: () {
-                                                showModalBottomSheet(
-                                                  backgroundColor: Colors.white,
-                                                  context: context,
-                                                  shape: RoundedRectangleBorder(
-                                                    borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-                                                  ),
-                                                  builder: (context) {
-                                                    return StatefulBuilder(
-                                                      builder: (context, setStateModal) { // Use setStateModal for local state changes
-                                                        return Padding(
-                                                          padding: const EdgeInsets.all(16.0),
-                                                          child: Column(
-                                                            mainAxisSize: MainAxisSize.min,
-                                                            children: [
-                                                              Text("Payment Type",style: TextStyle(fontSize: 22),),
-                                                              ListTile(
-                                                                leading: Icon(Icons.money, color: Colors.green),
-                                                                title: Text("Cash"),
-                                                                onTap: () {
-                                                                  setState(() {
-                                                                    selectedPaymentType = "Cash";
-                                                                  });
-                                                                  Navigator.pop(context);
-                                                                },
-                                                                tileColor: selectedPaymentType == "Cash"
-                                                                    ? Colors.grey[200]
-                                                                    : null,
-                                                              ),
-                                                              ListTile(
-                                                                leading: Icon(Icons.receipt_long, color: Colors.yellow),
-                                                                title: Text("Cheque"),
-                                                                onTap: () {
-                                                                  setState(() {
-                                                                    selectedPaymentType = "Cheque";
-                                                                  });
-                                                                  Navigator.pop(context);
-                                                                },
-                                                                tileColor: selectedPaymentType == "Cheque"
-                                                                    ? Colors.grey[200]
-                                                                    : null,
-                                                              ),
-                                                              Divider(),
-                                                              ListTile(
-                                                                leading: Icon(Icons.add, color: Colors.blue),
-                                                                title: Text("Add Bank A/c"),
-                                                                onTap: () {
-                                                                  // Handle "Add Bank A/c" logic
-                                                                  Navigator.pop(context);
-                                                                },
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        );
-                                                      },
-                                                    );
-                                                  },
-                                                );
-                                              },
-                                              child: Row(
-                                                mainAxisSize: MainAxisSize.min,
-                                                children: [
-                                                  Icon(
-                                                    selectedPaymentType == "Cash"
-                                                        ? Icons.money
-                                                        : selectedPaymentType == "Cheque"
-                                                        ? Icons.receipt_long
-                                                        : Icons.help_outline, // Default icon when null
-                                                    color: selectedPaymentType == "Cash"
-                                                        ? Colors.green
-                                                        : selectedPaymentType == "Cheque"
-                                                        ? Colors.yellow
-                                                        : Colors.grey, // Default color when null
-                                                  ),
-                                                  SizedBox(width: 4),
-                                                  Text(
-                                                    selectedPaymentType ?? "Select", // Fallback if null
-                                                    style: TextStyle(
-                                                      fontSize: 15,
-                                                      color: Colors.black,
-                                                      fontWeight: FontWeight.w500,
+                                    Padding(
+                                      padding: const EdgeInsets.only(bottom: 8.0),
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text("Payment Type", style: TextStyle(fontSize: 15, color: Colors.black)),
+                                          Expanded(
+                                            child: Align(
+                                              alignment: Alignment.topRight,
+                                              child: GestureDetector(
+                                                onTap: ()=>selectPaymentmethod(context),
+                                                child: Row(
+                                                  mainAxisSize: MainAxisSize.min,
+                                                  children: [
+                                                    Icon(
+                                                      selectedPaymentType == "Cash"
+                                                          ? Icons.money
+                                                          : selectedPaymentType == "Cheque"
+                                                          ? Icons.receipt_long
+                                                          : Icons.help_outline, // Default icon when null
+                                                      color: selectedPaymentType == "Cash"
+                                                          ? Colors.green
+                                                          : selectedPaymentType == "Cheque"
+                                                          ? Colors.yellow
+                                                          : Colors.grey, // Default color when null
                                                     ),
-                                                  ),
-                                                  Icon(Icons.arrow_drop_down, color: Colors.grey),
-                                                ],
+                                                    SizedBox(width: 4),
+                                                    Text(
+                                                      selectedPaymentType ?? "Select", // Fallback if null
+                                                      style: TextStyle(
+                                                        fontSize: 15,
+                                                        color: Colors.black,
+                                                        fontWeight: FontWeight.w500,
+                                                      ),
+                                                    ),
+                                                    Icon(Icons.arrow_drop_down, color: Colors.grey),
+                                                  ],
+                                                ),
                                               ),
                                             ),
                                           ),
-                                        ),
-                                      ],
+                                        ],
+                                      ),
                                     ),
                                     Align(
                                         alignment: Alignment.topLeft,
                                         child: Padding(
                                           padding: const EdgeInsets.only(top: 8.0),
-                                          child: Text("+Add Payment Type",style: TextStyle(color: Colors.blueAccent,fontSize: 16),),
+                                          child: GestureDetector(
+                                              onTap: ()=>selectPaymentmethod(context),
+                                              child: Text("+Add Payment Type",style: TextStyle(color: Colors.blueAccent,fontSize: 16),)
+                                          ),
                                         )
                                     ),
                                   ],
                                 ),
                               ),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                                child: SizedBox(
-                                  height:75,
-                                  child: Row(
-                                    children: [
-                                      Expanded(
-                                        child: TextField(
-                                          decoration: InputDecoration(
-                                            labelText: "Description",
-                                            hintText: 'Add Note',
-                                            border: OutlineInputBorder(
-                                              borderRadius: BorderRadius.circular(8.0),
-                                              borderSide: BorderSide(color: Colors.blue, width: 1.5),
-                                            ),
-                                            focusedBorder: OutlineInputBorder(
-                                              borderRadius: BorderRadius.circular(8.0),
-                                              borderSide: BorderSide(color: Colors.blue, width: 2.0),
-                                            ),
-                                            contentPadding: EdgeInsets.symmetric(
-                                              vertical: 12.0,
-                                              horizontal: 16.0,
-                                            ),
+                            ),
+                            Container(
+                              padding: const EdgeInsets.all(16.0),
+                              color: Colors.white,
+                              child: SizedBox(
+                                height:75,
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                      child: TextField(
+                                        focusNode: description_focusnode,
+                                        controller: description_controller,
+                                        decoration: InputDecoration(
+                                          labelText: "Description",
+                                          hintText: 'Add Note',
+                                          floatingLabelStyle: TextStyle(color: is_description_focused?Colors.blueAccent:Colors.grey),
+                                          border: OutlineInputBorder(
+                                            borderRadius: BorderRadius.circular(4.0),
+                                            borderSide: BorderSide(color: Colors.grey, width: 1.0),
                                           ),
-                                          maxLines: 3, // Allows multi-line input
-                                        ),
-                                      ),
-                                      SizedBox(width: 10.0),
-                                      GestureDetector(
-                                        onTap:(){
-                                          showDialog(
-                                            context: context,
-                                            builder: (BuildContext context) {
-                                              return AlertDialog(
-                                                backgroundColor: Colors.white,
-                                                shape: RoundedRectangleBorder(
-                                                  borderRadius: BorderRadius.zero,
-                                                ),
-                                                content: Column(
-                                                  mainAxisSize: MainAxisSize.min,
-                                                  children: [
-                                                    ListTile(
-                                                      title: Text("Camera"),
-                                                      onTap: () {
-                                                        Navigator.pop(context); // Close the dialog
-                                                      },
-                                                    ),
-                                                    Divider(),
-                                                    ListTile(
-                                                      title: Text("Gallery"),
-                                                      onTap: () {
-                                                        Navigator.pop(context); // Close the dialog
-                                                      },
-                                                    ),
-                                                  ],
-                                                ),
-                                              );
-                                            },
-                                          );
-                                        }, // Show the dialog on tap
-                                        child: Container(
-                                          width: 75,
-                                          height: 75,
-                                          decoration: BoxDecoration(
-                                            border: Border.all(color: Colors.blue, width: 1.5),
-                                            borderRadius: BorderRadius.circular(8.0),
-                                            color: Colors.grey[100],
+                                          focusedBorder: OutlineInputBorder(
+                                            borderRadius: BorderRadius.circular(4.0),
+                                            borderSide: BorderSide(color: Colors.blueAccent, width: 2.0),
                                           ),
-                                          child: Icon(FlutterRemix.camera_line),
+                                          enabledBorder: OutlineInputBorder(
+                                            borderRadius: BorderRadius.circular(4.0),
+                                            borderSide: BorderSide(color: Colors.grey, width: 1.0),
+                                          ),
+                                          contentPadding: EdgeInsets.symmetric(
+                                            vertical: 12.0,
+                                            horizontal: 16.0,
+                                          ),
                                         ),
+                                        maxLines: 3, // Allows multi-line input
                                       ),
-                                    ],
-                                  ),
+                                    ),
+                                    SizedBox(width: 10.0),
+                                    GestureDetector(
+                                      onTap:(){
+                                        showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return AlertDialog(
+                                              backgroundColor: Colors.white,
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.zero,
+                                              ),
+                                              content: Column(
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: [
+                                                  ListTile(
+                                                    dense: true,
+                                                    visualDensity: VisualDensity.compact,
+                                                    title: Text("Camera"),
+                                                    onTap: () {
+                                                      Navigator.pop(context); // Close the dialog
+                                                    },
+                                                  ),
+                                                  Divider(),
+                                                  ListTile(
+                                                    dense: true,
+                                                    visualDensity: VisualDensity.compact,
+                                                    title: Text("Gallery"),
+                                                    onTap: () {
+                                                      Navigator.pop(context); // Close the dialog
+                                                    },
+                                                  ),
+                                                ],
+                                              ),
+                                            );
+                                          },
+                                        );
+                                      }, // Show the dialog on tap
+                                      child: Container(
+                                        width: 75,
+                                        height: 75,
+                                        decoration: BoxDecoration(
+                                          border: Border.all(color: Colors.blue, width: 1.5),
+                                          borderRadius: BorderRadius.circular(8.0),
+                                          color: Colors.grey[100],
+                                        ),
+                                        child: Icon(FlutterRemix.camera_line),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
+
+
 
                     ],
                   ),
@@ -866,6 +887,76 @@ class _Expenses extends State<Expenses> {
           ],
         ),
       ),
+    );
+  }
+  void selectPaymentmethod(BuildContext context){
+    showModalBottomSheet(
+      backgroundColor: Colors.white,
+      context: context,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(8),
+      ),
+      builder: (context) {
+        return StatefulBuilder(
+          builder: (context, setStateModal) { // Use setStateModal for local state changes
+            return Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text("Payment Type",style: TextStyle(fontSize: 20),),
+                      IconButton(
+                          onPressed: (){
+                            Navigator.pop(context);
+                          },
+                          icon: Icon(Remix.close_line)
+                      ),
+                    ],
+                  ),
+                ),
+                Divider(color: Colors.grey.shade200,thickness: 1,),
+                ListTile(
+                  leading: Icon(Icons.money, color: Colors.green),
+                  title: Text("Cash"),
+                  onTap: () {
+                    setState(() {
+                      selectedPaymentType = "Cash";
+                    });
+                    Navigator.pop(context);
+                  },
+                  tileColor: selectedPaymentType == "Cash"
+                      ? Colors.grey[200]
+                      : null,
+                ),
+                ListTile(
+                  leading: Icon(Icons.receipt_long, color: Colors.yellow),
+                  title: Text("Cheque"),
+                  onTap: () {
+                    setState(() {
+                      selectedPaymentType = "Cheque";
+                    });
+                    Navigator.pop(context);
+                  },
+                  tileColor: selectedPaymentType == "Cheque"
+                      ? Colors.grey[200]
+                      : null,
+                ),
+                Divider(),
+                ListTile(
+                  leading: Icon(Icons.add, color: Colors.blue),
+                  title: Text("Add Bank A/c"),
+                  onTap: () {
+                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>Add_Bank_Account()));
+                  },
+                ),
+              ],
+            );
+          },
+        );
+      },
     );
   }
 }

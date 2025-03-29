@@ -1,7 +1,11 @@
+import 'package:demo/Home/Transaction%20Details/Show%20All/add_bank_account.dart';
+import 'package:demo/Home/Transaction%20Details/Transaction%20Settings/txn_settings.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_remix/flutter_remix.dart';
+import 'package:intl/intl.dart';
 import 'package:remixicon/remixicon.dart';
 
 import '../../../BottomNavbar_save_buttons.dart';
@@ -18,30 +22,192 @@ class PurchaseReturn extends State<Purchase_Return> {
 
   var time = DateTime.now();
   var invoice_no = 0;
-  String? enteredText;
   String? selectedPaymentType = "Cash";
   String? Country = "Gujrat";
   bool isChecked = false;
 
   String? selectedState;
 
+  TextEditingController party_name_contorller = TextEditingController();
+  FocusNode party_name_focusnode = FocusNode();
+  bool is_customer_focused = false;
+
+  TextEditingController phone_contorller = TextEditingController();
+  FocusNode phone_focusnode = FocusNode();
+  bool is_phone_focused = false;
+
+  TextEditingController bill_date_controller = TextEditingController();
+  FocusNode bill_date_focusnode = FocusNode();
+  bool is_bill_date_focused = false;
+
+  TextEditingController bill_number_controller = TextEditingController();
+  FocusNode bill_number_focusnode = FocusNode();
+  bool is_bill_number_focused = false;
+
+
+  TextEditingController paid_controller = TextEditingController();
+  FocusNode paid_focusnode = FocusNode();
+  bool is_paid_focused = false;
+
+  TextEditingController received_controller = TextEditingController();
+  FocusNode received_focusnode = FocusNode();
+  bool is_received_focused = false;
+
+
+  TextEditingController description_controller = TextEditingController();
+  FocusNode description_focusnode = FocusNode();
+  bool is_description_focused = false;
+
+  bool isExpanded = true;
+
+
+  Future<void> _selectDate(BuildContext context) async {
+    DateTime? pickedDate = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2101),
+      builder: (context, child) {
+        return Theme(
+          data: ThemeData.light().copyWith(
+            primaryColor: Colors.blue,
+            hintColor: Colors.blue,
+            colorScheme: ColorScheme.light(primary: Colors.blue),
+            buttonTheme: ButtonThemeData(textTheme: ButtonTextTheme.primary),
+          ),
+          child: child!,
+        );
+      },
+    );
+
+    if (pickedDate != null) {
+      setState(() {
+        bill_date_controller.text =
+            DateFormat("dd/MM/yyyy").format(pickedDate);
+      });
+    }
+  }
+
+
+  @override
+  void initState() {
+    super.initState();
+    party_name_focusnode.addListener((){
+      setState(() {
+        is_customer_focused = party_name_focusnode.hasFocus;
+      });
+    });
+
+    phone_focusnode.addListener((){
+      phone_focusnode.addListener((){
+        setState(() {
+          is_phone_focused = phone_focusnode.hasFocus;
+        });
+      });
+    });
+    bill_date_focusnode.addListener(() {
+      setState(() {
+        is_bill_date_focused = bill_date_focusnode.hasFocus;
+      });
+    });
+
+    bill_number_focusnode.addListener(() {
+      setState(() {
+        is_bill_number_focused = bill_number_focusnode.hasFocus;
+      });
+    });
+    paid_focusnode.addListener((){
+      setState(() {
+        is_paid_focused = paid_focusnode.hasFocus;
+      });
+    });
+
+    received_focusnode.addListener((){
+      setState(() {
+        is_received_focused = received_focusnode.hasFocus;
+      });
+    });
+
+    description_focusnode.addListener((){
+      setState(() {
+        is_description_focused = description_focusnode.hasFocus;
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        surfaceTintColor: Colors.white,
+        systemOverlayStyle: SystemUiOverlayStyle(
+          statusBarColor: Colors.grey.shade300,
+          statusBarIconBrightness: Brightness.light, // Light icons (for dark backgrounds)
+        ),
         backgroundColor: Colors.white,
-        title: Text('Debit Note'),
-        bottom: Prefered_underline_appbar(),
+        title: Text("Debit Note",style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),
+        bottom: PreferredSize(
+            preferredSize: const Size.fromHeight(1.0),
+            child: Container(
+              height: 1,
+              color: Colors.grey.withOpacity(0.5),
+            )),
         actions: [
           IconButton(
-            icon: Icon(Icons.settings),
+            icon: Icon(FlutterRemix.settings_2_line),
             onPressed: () {
-              // Add settings functionality here
+              Navigator.push(context, MaterialPageRoute(builder: (context)=>Transaction_Settings()));
             },
           ),
         ],
       ),
-      bottomNavigationBar: BottomNavbarSaveButton(leftButtonText: 'save & new', rightButtonText: 'save', leftButtonColor: Colors.white,rightButtonColor: Colors.blueAccent,onLeftButtonPressed: (){},onRightButtonPressed: (){},),
+      bottomNavigationBar: Row(
+        children: [
+          Expanded(
+            flex: 2,
+            child: ElevatedButton(
+              onPressed: (){},
+              style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.white,
+                  padding: EdgeInsets.symmetric(vertical: 12),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.zero,
+                  )
+              ),
+              child: Text("Save & New",style: TextStyle(fontSize: 16,fontWeight: FontWeight.w500,color: Colors.black),),
+            ),
+          ),
+          Expanded(
+            flex: 2,
+            child: ElevatedButton(
+              onPressed: (){},
+              style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.blueAccent,
+                  padding: EdgeInsets.symmetric(vertical: 12),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.zero,
+                  )
+              ),
+              child: Text("Save",style: TextStyle(fontSize: 16,fontWeight: FontWeight.w500,color: Colors.white),),
+            ),
+
+          ),
+
+          Expanded(
+            child: ElevatedButton(
+                onPressed: (){},
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.white,
+                    padding: EdgeInsets.symmetric(vertical: 12),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.zero,
+                    )
+                ),
+                child:Icon(Remix.share_forward_line,color: Colors.blueAccent,)
+            ),
+          ),
+        ],
+      ),
       // Prevent layout shifting when the keyboard opens
       body:  Container(
         color:  Color(0xFFE8E8E8),
@@ -150,39 +316,54 @@ class PurchaseReturn extends State<Purchase_Return> {
                         padding: EdgeInsets.all(16),
                         child: Column(
                           children: [
-                            TextField(
-                              decoration: InputDecoration(
-                                labelText: "Party Name",
-                                hintText: "Party name",
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(8.0),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(8.0),
-                                  borderSide: BorderSide(color: Colors.blue, width: 2.0),
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(8.0),
-                                  borderSide: BorderSide(color: Colors.grey, width: 1.0),
+                            SizedBox(
+                              height: 50,
+                              child: TextField(
+                                controller: party_name_contorller,
+                                focusNode: party_name_focusnode,
+                                decoration: InputDecoration(
+                                  floatingLabelStyle: TextStyle(color: is_customer_focused?Colors.blueAccent:Colors.grey),
+                                  labelText: "Party Name *",
+                                  labelStyle: TextStyle(color: Colors.grey),
+                                  border: OutlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.grey, width: 1.0),
+                                    borderRadius: BorderRadius.circular(4.0),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(4.0),
+                                    borderSide: BorderSide(color: Colors.blueAccent, width: 2.0),
+                                  ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(4.0),
+                                    borderSide: BorderSide(color: Colors.grey, width: 1.0),
+                                  ),
                                 ),
                               ),
                             ),
                             SizedBox(height: 16),
-                            TextField(
-                              keyboardType: TextInputType.phone,
-                              decoration: InputDecoration(
-                                labelText: "Phone Number",
-                                hintText: "Phone number",
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(8.0),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(8.0),
-                                  borderSide: BorderSide(color: Colors.blue, width: 2.0),
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(8.0),
-                                  borderSide: BorderSide(color: Colors.grey, width: 1.0),
+
+                            SizedBox(
+                              height: 50,
+                              child: TextField(
+                                keyboardType: TextInputType.phone,
+                                controller: phone_contorller,
+                                focusNode: phone_focusnode,
+                                decoration: InputDecoration(
+                                  floatingLabelStyle: TextStyle(color: is_phone_focused?Colors.blueAccent:Colors.grey),
+                                  labelText: "Phone Number",
+                                  labelStyle: TextStyle(color: Colors.grey),
+                                  border: OutlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.grey, width: 1.0),
+                                    borderRadius: BorderRadius.circular(4.0),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(4.0),
+                                    borderSide: BorderSide(color: Colors.blueAccent, width: 2.0),
+                                  ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(4.0),
+                                    borderSide: BorderSide(color: Colors.grey, width: 1.0),
+                                  ),
                                 ),
                               ),
                             ),
@@ -190,23 +371,33 @@ class PurchaseReturn extends State<Purchase_Return> {
                             Row(
                               children: [
                                 Expanded(
-                                  child: TextField(
-                                    keyboardType: TextInputType.datetime,
-                                    decoration: InputDecoration(
-                                      prefixIcon: Icon(FlutterRemix.calendar_2_line),
-                                      labelText: "Bill Date",
-                                      hintText: "Bill Date",
-                                      suffixIcon: Icon(FlutterRemix.calendar_2_line),
-                                      border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(8.0),
-                                      ),
-                                      focusedBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(8.0),
-                                        borderSide: BorderSide(color: Colors.blue, width: 2.0),
-                                      ),
-                                      enabledBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(8.0),
-                                        borderSide: BorderSide(color: Colors.grey, width: 1.0),
+                                  child: SizedBox(
+                                    height: 50,
+                                    child: TextField(
+                                      onTap: (){
+                                        _selectDate(context);
+                                      },
+                                      readOnly: true,
+                                      controller: bill_date_controller,
+                                      focusNode: bill_date_focusnode,
+                                      keyboardType: TextInputType.datetime,
+                                      decoration: InputDecoration(
+                                        floatingLabelStyle: TextStyle(color: is_bill_date_focused?Colors.blueAccent:Colors.grey),
+                                        labelText: "Bill Date",
+                                        prefixIcon: Icon(Remix.calendar_2_line),
+                                        labelStyle: TextStyle(color: Colors.grey),
+                                        border: OutlineInputBorder(
+                                          borderSide: BorderSide(color: Colors.grey, width: 1.0),
+                                          borderRadius: BorderRadius.circular(4.0),
+                                        ),
+                                        focusedBorder: OutlineInputBorder(
+                                          borderRadius: BorderRadius.circular(4.0),
+                                          borderSide: BorderSide(color: Colors.blueAccent, width: 2.0),
+                                        ),
+                                        enabledBorder: OutlineInputBorder(
+                                          borderRadius: BorderRadius.circular(4.0),
+                                          borderSide: BorderSide(color: Colors.grey, width: 1.0),
+                                        ),
                                       ),
                                     ),
                                   ),
@@ -217,16 +408,18 @@ class PurchaseReturn extends State<Purchase_Return> {
                                     keyboardType: TextInputType.number,
                                     decoration: InputDecoration(
                                       labelText: "Bill Number",
-                                      hintText: "Bill Number",
+                                      floatingLabelStyle: TextStyle(color: is_bill_number_focused?Colors.blueAccent:Colors.grey),
+                                      labelStyle: TextStyle(color: Colors.grey),
                                       border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(8.0),
+                                        borderSide: BorderSide(color: Colors.grey, width: 1.0),
+                                        borderRadius: BorderRadius.circular(4.0),
                                       ),
                                       focusedBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(8.0),
-                                        borderSide: BorderSide(color: Colors.blue, width: 2.0),
+                                        borderRadius: BorderRadius.circular(4.0),
+                                        borderSide: BorderSide(color: Colors.blueAccent, width: 2.0),
                                       ),
                                       enabledBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(8.0),
+                                        borderRadius: BorderRadius.circular(4.0),
                                         borderSide: BorderSide(color: Colors.grey, width: 1.0),
                                       ),
                                     ),
@@ -234,34 +427,214 @@ class PurchaseReturn extends State<Purchase_Return> {
                                 ),
                               ],
                             ),
-                            SizedBox(height: 24),
-                            OutlinedButton(
-                              onPressed: () {
-                                Navigator.push(context, MaterialPageRoute(builder: (builder)=>Add_Items_to_Sale(title: "Add Items to purchase Return")));
-                              },
-                              style: OutlinedButton.styleFrom(
-                                side: BorderSide(color: Colors.blueAccent),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8.0),
-                                ),
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(Icons.add, color: Colors.blueAccent),
-                                  SizedBox(width: 8),
-                                  Text("Add Items", style: TextStyle(color: Colors.blueAccent)),
-                                  SizedBox(width: 8),
-                                  Text("(Optional)", style: TextStyle(color: Colors.grey)),
-                                ],
-                              ),
-                            ),
                           ],
                         ),
                       ),
 
+                      // if (addedItems.isNotEmpty)
+                      Container(
+                        color: Colors.white,
+                        padding: EdgeInsets.symmetric(horizontal: 16,vertical: 4),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            // Expand/Collapse Header
+                            GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  isExpanded = !isExpanded;
+                                });
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.blue[300],
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                padding: EdgeInsets.symmetric(vertical: 1, horizontal: 12),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      "Billed Items",
+                                      style: TextStyle(
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    Icon(
+                                      isExpanded ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
+                                      color: Colors.white,
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
 
-                      //Phone number
+                            // Items List (Expandable)
+                            if (isExpanded)
+                              Container(
+                                margin: EdgeInsets.only(top: 5),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(8),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.withOpacity(0.2),
+                                      blurRadius: 5,
+                                      spreadRadius: 2,
+                                      offset: Offset(0, 2),
+                                    ),
+                                  ],
+                                ),
+                                child: Padding(
+                                  padding: EdgeInsets.all(12),
+                                  child: Column(
+                                    children: [
+                                      ListView.builder(
+                                        shrinkWrap: true,
+                                        physics: NeverScrollableScrollPhysics(),
+                                        itemCount: 1,
+                                        itemBuilder: (context, index) {
+
+                                          return GestureDetector(
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                // Item Row with Delete Button
+                                                Row(
+                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                  children: [
+                                                    Expanded(
+                                                      child: Text("#1 Maggie", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),),
+                                                    Text("₹ 100",
+                                                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                                                    IconButton(
+                                                      icon: Icon(Icons.delete, color: Colors.red),
+                                                      onPressed: () {
+                                                        setState(() {
+                                                        });
+                                                      },
+                                                    ),
+                                                  ],
+                                                ),
+                                                SizedBox(height: 5),
+
+                                                // Item Subtotal
+                                                Row(
+                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                  children: [
+                                                    Text("Item Subtotal:", style: TextStyle(color: Colors.grey[600])),
+                                                    Text(
+                                                      "1 x 55 = ₹ 55",
+                                                      style: TextStyle(color: Colors.grey[600]),
+                                                    ),
+                                                  ],
+                                                ),
+
+                                                SizedBox(height: 5),
+
+                                                // Discount Row
+                                                Row(
+                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                  children: [
+                                                    RichText(
+                                                      text: TextSpan(
+                                                        text: "Discount (%): ",
+                                                        style: TextStyle(color: Colors.orange[700], fontSize: 14),
+                                                        children: [
+                                                          TextSpan(text: "5", style: TextStyle(fontWeight: FontWeight.bold),),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                    Text(
+                                                      "₹ 25",
+                                                      style: TextStyle(color: Colors.orange[700], fontWeight: FontWeight.bold),
+                                                    ),
+                                                  ],
+                                                ),
+
+                                                SizedBox(height: 5),
+
+                                                // Tax Row
+                                                Row(
+                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                  children: [
+                                                    Text("GST (18 %):", style: TextStyle(color: Colors.grey[600])),
+                                                    Text(
+                                                      "₹ 0",
+                                                      style: TextStyle(color: Colors.green, fontWeight: FontWeight.bold),
+                                                    ),
+                                                  ],
+                                                ),
+
+                                                SizedBox(height: 10),
+                                              ],
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                      Divider(color: Colors.grey[300]),
+
+                                      // ✅ Total Calculation Section
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text("Total Discount: ₹ 0.0}"),
+                                          Text("Total Tax: ₹ 0"),
+                                        ],
+                                      ),
+                                      SizedBox(height: 5),
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text("Total Qty: 1"),
+                                          Text(
+                                            "Total Amount: ₹ 200",
+                                            style: TextStyle(fontWeight: FontWeight.bold),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                          color: Colors.white,
+                          padding: EdgeInsets.symmetric(horizontal: 16),
+                          child: Column(
+                            children: [
+                              OutlinedButton(
+                                onPressed: () {
+                                  Navigator.push(context, MaterialPageRoute(builder: (builder)=>Add_Items_to_Sale(title: "Add Items to Credit Note")));
+                                },
+                                style: OutlinedButton.styleFrom(
+                                  side: BorderSide(color: Colors.grey),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8.0),
+                                  ),
+                                ),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(Icons.add, color: Colors.blueAccent),
+                                    SizedBox(width: 8),
+                                    Text("Add Items", style: TextStyle(color: Colors.blueAccent)),
+                                    SizedBox(width: 8),
+                                    Text("(Optional)", style: TextStyle(color: Colors.grey)),
+                                  ],
+                                ),
+                              ),
+                              SizedBox(height: 16),
+                            ],
+                          )
+                      ),
+
+
+                      //paid amount
                       Container(
                         padding: EdgeInsets.all(16),
                         child: Column(
@@ -286,11 +659,11 @@ class PurchaseReturn extends State<Purchase_Return> {
                                       children: [
                                         // Dotted Border (Only Bottom)
                                         Positioned(
-                                          bottom: 0,
+                                          bottom: 10,
                                           left: 0,
                                           right: 0,
                                           child: DottedBorder(
-                                            color: Colors.grey,
+                                            color: is_paid_focused?Colors.blueAccent:Colors.grey,
                                             strokeWidth: 1.5, // Border thickness
                                             dashPattern: [5, 3], // Dotted pattern
                                             borderType: BorderType.Rect, // Rectangle border
@@ -307,9 +680,11 @@ class PurchaseReturn extends State<Purchase_Return> {
 
                                         // TextField
                                         TextField(
+                                          controller: paid_controller,
+                                          focusNode: paid_focusnode,
                                           onChanged: (value) {
                                             setState(() {
-                                              enteredText = value;
+                                              paid_controller.text = value;
                                             });
                                           },
                                           keyboardType: TextInputType.number,
@@ -325,7 +700,7 @@ class PurchaseReturn extends State<Purchase_Return> {
                                 ],
                               ),
 
-                            if (enteredText != null && enteredText!.isNotEmpty)
+                            if (paid_controller.text != null && paid_controller.text.isNotEmpty)
                                   Padding(
                                     padding: const EdgeInsets.symmetric(vertical: 5.0),
                                     child: Row(
@@ -348,11 +723,11 @@ class PurchaseReturn extends State<Purchase_Return> {
                                             children: [
                                               // Dotted Border (Only Bottom)
                                               Positioned(
-                                                bottom: 0,
+                                                bottom: 10,
                                                 left: 0,
                                                 right: 0,
                                                 child: DottedBorder(
-                                                  color: Colors.grey,
+                                                  color: is_received_focused?Colors.blueAccent:Colors.grey,
                                                   strokeWidth: 1.5, // Border thickness
                                                   dashPattern: [5, 3], // Dotted pattern
                                                   borderType: BorderType.Rect, // Rectangle border
@@ -369,9 +744,11 @@ class PurchaseReturn extends State<Purchase_Return> {
 
                                               // TextField
                                               TextField(
+                                                controller: received_controller,
+                                                focusNode: received_focusnode,
                                                 onChanged: (value) {
                                                   setState(() {
-                                                    enteredText = value;
+                                                    received_controller.text = value;
                                                   });
                                                 },
                                                 keyboardType: TextInputType.number,
@@ -387,7 +764,8 @@ class PurchaseReturn extends State<Purchase_Return> {
                                       ],
                                     ),
                                   ),
-                                  Padding(
+                            if (paid_controller.text != null && paid_controller.text.isNotEmpty)
+                              Padding(
                                     padding: const EdgeInsets.symmetric(vertical: 8.0),
                                     child: Row(
                                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -396,13 +774,13 @@ class PurchaseReturn extends State<Purchase_Return> {
                                           flex: 2,
                                           child: Text(
                                             "Balance Due",
-                                            style: TextStyle(fontSize: 16, color: Colors.green),
+                                            style: TextStyle(fontSize: 16, color: Color(0xFF38C782)),
                                           ),
                                         ),
                                         SizedBox(
                                           width: 15, // Fixed width for rupee symbol
                                           child: Icon(Icons.currency_rupee,
-                                              size: 15, color: Colors.green),
+                                              size: 15,),
                                         ),
                                         Expanded(
                                           flex: 1,
@@ -410,237 +788,56 @@ class PurchaseReturn extends State<Purchase_Return> {
                                             alignment: Alignment.centerRight,
                                             child: Text(
                                               "0",
-                                              style: TextStyle(color: Colors.green, fontSize: 16),
+                                              style: TextStyle(color:Color(0xFF38C782), fontSize: 16),
                                             ),
                                           ),
                                         ),
                                       ],
                                     ),
                                   ),
-
-                                ],
+                          ],
                         ),
                       ),
 
+                      if (paid_controller.text != null && paid_controller.text.isNotEmpty)
 
-                      Container(
-                        color: Colors.white,
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 16.0,right: 16,bottom: 16,top: 16),
-                          child: Column(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.only(bottom: 8.0),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text("Payment Type", style: TextStyle(fontSize: 15, color: Colors.black)),
-                                    Expanded(
-                                      child: Align(
-                                        alignment: Alignment.topRight,
-                                        child: GestureDetector(
-                                          onTap: () {
-                                            showModalBottomSheet(
-                                              backgroundColor: Colors.white,
-                                              context: context,
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-                                              ),
-                                              builder: (context) {
-                                                return StatefulBuilder(
-                                                  builder: (context, setStateModal) { // Use setStateModal for local state changes
-                                                    return Padding(
-                                                      padding: const EdgeInsets.all(16.0),
-                                                      child: Column(
-                                                        mainAxisSize: MainAxisSize.min,
-                                                        children: [
-                                                          Text("Payment Type",style: TextStyle(fontSize: 22),),
-                                                          ListTile(
-                                                            leading: Icon(Icons.money, color: Colors.green),
-                                                            title: Text("Cash"),
-                                                            onTap: () {
-                                                              setState(() {
-                                                                selectedPaymentType = "Cash";
-                                                              });
-                                                              Navigator.pop(context);
-                                                            },
-                                                            tileColor: selectedPaymentType == "Cash"
-                                                                ? Colors.grey[200]
-                                                                : null,
-                                                          ),
-                                                          ListTile(
-                                                            leading: Icon(Icons.receipt_long, color: Colors.yellow),
-                                                            title: Text("Cheque"),
-                                                            onTap: () {
-                                                              setState(() {
-                                                                selectedPaymentType = "Cheque";
-                                                              });
-                                                              Navigator.pop(context);
-                                                            },
-                                                            tileColor: selectedPaymentType == "Cheque"
-                                                                ? Colors.grey[200]
-                                                                : null,
-                                                          ),
-                                                          Divider(),
-                                                          ListTile(
-                                                            leading: Icon(Icons.add, color: Colors.blue),
-                                                            title: Text("Add Bank A/c"),
-                                                            onTap: () {
-                                                              // Handle "Add Bank A/c" logic
-                                                              Navigator.pop(context);
-                                                            },
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    );
-                                                  },
-                                                );
-                                              },
-                                            );
-                                          },
-                                          child: Row(
-                                            mainAxisSize: MainAxisSize.min,
-                                            children: [
-                                              Icon(
-                                                selectedPaymentType == "Cash"
-                                                    ? Icons.money
-                                                    : selectedPaymentType == "Cheque"
-                                                    ? Icons.receipt_long
-                                                    : Icons.help_outline, // Default icon when null
-                                                color: selectedPaymentType == "Cash"
-                                                    ? Colors.green
-                                                    : selectedPaymentType == "Cheque"
-                                                    ? Colors.yellow
-                                                    : Colors.grey, // Default color when null
-                                              ),
-                                              SizedBox(width: 4),
-                                              Text(
-                                                selectedPaymentType ?? "Select", // Fallback if null
-                                                style: TextStyle(
-                                                  fontSize: 15,
-                                                  color: Colors.black,
-                                                  fontWeight: FontWeight.w500,
-                                                ),
-                                              ),
-                                              Icon(Icons.arrow_drop_down, color: Colors.grey),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Align(
-                                  alignment: Alignment.topLeft,
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(top: 8.0),
-                                    child: Text("+Add Payment Type",style: TextStyle(color: Colors.blueAccent,fontSize: 16),),
-                                  )
-                              ),
-                              SizedBox(height: 10,),
-                              Divider(),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                                child: Column(
-                                  children: [
-                                    Row(
+                      Column(
+                        children: [
+                          Container(
+                            color: Colors.white,
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 16.0,right: 16,bottom: 16,top: 16),
+                              child: Column(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(bottom: 8.0),
+                                    child: Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
-                                        Text("State", style: TextStyle(fontSize: 15, color: Colors.black)),
+                                        Text("Payment Type", style: TextStyle(fontSize: 15, color: Colors.black)),
                                         Expanded(
                                           child: Align(
                                             alignment: Alignment.topRight,
                                             child: GestureDetector(
-                                              onTap: () {
-                                                showModalBottomSheet(
-                                                  backgroundColor: Colors.white,
-                                                  context: context,
-                                                  shape: RoundedRectangleBorder(
-                                                    borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-                                                  ),
-                                                  builder: (context) {
-                                                    return StatefulBuilder(
-                                                      builder: (context, setStateModal) {
-                                                        return Padding(
-                                                          padding: const EdgeInsets.all(16.0),
-                                                          child: Column(
-                                                            mainAxisSize: MainAxisSize.min,
-                                                            children: [
-                                                              Text(
-                                                                "Select State",
-                                                                style: TextStyle(fontSize: 22),
-                                                              ),
-                                                              Divider(),
-                                                              Expanded(
-                                                                child: ListView(
-                                                                  children: [
-                                                                    for (var state in [
-                                                                      "Andhra Pradesh",
-                                                                      "Arunachal Pradesh",
-                                                                      "Assam",
-                                                                      "Bihar",
-                                                                      "Chhattisgarh",
-                                                                      "Goa",
-                                                                      "Gujarat",
-                                                                      "Haryana",
-                                                                      "Himachal Pradesh",
-                                                                      "Jharkhand",
-                                                                      "Karnataka",
-                                                                      "Kerala",
-                                                                      "Madhya Pradesh",
-                                                                      "Maharashtra",
-                                                                      "Manipur",
-                                                                      "Meghalaya",
-                                                                      "Mizoram",
-                                                                      "Nagaland",
-                                                                      "Odisha",
-                                                                      "Punjab",
-                                                                      "Rajasthan",
-                                                                      "Sikkim",
-                                                                      "Tamil Nadu",
-                                                                      "Telangana",
-                                                                      "Tripura",
-                                                                      "Uttar Pradesh",
-                                                                      "Uttarakhand",
-                                                                      "West Bengal",
-                                                                      "Andaman and Nicobar Islands",
-                                                                      "Chandigarh",
-                                                                      "Dadra and Nagar Haveli and Daman and Diu",
-                                                                      "Delhi",
-                                                                      "Jammu and Kashmir",
-                                                                      "Ladakh",
-                                                                      "Lakshadweep",
-                                                                      "Puducherry"
-                                                                    ])
-                                                                      ListTile(
-                                                                        title: Text(state),
-                                                                        onTap: () {
-                                                                          setState(() {
-                                                                            Country = state;
-                                                                          });
-                                                                          Navigator.pop(context);
-                                                                        },
-                                                                        tileColor: Country == state
-                                                                            ? Colors.grey[200]
-                                                                            : null,
-                                                                      ),
-                                                                  ],
-                                                                ),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        );
-                                                      },
-                                                    );
-                                                  },
-                                                );
-                                              },
+                                              onTap: ()=>selectPaymentmethod(context),
                                               child: Row(
                                                 mainAxisSize: MainAxisSize.min,
                                                 children: [
+                                                  Icon(
+                                                    selectedPaymentType == "Cash"
+                                                        ? Icons.money
+                                                        : selectedPaymentType == "Cheque"
+                                                        ? Icons.receipt_long
+                                                        : Icons.help_outline, // Default icon when null
+                                                    color: selectedPaymentType == "Cash"
+                                                        ? Colors.green
+                                                        : selectedPaymentType == "Cheque"
+                                                        ? Colors.yellow
+                                                        : Colors.grey, // Default color when null
+                                                  ),
+                                                  SizedBox(width: 4),
                                                   Text(
-                                                    Country ?? "Select", // Fallback if null
+                                                    selectedPaymentType ?? "Select", // Fallback if null
                                                     style: TextStyle(
                                                       fontSize: 15,
                                                       color: Colors.black,
@@ -655,100 +852,248 @@ class PurchaseReturn extends State<Purchase_Return> {
                                         ),
                                       ],
                                     ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: 10,),
+                                  ),
+                                  Align(
+                                      alignment: Alignment.topLeft,
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(top: 8.0),
+                                        child: GestureDetector(
+                                            onTap: ()=>selectPaymentmethod(context),
+                                            child: Text("+Add Payment Type",style: TextStyle(color: Colors.blueAccent,fontSize: 16),)
+                                        ),
+                                      )
+                                  ),
+                                  SizedBox(height: 10,),
+                                  Divider(),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                                    child: Column(
+                                      children: [
+                                        Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          children: [
 
-                      Container(
-                        color: Colors.white,
-                        padding: EdgeInsets.only(left: 16,right: 16.0,top: 8,bottom: 8),
-                        child: Column(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 8.0),
-                              child: SizedBox(
-                                height:75,
-                                child: Row(
-                                  children: [
-                                    Expanded(
-                                      child: TextField(
-                                        decoration: InputDecoration(
-                                          labelText: "Description",
-                                          hintText: 'Add Note',
-                                          border: OutlineInputBorder(
-                                            borderRadius: BorderRadius.circular(8.0),
-                                            borderSide: BorderSide(color: Colors.blue, width: 1.5),
-                                          ),
-                                          focusedBorder: OutlineInputBorder(
-                                            borderRadius: BorderRadius.circular(8.0),
-                                            borderSide: BorderSide(color: Colors.blue, width: 2.0),
-                                          ),
-                                          contentPadding: EdgeInsets.symmetric(
-                                            vertical: 12.0,
-                                            horizontal: 16.0,
-                                          ),
-                                        ),
-                                        maxLines: 3, // Allows multi-line input
-                                      ),
-                                    ),
-                                    SizedBox(width: 10.0),
-                                    GestureDetector(
-                                      onTap:(){
-                                        showDialog(
-                                          context: context,
-                                          builder: (BuildContext context) {
-                                            return AlertDialog(
-                                              backgroundColor: Colors.white,
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius: BorderRadius.zero,
-                                              ),
-                                              content: Column(
-                                                mainAxisSize: MainAxisSize.min,
-                                                children: [
-                                                  ListTile(
-                                                    title: Text("Camera"),
-                                                    onTap: () {
-                                                      Navigator.pop(context); // Close the dialog
-                                                    },
+                                            Text("State", style: TextStyle(fontSize: 15, color: Colors.black)),
+                                            Expanded(
+                                              child: Align(
+                                                alignment: Alignment.topRight,
+                                                child: GestureDetector(
+                                                  onTap: () {
+                                                    showModalBottomSheet(
+                                                      isScrollControlled: true,
+                                                      backgroundColor: Colors.white,
+                                                      context: context,
+                                                      shape: RoundedRectangleBorder(
+                                                        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+                                                      ),
+                                                      builder: (context) {
+                                                        return StatefulBuilder(
+                                                          builder: (context, setStateModal) {
+                                                            return Container(
+                                                              height: MediaQuery.of(context).size.height*0.80,
+                                                              child: Column(
+                                                                mainAxisSize: MainAxisSize.min,
+                                                                children: [
+                                                                  Padding(
+                                                                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                                                    child: Row(
+                                                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                      children: [
+                                                                        Text(
+                                                                          "Select State",
+                                                                          style: TextStyle(fontSize: 18),
+                                                                        ),
+                                                                        IconButton(
+                                                                          onPressed: (){
+                                                                            Navigator.pop(context);
+                                                                          },
+                                                                          icon: Icon(Remix.close_line),
+                                                                        )
+                                                                      ],
+                                                                    ),
+                                                                  ),
+
+                                                                  Divider(color: Colors.grey.shade200,thickness: 1,),
+                                                                  Expanded(
+                                                                    child: ListView(
+                                                                      children: [
+                                                                        for (var state in [
+                                                                          "Andhra Pradesh",
+                                                                          "Arunachal Pradesh",
+                                                                          "Assam",
+                                                                          "Bihar",
+                                                                          "Chhattisgarh",
+                                                                          "Goa",
+                                                                          "Gujarat",
+                                                                          "Haryana",
+                                                                          "Himachal Pradesh",
+                                                                          "Jharkhand",
+                                                                          "Karnataka",
+                                                                          "Kerala",
+                                                                          "Madhya Pradesh",
+                                                                          "Maharashtra",
+                                                                          "Manipur",
+                                                                          "Meghalaya",
+                                                                          "Mizoram",
+                                                                          "Nagaland",
+                                                                          "Odisha",
+                                                                          "Punjab",
+                                                                          "Rajasthan",
+                                                                          "Sikkim",
+                                                                          "Tamil Nadu",
+                                                                          "Telangana",
+                                                                          "Tripura",
+                                                                          "Uttar Pradesh",
+                                                                          "Uttarakhand",
+                                                                          "West Bengal",
+                                                                          "Andaman and Nicobar Islands",
+                                                                          "Chandigarh",
+                                                                          "Dadra and Nagar Haveli and Daman and Diu",
+                                                                          "Delhi",
+                                                                          "Jammu and Kashmir",
+                                                                          "Ladakh",
+                                                                          "Lakshadweep",
+                                                                          "Puducherry"
+                                                                        ])
+                                                                          ListTile(
+                                                                            title: Text(state),
+                                                                            onTap: () {
+                                                                              setState(() {
+                                                                                Country = state;
+                                                                              });
+                                                                              Navigator.pop(context);
+                                                                            },
+                                                                            tileColor: Country == state
+                                                                                ? Colors.grey[200]
+                                                                                : null,
+                                                                          ),
+                                                                      ],
+                                                                    ),
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                            );
+                                                          },
+                                                        );
+                                                      },
+                                                    );
+                                                  },
+                                                  child: Row(
+                                                    mainAxisSize: MainAxisSize.min,
+                                                    children: [
+                                                      Text(
+                                                        Country ?? "Select", // Fallback if null
+                                                        style: TextStyle(
+                                                          fontSize: 15,
+                                                          color: Colors.black,
+                                                          fontWeight: FontWeight.w500,
+                                                        ),
+                                                      ),
+                                                      Icon(Icons.arrow_drop_down, color: Colors.grey),
+                                                    ],
                                                   ),
-                                                  Divider(),
-                                                  ListTile(
-                                                    title: Text("Gallery"),
-                                                    onTap: () {
-                                                      Navigator.pop(context); // Close the dialog
-                                                    },
-                                                  ),
-                                                ],
+                                                ),
                                               ),
-                                            );
-                                          },
-                                        );
-                                      }, // Show the dialog on tap
-                                      child: Container(
-                                        width: 75,
-                                        height: 75,
-                                        decoration: BoxDecoration(
-                                          border: Border.all(color: Colors.blue, width: 1.5),
-                                          borderRadius: BorderRadius.circular(8.0),
-                                          color: Colors.grey[100],
+                                            ),
+                                          ],
                                         ),
-                                        child: Icon(FlutterRemix.camera_line),
-                                      ),
+                                      ],
                                     ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
                             ),
+                          ),
+                          SizedBox(height: 10,),
 
-                          ],
-                        ),
+                          Container(
+                            color: Colors.white,
+                            padding: EdgeInsets.only(left: 16,right: 16.0,top: 8,bottom: 8),
+                            child: Column(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(vertical: 8.0),
+                                  child: SizedBox(
+                                    height:75,
+                                    child: Row(
+                                      children: [
+                                        Expanded(
+                                          child: TextField(
+                                            decoration: InputDecoration(
+                                              labelText: "Description",
+                                              hintText: 'Add Note',
+                                              border: OutlineInputBorder(
+                                                borderRadius: BorderRadius.circular(8.0),
+                                                borderSide: BorderSide(color: Colors.blue, width: 1.5),
+                                              ),
+                                              focusedBorder: OutlineInputBorder(
+                                                borderRadius: BorderRadius.circular(8.0),
+                                                borderSide: BorderSide(color: Colors.blue, width: 2.0),
+                                              ),
+                                              contentPadding: EdgeInsets.symmetric(
+                                                vertical: 12.0,
+                                                horizontal: 16.0,
+                                              ),
+                                            ),
+                                            maxLines: 3, // Allows multi-line input
+                                          ),
+                                        ),
+                                        SizedBox(width: 10.0),
+                                        GestureDetector(
+                                          onTap:(){
+                                            showDialog(
+                                              context: context,
+                                              builder: (BuildContext context) {
+                                                return AlertDialog(
+                                                  backgroundColor: Colors.white,
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius: BorderRadius.zero,
+                                                  ),
+                                                  content: Column(
+                                                    mainAxisSize: MainAxisSize.min,
+                                                    children: [
+                                                      ListTile(
+                                                        title: Text("Camera"),
+                                                        onTap: () {
+                                                          Navigator.pop(context); // Close the dialog
+                                                        },
+                                                      ),
+                                                      Divider(),
+                                                      ListTile(
+                                                        title: Text("Gallery"),
+                                                        onTap: () {
+                                                          Navigator.pop(context); // Close the dialog
+                                                        },
+                                                      ),
+                                                    ],
+                                                  ),
+                                                );
+                                              },
+                                            );
+                                          }, // Show the dialog on tap
+                                          child: Container(
+                                            width: 75,
+                                            height: 75,
+                                            decoration: BoxDecoration(
+                                              border: Border.all(color: Colors.blue, width: 1.5),
+                                              borderRadius: BorderRadius.circular(8.0),
+                                              color: Colors.grey[100],
+                                            ),
+                                            child: Icon(FlutterRemix.camera_line),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+
+                              ],
+                            ),
+                          ),
+                          SizedBox(height: 10,),
+                        ],
                       ),
-                      SizedBox(height: 10,),
+
 
                     ],
                   ),
@@ -760,6 +1105,77 @@ class PurchaseReturn extends State<Purchase_Return> {
       ),
     );
   }
+  void selectPaymentmethod(BuildContext context){
+    showModalBottomSheet(
+      backgroundColor: Colors.white,
+      context: context,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(8),
+      ),
+      builder: (context) {
+        return StatefulBuilder(
+          builder: (context, setStateModal) { // Use setStateModal for local state changes
+            return Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text("Payment Type",style: TextStyle(fontSize: 20),),
+                      IconButton(
+                          onPressed: (){
+                            Navigator.pop(context);
+                          },
+                          icon: Icon(Remix.close_line)
+                      ),
+                    ],
+                  ),
+                ),
+                Divider(color: Colors.grey.shade200,thickness: 1,),
+                ListTile(
+                  leading: Icon(Icons.money, color: Colors.green),
+                  title: Text("Cash"),
+                  onTap: () {
+                    setState(() {
+                      selectedPaymentType = "Cash";
+                    });
+                    Navigator.pop(context);
+                  },
+                  tileColor: selectedPaymentType == "Cash"
+                      ? Colors.grey[200]
+                      : null,
+                ),
+                ListTile(
+                  leading: Icon(Icons.receipt_long, color: Colors.yellow),
+                  title: Text("Cheque"),
+                  onTap: () {
+                    setState(() {
+                      selectedPaymentType = "Cheque";
+                    });
+                    Navigator.pop(context);
+                  },
+                  tileColor: selectedPaymentType == "Cheque"
+                      ? Colors.grey[200]
+                      : null,
+                ),
+                Divider(),
+                ListTile(
+                  leading: Icon(Icons.add, color: Colors.blue),
+                  title: Text("Add Bank A/c"),
+                  onTap: () {
+                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>Add_Bank_Account()));
+                  },
+                ),
+              ],
+            );
+          },
+        );
+      },
+    );
+  }
+
 }
 
 List<String> PrefixName = ["None"];

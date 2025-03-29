@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class All_Parties_Report extends StatefulWidget {
   @override
@@ -19,6 +20,10 @@ class _AllPartiesReportState extends State<All_Parties_Report> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        systemOverlayStyle: SystemUiOverlayStyle(
+          statusBarColor: Colors.grey.shade300,
+          statusBarIconBrightness: Brightness.light,
+        ),
         backgroundColor: Color(0xFF0078AA),
         title: Text(
           "Party Report",

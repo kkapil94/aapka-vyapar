@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:remixicon/remixicon.dart';
 
 class Discount_Report extends StatefulWidget {
@@ -123,6 +124,11 @@ class _Discount_Report extends State<Discount_Report> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        systemOverlayStyle: SystemUiOverlayStyle(
+          statusBarColor: Color(0xFF00557D),
+          statusBarIconBrightness: Brightness.light,
+        ),
+        surfaceTintColor: Color(0xFF0078AA),
         backgroundColor: Color(0xFF0078AA),
         title: Text(
           "Discount Report",

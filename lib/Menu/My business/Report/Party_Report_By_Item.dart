@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:remixicon/remixicon.dart';
 
@@ -136,6 +137,11 @@ class _Party_Report_By_Item extends State<Party_Report_By_Item> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        systemOverlayStyle: SystemUiOverlayStyle(
+          statusBarColor: Color(0xFF00557D),
+          statusBarIconBrightness: Brightness.light,
+        ),
+        surfaceTintColor: Color(0xFF0078AA),
         backgroundColor: Color(0xFF0078AA),
         title: Text("Party Report By Item",style: TextStyle(color: Colors.white),),
         iconTheme: IconThemeData(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:remixicon/remixicon.dart';
 
 class Receivable extends StatefulWidget {
@@ -19,6 +20,10 @@ class _ReceivableState extends State<Receivable> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
+        systemOverlayStyle: SystemUiOverlayStyle(
+          statusBarColor: Colors.grey.shade300,
+          statusBarIconBrightness: Brightness.light,
+        ),
         title: Text("Receivable",style: TextStyle(color: Colors.white,fontWeight: FontWeight.w600,fontSize: 20),),
         backgroundColor: Color(0xFF0078AA),
         iconTheme: IconThemeData(

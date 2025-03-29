@@ -4,6 +4,7 @@ import 'package:demo/Dashboard/Bank/Bank_to_Bank_Transfer.dart';
 import 'package:demo/Home/Prefered_underline_appbar.dart';
 import 'package:demo/Home/Transaction%20Details/Show%20All/add_bank_account.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:remixicon/remixicon.dart';
 
 class Bank_Details extends StatefulWidget {
@@ -16,6 +17,10 @@ class _Bank_Details extends State<Bank_Details> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        systemOverlayStyle: SystemUiOverlayStyle(
+          statusBarColor: Colors.grey.shade300,
+          statusBarIconBrightness: Brightness.light,
+        ),
         surfaceTintColor: Colors.white,
         title: Text('Bank Details', style: TextStyle(color: Colors.black,fontSize: 18,fontWeight: FontWeight.bold)),
         backgroundColor: Colors.white,

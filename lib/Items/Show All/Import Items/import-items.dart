@@ -2,6 +2,7 @@ import 'package:demo/Home/Prefered_underline_appbar.dart';
 import 'package:demo/Items/Show%20All/Import%20Items/Libraby%20Items/library-items.dart';
 import 'package:demo/Items/Show%20All/Import%20Items/Ms%20Excel/ms-excel.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class ImportItemsPage extends StatelessWidget {
   const ImportItemsPage({Key? key}) : super(key: key);
@@ -11,6 +12,11 @@ class ImportItemsPage extends StatelessWidget {
     return Scaffold(
       backgroundColor:Colors.white,
       appBar: AppBar(
+        systemOverlayStyle: SystemUiOverlayStyle(
+          statusBarColor: Colors.grey.shade300,
+          statusBarIconBrightness: Brightness.light,
+        ),
+        surfaceTintColor: Colors.white,
         backgroundColor: Colors.white,
         title: Text('Import Items', style: TextStyle(color: Colors.black, fontSize: 18, fontWeight: FontWeight.bold,),),
         bottom: Prefered_underline_appbar(),

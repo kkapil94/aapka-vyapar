@@ -2,6 +2,7 @@ import 'package:demo/Home/Prefered_underline_appbar.dart';
 import 'package:demo/Home/Transaction%20Details/Add%20Txn/Sale%20Transaction/Estimate_Quotation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:remixicon/remixicon.dart';
 
 class Estimate_Details extends StatefulWidget {
@@ -23,6 +24,10 @@ class _Estimate_DetailsState extends State<Estimate_Details> {
 
     return Scaffold(
       appBar: AppBar(
+        systemOverlayStyle: SystemUiOverlayStyle(
+          statusBarColor: Colors.grey.shade300,
+          statusBarIconBrightness: Brightness.light,
+        ),
         title: Text("Estimate Details",style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),
         backgroundColor: Colors.white,
         surfaceTintColor: Colors.white,

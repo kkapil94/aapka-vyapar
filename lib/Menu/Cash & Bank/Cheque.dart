@@ -2,6 +2,7 @@ import 'package:demo/Home/Prefered_underline_appbar.dart';
 import 'package:demo/Menu/Cash%20&%20Bank/Transfer_Cheque.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:remixicon/remixicon.dart';
 
 class ChequeScreen extends StatefulWidget {
@@ -23,6 +24,10 @@ class _ChequeScreenState extends State<ChequeScreen> {
 
     return Scaffold(
       appBar: AppBar(
+        systemOverlayStyle: SystemUiOverlayStyle(
+          statusBarColor: Colors.grey.shade300,
+          statusBarIconBrightness: Brightness.light,
+        ),
         surfaceTintColor: Colors.white,
         backgroundColor: Colors.white,
         title: Text("Cheque",style: TextStyle(color: Colors.black,fontSize: 18),),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:remixicon/remixicon.dart';
 
 class Settings extends StatefulWidget {
@@ -16,7 +17,11 @@ class _SettingsState extends State<Settings> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        surfaceTintColor: Colors.blue.shade50,
+          systemOverlayStyle: SystemUiOverlayStyle(
+            statusBarColor: Color(0xFF00557D),
+            statusBarIconBrightness: Brightness.light,
+          ),
+        surfaceTintColor: Color(0xFF0078AA),
         backgroundColor: Colors.blue.shade50,
         title: Text("Settings",style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),
         actions: [

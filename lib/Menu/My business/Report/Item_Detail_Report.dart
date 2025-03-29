@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:remixicon/remixicon.dart';
 
 class Item_Detail_Report extends StatefulWidget {
@@ -127,6 +128,11 @@ class _Item_Detail_Report extends State<Item_Detail_Report> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        systemOverlayStyle: SystemUiOverlayStyle(
+          statusBarColor: Color(0xFF00557D),
+          statusBarIconBrightness: Brightness.light,
+        ),
+        surfaceTintColor: Color(0xFF0078AA),
         backgroundColor: Color(0xFF0078AA),
         title: Text("Item Details Report",style: TextStyle(color: Colors.white),),
         iconTheme: IconThemeData(

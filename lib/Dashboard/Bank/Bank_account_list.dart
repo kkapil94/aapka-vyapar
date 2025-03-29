@@ -1,9 +1,9 @@
 import 'package:demo/Dashboard/Bank/Bank_Adjustment.dart';
 import 'package:demo/Dashboard/Bank/Bank_Transfer.dart';
 import 'package:demo/Dashboard/Bank/Bank_to_Bank_Transfer.dart';
-import 'package:demo/Home/Prefered_underline_appbar.dart';
 import 'package:demo/Home/Transaction%20Details/Show%20All/bank_account.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:remixicon/remixicon.dart';
 
 class Bank_Account_List extends StatefulWidget {
@@ -18,6 +18,11 @@ class _Bank_Account_ListState extends State<Bank_Account_List> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        surfaceTintColor: Colors.white,
+        systemOverlayStyle: SystemUiOverlayStyle(
+          statusBarColor: Colors.grey.shade300,
+          statusBarIconBrightness: Brightness.light,
+        ),
         title: Text('Bank Accounts List', style: TextStyle(color: Colors.black)),
         backgroundColor: Colors.white,
       ),

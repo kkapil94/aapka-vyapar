@@ -1,6 +1,7 @@
 import 'package:demo/Home/Prefered_underline_appbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:remixicon/remixicon.dart';
 
 class Set_Conversion extends StatefulWidget {
@@ -57,6 +58,10 @@ class _Set_ConversionState extends State<Set_Conversion> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar:AppBar(
+        systemOverlayStyle: SystemUiOverlayStyle(
+          statusBarColor: Colors.grey.shade300,
+          statusBarIconBrightness: Brightness.light,
+        ),
         surfaceTintColor: Colors.white,
         title: Text("Set Conversion"),
         backgroundColor: Colors.white,

@@ -1,10 +1,6 @@
 import 'package:demo/Dashboard/Bank/Bank_account_list.dart';
 import 'package:demo/Dashboard/Cah_in_Hand.dart';
 import 'package:demo/Dashboard/Expense/Expense.dart';
-import 'package:demo/Home/Transaction%20Details/Add%20Txn/Purchase%20Transaction/Purchase_Order.dart';
-import 'package:demo/Home/Transaction%20Details/Add%20Txn/Purchase%20Transaction/Purchase_Return.dart';
-import 'package:demo/Home/Transaction%20Details/Add%20Txn/Sale%20Transaction/Delivery_Challan.dart';
-import 'package:demo/Home/Transaction%20Details/Add%20Txn/Sale%20Transaction/Sale_Return.dart';
 import 'package:demo/Home/Transaction%20Details/Show%20All/all_transaction.dart';
 import 'package:demo/Items/Online%20Store/Manage%20Items%20Screen/manage-items-screen.dart';
 import 'package:demo/Items/Online%20Store/MyStorePage/myStore.dart';

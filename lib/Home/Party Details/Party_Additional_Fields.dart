@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_remix/flutter_remix.dart';
 
 class Party_Additional_Fields extends StatefulWidget {
@@ -25,6 +26,11 @@ class PartyAdditionalFields extends State<Party_Additional_Fields> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        systemOverlayStyle: SystemUiOverlayStyle(
+          statusBarColor: Colors.grey.shade300,
+          statusBarIconBrightness: Brightness.light,
+        ),
+        surfaceTintColor: Colors.white,
         title: Text(
           "Party Addional Field",
           style: TextStyle(color: Colors.black),

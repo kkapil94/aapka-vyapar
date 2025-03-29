@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class ExportItemsScreen extends StatelessWidget {
   const ExportItemsScreen({Key? key}) : super(key: key);
@@ -35,6 +36,11 @@ class ExportItemsScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
+        systemOverlayStyle: SystemUiOverlayStyle(
+          statusBarColor: Colors.grey.shade300,
+          statusBarIconBrightness: Brightness.light,
+        ),
+        surfaceTintColor: Colors.white,
         backgroundColor:Color(0xFF0078AA),
         title: Text('Export Items', style: TextStyle(color: Colors.white)),
         iconTheme: IconThemeData(

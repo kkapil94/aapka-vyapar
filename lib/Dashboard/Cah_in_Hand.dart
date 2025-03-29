@@ -1,5 +1,6 @@
 import 'package:demo/Home/Prefered_underline_appbar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:remixicon/remixicon.dart';
 
 class Cash_In_Hand extends StatefulWidget {
@@ -14,6 +15,10 @@ class _Cash_In_HandState extends State<Cash_In_Hand> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        systemOverlayStyle: SystemUiOverlayStyle(
+          statusBarColor: Colors.grey.shade300,
+          statusBarIconBrightness: Brightness.light,
+        ),
         surfaceTintColor: Colors.white,
         title: Text('Cash in hand', style: TextStyle(color: Colors.black)),
         backgroundColor: Colors.white,

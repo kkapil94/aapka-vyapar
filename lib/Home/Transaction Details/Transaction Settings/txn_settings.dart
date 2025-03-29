@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:remixicon/remixicon.dart';
 
 class Transaction_Settings extends StatefulWidget {
@@ -43,6 +44,10 @@ class _TransactionSettingsState extends State<Transaction_Settings> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        systemOverlayStyle: SystemUiOverlayStyle(
+          statusBarColor: Colors.grey.shade300,
+          statusBarIconBrightness: Brightness.light,
+        ),
         title: is_search?
             TextField(
               decoration: InputDecoration(

@@ -1,6 +1,7 @@
 import 'package:demo/Home/Prefered_underline_appbar.dart';
 import 'package:demo/Items/ItemDetails/adjustStock.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:remixicon/remixicon.dart';
 
 class ItemDetailsScreen extends StatelessWidget {
@@ -22,6 +23,11 @@ class ItemDetailsScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
+        systemOverlayStyle: SystemUiOverlayStyle(
+          statusBarColor: Colors.grey.shade300,
+          statusBarIconBrightness: Brightness.light,
+        ),
+        surfaceTintColor: Colors.white,
         backgroundColor: Colors.white,
         title:Text(
           "Item Details",

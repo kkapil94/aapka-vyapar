@@ -1,6 +1,7 @@
 import 'package:demo/Home/Prefered_underline_appbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:remixicon/remixicon.dart';
 
 class Purchase_Order_menu extends StatefulWidget {
@@ -23,6 +24,10 @@ class _Purchase_Order extends State<Purchase_Order_menu> {
 
     return Scaffold(
       appBar: AppBar(
+        systemOverlayStyle: SystemUiOverlayStyle(
+          statusBarColor: Colors.grey.shade300,
+          statusBarIconBrightness: Brightness.light,
+        ),
         bottom: Prefered_underline_appbar(),
         backgroundColor: Colors.white,
         surfaceTintColor: Colors.white,

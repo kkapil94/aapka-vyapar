@@ -1,5 +1,6 @@
 import 'package:demo/Home/Prefered_underline_appbar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:remixicon/remixicon.dart';
 
@@ -69,6 +70,10 @@ class _Bank_To_Bank_Transfer extends State<Bank_To_Bank_Transfer> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        systemOverlayStyle: SystemUiOverlayStyle(
+          statusBarColor: Colors.grey.shade300,
+          statusBarIconBrightness: Brightness.light,
+        ),
         surfaceTintColor: Colors.white,
         title: const Text(
           'Bank to Bank Transfer',

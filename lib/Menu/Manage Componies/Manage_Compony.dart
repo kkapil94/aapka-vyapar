@@ -2,6 +2,7 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:remixicon/remixicon.dart';
 
 class Manage_Compony extends StatefulWidget {
@@ -35,6 +36,10 @@ class _Manage_ComponyState extends State<Manage_Compony> with SingleTickerProvid
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        systemOverlayStyle: SystemUiOverlayStyle(
+          statusBarColor: Colors.grey.shade300,
+          statusBarIconBrightness: Brightness.light,
+        ),
         backgroundColor: Colors.white,
         surfaceTintColor: Colors.white,
         title: Text("Manage Componies",style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18),),

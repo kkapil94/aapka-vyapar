@@ -1,6 +1,7 @@
 import 'package:demo/Dashboard/Item/Add_Items_to_Unit.dart';
 import 'package:demo/Dashboard/Item/Set_Conversion.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:remixicon/remixicon.dart';
 
 class Items extends StatefulWidget {
@@ -21,6 +22,10 @@ class _ItemsPageState extends State<Items> with SingleTickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        systemOverlayStyle: SystemUiOverlayStyle(
+          statusBarColor: Colors.grey.shade300,
+          statusBarIconBrightness: Brightness.light,
+        ),
         title: const Text('Items', style: TextStyle(fontWeight:FontWeight.w500)),
         backgroundColor: Colors.white,
         actions: [

@@ -1,6 +1,9 @@
+import 'package:demo/Home/Transaction%20Details/Show%20All/add_bank_account.dart';
+import 'package:demo/Home/Transaction%20Details/Transaction%20Settings/txn_settings.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_remix/flutter_remix.dart';
 import 'package:remixicon/remixicon.dart';
 
@@ -16,34 +19,142 @@ class Purchase extends StatefulWidget {
 class _Purchase extends State<Purchase> {
   var time = DateTime.now();
   var invoice_no = 0;
-  String? enteredText;
   String? selectedPaymentType = "Cash";
   String? Country = "Gujrat";
   bool isChecked = false;
 
 
   String? selectedState;
+  TextEditingController party_name_controller = TextEditingController();
+  FocusNode party_name_focusnode = FocusNode();
+  bool is_party_name_focused = false;
+
+  TextEditingController phone_number_controller = TextEditingController();
+  FocusNode phone_number_focusnode = FocusNode();
+  bool is_phone_number_focused = false;
+
+  TextEditingController total_amount_controller = TextEditingController();
+  FocusNode total_amount_focus = FocusNode();
+  bool is_total_focused = false;
+
+  TextEditingController paid_amount_controller = TextEditingController();
+  FocusNode paid_amount_focus = FocusNode();
+  bool is_paid_focused = false;
+
+
+  TextEditingController balance_due_controller = TextEditingController();
+  FocusNode balance_due_focus = FocusNode();
+  bool is_balance_due_focused= false;
+
+  TextEditingController description_controller = TextEditingController();
+  FocusNode description_focusnode = FocusNode();
+  bool is_description_focused = false;
+
+  bool isExpanded = true;
+  
+  @override
+  void initState() {
+    super.initState();
+
+    party_name_focusnode.addListener(() {
+      setState(() {
+        is_party_name_focused = party_name_focusnode.hasFocus;
+      });
+    });
+
+
+    total_amount_focus.addListener(() {
+      setState(() {
+        is_total_focused = total_amount_focus.hasFocus;
+      });
+    });
+
+    phone_number_focusnode.addListener(() {
+      setState(() {
+        is_phone_number_focused = phone_number_focusnode.hasFocus;
+      });
+    });
+    
+    description_focusnode.addListener((){
+      setState(() {
+        is_description_focused = description_focusnode.hasFocus;
+      });
+    });
+  }
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        systemOverlayStyle: SystemUiOverlayStyle(
+          statusBarColor: Colors.grey.shade300,
+          statusBarIconBrightness: Brightness.light,
+        ),
+        surfaceTintColor: Colors.white,
         backgroundColor: Colors.white,
-        title: Text('Purchase'),
+        title: Text('Purchase',style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),
         bottom: Prefered_underline_appbar(),
         actions: [
           IconButton(
-            icon: Icon(Icons.settings),
+            icon: Icon(FlutterRemix.settings_2_line),
             onPressed: () {
-              // Add settings functionality here
+              Navigator.push(context, MaterialPageRoute(builder: (context)=>Transaction_Settings()));
             },
           ),
         ],
       ),
-      bottomNavigationBar: BottomNavbarSaveButton(leftButtonText: 'save & new', rightButtonText: 'save', leftButtonColor: Colors.white,rightButtonColor: Colors.blueAccent,onLeftButtonPressed: (){},onRightButtonPressed: (){},),
+      bottomNavigationBar: Row(
+        children: [
+          Expanded(
+            flex: 2,
+            child: ElevatedButton(
+              onPressed: (){},
+              style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.white,
+                  padding: EdgeInsets.symmetric(vertical: 12),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.zero,
+                  )
+              ),
+              child: Text("Save & New",style: TextStyle(fontSize: 16,fontWeight: FontWeight.w500,color: Colors.black),),
+            ),
+          ),
+          Expanded(
+            flex: 2,
+            child: ElevatedButton(
+              onPressed: (){},
+              style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.blueAccent,
+                  padding: EdgeInsets.symmetric(vertical: 12),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.zero,
+                  )
+              ),
+              child: Text("Save",style: TextStyle(fontSize: 16,fontWeight: FontWeight.w500,color: Colors.white),),
+            ),
+
+          ),
+
+          Expanded(
+            child: ElevatedButton(
+                onPressed: (){},
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.white,
+                    padding: EdgeInsets.symmetric(vertical: 12),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.zero,
+                    )
+                ),
+                child:Icon(Remix.share_forward_line,color: Colors.blueAccent,)
+            ),
+          ),
+        ],
+      ),
       // Prevent layout shifting when the keyboard opens
       body: Container(
-        color:  Color(0xFFE8E8E8),        child: Column(
+        color:  Color(0xFFE8E8E8),
+        child: Column(
           children: [
             Expanded(
               child: SingleChildScrollView(
@@ -147,68 +258,262 @@ class _Purchase extends State<Purchase> {
                         padding: EdgeInsets.all(16),
                         child:Column(
                           children: [
-                            TextField(
-                              decoration: InputDecoration(
-                                labelText: "Party Name",
-                                hintText: "Party name",
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(8.0),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(8.0),
-                                  borderSide: BorderSide(color: Colors.blue, width: 2.0),
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(8.0),
-                                  borderSide: BorderSide(color: Colors.grey, width: 1.0),
+                            SizedBox(
+                              height: 50,
+                              child: TextField(
+                                controller: party_name_controller,
+                                focusNode: party_name_focusnode,
+                                decoration: InputDecoration(
+                                  floatingLabelStyle: TextStyle(color: is_party_name_focused?Colors.blueAccent:Colors.grey),
+                                  labelText: "Party Name *",
+                                  labelStyle: TextStyle(color: Colors.grey),
+                                  border: OutlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.grey, width: 1.0),
+                                    borderRadius: BorderRadius.circular(4.0),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(4.0),
+                                    borderSide: BorderSide(color: Colors.blueAccent, width: 2.0),
+                                  ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(4.0),
+                                    borderSide: BorderSide(color: Colors.grey, width: 1.0),
+                                  ),
                                 ),
                               ),
                             ),
                             SizedBox(height: 16),
+                            
+                            
                             //Phone number
-                            TextField(
-                              keyboardType: TextInputType.phone,
-                              decoration: InputDecoration(
-                                labelText: "Phone Number",
-                                hintText: "Phone number",
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(8.0),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(8.0),
-                                  borderSide: BorderSide(color: Colors.blue, width: 2.0),
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(8.0),
-                                  borderSide: BorderSide(color: Colors.grey, width: 1.0),
+                            SizedBox(
+                              height: 50,
+                              child: TextField(
+                                controller: phone_number_controller,
+                                focusNode: phone_number_focusnode,
+                                decoration: InputDecoration(
+                                  floatingLabelStyle: TextStyle(color: is_phone_number_focused?Colors.blueAccent:Colors.grey),
+                                  labelText: "Phone Number",
+                                  labelStyle: TextStyle(color: Colors.grey),
+                                  border: OutlineInputBorder(
+                                    borderSide: BorderSide(color: Colors.grey, width: 1.0),
+                                    borderRadius: BorderRadius.circular(4.0),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(4.0),
+                                    borderSide: BorderSide(color: Colors.blueAccent, width: 2.0),
+                                  ),
+                                  enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(4.0),
+                                    borderSide: BorderSide(color: Colors.grey, width: 1.0),
+                                  ),
                                 ),
                               ),
                             ),
-                            SizedBox(height: 24),
-                            OutlinedButton(
-                              onPressed: () {
-                                Navigator.push(context, MaterialPageRoute(builder: (builder)=>Add_Items_to_Sale(title: "Add Items to Sale invoice")));
-                              },
-                              style: OutlinedButton.styleFrom(
-                                side: BorderSide(color: Colors.blueAccent),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8.0),
-                                ),
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(Icons.add, color: Colors.blueAccent),
-                                  SizedBox(width: 8),
-                                  Text("Add Items", style: TextStyle(color: Colors.blueAccent)),
-                                  SizedBox(width: 8),
-                                  Text("(Optional)", style: TextStyle(color: Colors.grey)),
-                                ],
-                              ),
-                            ),
-                            SizedBox(height: 16),
                           ],
                         ),
+                      ),
+
+                      // if (addedItems.isNotEmpty)
+                      Container(
+                        color: Colors.white,
+                        padding: EdgeInsets.symmetric(horizontal: 16,vertical: 4),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            // Expand/Collapse Header
+                            GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  isExpanded = !isExpanded;
+                                });
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.blue[300],
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                padding: EdgeInsets.symmetric(vertical: 1, horizontal: 12),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      "Billed Items",
+                                      style: TextStyle(
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    Icon(
+                                      isExpanded ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
+                                      color: Colors.white,
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ),
+
+                            // Items List (Expandable)
+                            if (isExpanded)
+                              Container(
+                                margin: EdgeInsets.only(top: 5),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(8),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.withOpacity(0.2),
+                                      blurRadius: 5,
+                                      spreadRadius: 2,
+                                      offset: Offset(0, 2),
+                                    ),
+                                  ],
+                                ),
+                                child: Padding(
+                                  padding: EdgeInsets.all(12),
+                                  child: Column(
+                                    children: [
+                                      ListView.builder(
+                                        shrinkWrap: true,
+                                        physics: NeverScrollableScrollPhysics(),
+                                        itemCount: 1,
+                                        itemBuilder: (context, index) {
+
+                                          return GestureDetector(
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                // Item Row with Delete Button
+                                                Row(
+                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                  children: [
+                                                    Expanded(
+                                                      child: Text("#1 Maggie", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),),
+                                                    Text("₹ 100",
+                                                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                                                    IconButton(
+                                                      icon: Icon(Icons.delete, color: Colors.red),
+                                                      onPressed: () {
+                                                        setState(() {
+                                                        });
+                                                      },
+                                                    ),
+                                                  ],
+                                                ),
+                                                SizedBox(height: 5),
+
+                                                // Item Subtotal
+                                                Row(
+                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                  children: [
+                                                    Text("Item Subtotal:", style: TextStyle(color: Colors.grey[600])),
+                                                    Text(
+                                                      "1 x 55 = ₹ 55",
+                                                      style: TextStyle(color: Colors.grey[600]),
+                                                    ),
+                                                  ],
+                                                ),
+
+                                                SizedBox(height: 5),
+
+                                                // Discount Row
+                                                Row(
+                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                  children: [
+                                                    RichText(
+                                                      text: TextSpan(
+                                                        text: "Discount (%): ",
+                                                        style: TextStyle(color: Colors.orange[700], fontSize: 14),
+                                                        children: [
+                                                          TextSpan(text: "5", style: TextStyle(fontWeight: FontWeight.bold),),
+                                                        ],
+                                                      ),
+                                                    ),
+                                                    Text(
+                                                      "₹ 25",
+                                                      style: TextStyle(color: Colors.orange[700], fontWeight: FontWeight.bold),
+                                                    ),
+                                                  ],
+                                                ),
+
+                                                SizedBox(height: 5),
+
+                                                // Tax Row
+                                                Row(
+                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                  children: [
+                                                    Text("GST (18 %):", style: TextStyle(color: Colors.grey[600])),
+                                                    Text(
+                                                      "₹ 0",
+                                                      style: TextStyle(color: Colors.green, fontWeight: FontWeight.bold),
+                                                    ),
+                                                  ],
+                                                ),
+
+                                                SizedBox(height: 10),
+                                              ],
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                      Divider(color: Colors.grey[300]),
+
+                                      // ✅ Total Calculation Section
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text("Total Discount: ₹ 0.0}"),
+                                          Text("Total Tax: ₹ 0"),
+                                        ],
+                                      ),
+                                      SizedBox(height: 5),
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text("Total Qty: 1"),
+                                          Text(
+                                            "Total Amount: ₹ 200",
+                                            style: TextStyle(fontWeight: FontWeight.bold),
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                          color: Colors.white,
+                          padding: EdgeInsets.symmetric(horizontal: 16),
+                          child: Column(
+                            children: [
+                              OutlinedButton(
+                                onPressed: () {
+                                  Navigator.push(context, MaterialPageRoute(builder: (builder)=>Add_Items_to_Sale(title: "Add Items to Credit Note")));
+                                },
+                                style: OutlinedButton.styleFrom(
+                                  side: BorderSide(color: Colors.grey),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8.0),
+                                  ),
+                                ),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(Icons.add, color: Colors.blueAccent),
+                                    SizedBox(width: 8),
+                                    Text("Add Items", style: TextStyle(color: Colors.blueAccent)),
+                                    SizedBox(width: 8),
+                                    Text("(Optional)", style: TextStyle(color: Colors.grey)),
+                                  ],
+                                ),
+                              ),
+                              SizedBox(height: 16),
+                            ],
+                          )
                       ),
 
 
@@ -227,7 +532,7 @@ class _Purchase extends State<Purchase> {
                                     ),
                                   ),
                                   SizedBox(
-                                    width: 15, // Fixed width for rupee symbol
+                                    width: 15,
                                     child: Icon(Icons.currency_rupee, size: 15),
                                   ),
                                   Expanded(
@@ -236,11 +541,11 @@ class _Purchase extends State<Purchase> {
                                       children: [
                                         // Dotted Border (Only Bottom)
                                         Positioned(
-                                          bottom: 0,
+                                          bottom: 10,
                                           left: 0,
                                           right: 0,
                                           child: DottedBorder(
-                                            color: Colors.grey,
+                                            color:is_total_focused?Colors.blueAccent:Colors.grey,
                                             strokeWidth: 1.5, // Border thickness
                                             dashPattern: [5, 3], // Dotted pattern
                                             borderType: BorderType.Rect, // Rectangle border
@@ -257,9 +562,11 @@ class _Purchase extends State<Purchase> {
 
                                         // TextField
                                         TextField(
+                                          controller: total_amount_controller,
+                                          focusNode: total_amount_focus,
                                           onChanged: (value) {
                                             setState(() {
-                                              enteredText = value;
+                                              total_amount_controller.text = value;
                                             });
                                           },
                                           keyboardType: TextInputType.number,
@@ -274,9 +581,8 @@ class _Purchase extends State<Purchase> {
                                   ),
                                 ],
                               ),
-                            
-                            if (enteredText != null && enteredText!.isNotEmpty)
-                                  Padding(
+                            if (total_amount_controller.text != null && total_amount_controller.text.isNotEmpty)
+                              Padding(
                                     padding: const EdgeInsets.symmetric(vertical: 8.0),
                                     child: Row(
                                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -313,7 +619,7 @@ class _Purchase extends State<Purchase> {
                                                 left: 0,
                                                 right: 0,
                                                 child: DottedBorder(
-                                                  color: Colors.grey,
+                                                  color:is_paid_focused?Colors.blueAccent:Colors.grey,
                                                   strokeWidth: 1.5, // Border thickness
                                                   dashPattern: [5, 3], // Dotted pattern
                                                   borderType: BorderType.Rect, // Rectangle border
@@ -330,9 +636,11 @@ class _Purchase extends State<Purchase> {
 
                                               // TextField
                                               TextField(
+                                                controller: paid_amount_controller,
+                                                focusNode: paid_amount_focus,
                                                 onChanged: (value) {
                                                   setState(() {
-                                                    enteredText = value;
+                                                    paid_amount_controller.text = value;
                                                   });
                                                 },
                                                 keyboardType: TextInputType.number,
@@ -348,7 +656,8 @@ class _Purchase extends State<Purchase> {
                                       ],
                                     ),
                                   ),
-                                  Padding(
+                            if (total_amount_controller.text != null && total_amount_controller.text.isNotEmpty)
+                              Padding(
                                     padding: const EdgeInsets.symmetric(vertical: 8.0),
                                     child: Row(
                                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -357,21 +666,20 @@ class _Purchase extends State<Purchase> {
                                           flex: 2,
                                           child: Text(
                                             "Balance Due",
-                                            style: TextStyle(fontSize: 16, color: Colors.greenAccent),
+                                            style: TextStyle(fontSize: 16, color:Color(0xFF38C782)),
                                           ),
                                         ),
                                         SizedBox(
                                           width: 15, // Fixed width for rupee symbol
                                           child: Icon(Icons.currency_rupee,
-                                              size: 15, color: Colors.greenAccent),
-                                        ),
+                                              size: 15,)),
                                         Expanded(
                                           flex: 1,
                                           child: Align(
                                             alignment: Alignment.centerRight,
                                             child: Text(
                                               "0",
-                                              style: TextStyle(color: Colors.greenAccent, fontSize: 16),
+                                              style: TextStyle(color:Color(0xFF38C782), fontSize: 16),
                                             ),
                                           ),
                                         ),
@@ -381,6 +689,9 @@ class _Purchase extends State<Purchase> {
                                 ],
                         ),
                       ),
+
+
+
                       Container(
                         color: Colors.white,
                         child: Padding(
@@ -397,65 +708,7 @@ class _Purchase extends State<Purchase> {
                                       child: Align(
                                         alignment: Alignment.topRight,
                                         child: GestureDetector(
-                                          onTap: () {
-                                            showModalBottomSheet(
-                                              backgroundColor: Colors.white,
-                                              context: context,
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-                                              ),
-                                              builder: (context) {
-                                                return StatefulBuilder(
-                                                  builder: (context, setStateModal) { // Use setStateModal for local state changes
-                                                    return Padding(
-                                                      padding: const EdgeInsets.all(16.0),
-                                                      child: Column(
-                                                        mainAxisSize: MainAxisSize.min,
-                                                        children: [
-                                                          Text("Payment Type",style: TextStyle(fontSize: 22),),
-                                                          ListTile(
-                                                            leading: Icon(Icons.money, color: Colors.green),
-                                                            title: Text("Cash"),
-                                                            onTap: () {
-                                                              setState(() {
-                                                                selectedPaymentType = "Cash";
-                                                              });
-                                                              Navigator.pop(context);
-                                                            },
-                                                            tileColor: selectedPaymentType == "Cash"
-                                                                ? Colors.grey[200]
-                                                                : null,
-                                                          ),
-                                                          ListTile(
-                                                            leading: Icon(Icons.receipt_long, color: Colors.yellow),
-                                                            title: Text("Cheque"),
-                                                            onTap: () {
-                                                              setState(() {
-                                                                selectedPaymentType = "Cheque";
-                                                              });
-                                                              Navigator.pop(context);
-                                                            },
-                                                            tileColor: selectedPaymentType == "Cheque"
-                                                                ? Colors.grey[200]
-                                                                : null,
-                                                          ),
-                                                          Divider(),
-                                                          ListTile(
-                                                            leading: Icon(Icons.add, color: Colors.blue),
-                                                            title: Text("Add Bank A/c"),
-                                                            onTap: () {
-                                                              // Handle "Add Bank A/c" logic
-                                                              Navigator.pop(context);
-                                                            },
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    );
-                                                  },
-                                                );
-                                              },
-                                            );
-                                          },
+                                          onTap: ()=>selectPaymentmethod(context),
                                           child: Row(
                                             mainAxisSize: MainAxisSize.min,
                                             children: [
@@ -493,7 +746,10 @@ class _Purchase extends State<Purchase> {
                                   alignment: Alignment.topLeft,
                                   child: Padding(
                                     padding: const EdgeInsets.only(top: 8.0),
-                                    child: Text("+Add Payment Type",style: TextStyle(color: Colors.blueAccent,fontSize: 16),),
+                                    child: GestureDetector(
+                                        onTap: ()=>selectPaymentmethod(context),
+                                        child: Text("+Add Payment Type",style: TextStyle(color: Colors.blueAccent,fontSize: 16),)
+                                    ),
                                   )
                               ),
                               SizedBox(height: 10,),
@@ -505,6 +761,7 @@ class _Purchase extends State<Purchase> {
                                     Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
+
                                         Text("State", style: TextStyle(fontSize: 15, color: Colors.black)),
                                         Expanded(
                                           child: Align(
@@ -512,6 +769,7 @@ class _Purchase extends State<Purchase> {
                                             child: GestureDetector(
                                               onTap: () {
                                                 showModalBottomSheet(
+                                                  isScrollControlled: true,
                                                   backgroundColor: Colors.white,
                                                   context: context,
                                                   shape: RoundedRectangleBorder(
@@ -520,16 +778,31 @@ class _Purchase extends State<Purchase> {
                                                   builder: (context) {
                                                     return StatefulBuilder(
                                                       builder: (context, setStateModal) {
-                                                        return Padding(
-                                                          padding: const EdgeInsets.all(16.0),
+                                                        return Container(
+                                                          height: MediaQuery.of(context).size.height*0.80,
                                                           child: Column(
                                                             mainAxisSize: MainAxisSize.min,
                                                             children: [
-                                                              Text(
-                                                                "Select State",
-                                                                style: TextStyle(fontSize: 22),
+                                                              Padding(
+                                                                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                                                child: Row(
+                                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                  children: [
+                                                                    Text(
+                                                                      "Select State",
+                                                                      style: TextStyle(fontSize: 18),
+                                                                    ),
+                                                                    IconButton(
+                                                                      onPressed: (){
+                                                                        Navigator.pop(context);
+                                                                      },
+                                                                      icon: Icon(Remix.close_line),
+                                                                    )
+                                                                  ],
+                                                                ),
                                                               ),
-                                                              Divider(),
+
+                                                              Divider(color: Colors.grey.shade200,thickness: 1,),
                                                               Expanded(
                                                                 child: ListView(
                                                                   children: [
@@ -627,82 +900,102 @@ class _Purchase extends State<Purchase> {
                         padding: EdgeInsets.only(left: 16,right: 16.0,top: 8,bottom: 8),
                         child: Column(
                           children: [
-                            Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 8.0),
-                              child: SizedBox(
-                                height:75,
-                                child: Row(
-                                  children: [
-                                    Expanded(
-                                      child: TextField(
-                                        decoration: InputDecoration(
-                                          labelText: "Description",
-                                          hintText: 'Add Note',
-                                          border: OutlineInputBorder(
-                                            borderRadius: BorderRadius.circular(8.0),
-                                            borderSide: BorderSide(color: Colors.blue, width: 1.5),
-                                          ),
-                                          focusedBorder: OutlineInputBorder(
-                                            borderRadius: BorderRadius.circular(8.0),
-                                            borderSide: BorderSide(color: Colors.blue, width: 2.0),
-                                          ),
-                                          contentPadding: EdgeInsets.symmetric(
-                                            vertical: 12.0,
-                                            horizontal: 16.0,
-                                          ),
+                            SizedBox(
+                              height:75,
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: TextField(
+                                      focusNode: description_focusnode,
+                                      controller: description_controller,
+                                      decoration: InputDecoration(
+                                        labelText: "Description",
+                                        hintText: 'Add Note',
+                                        floatingLabelStyle: TextStyle(color: is_description_focused?Colors.blueAccent:Colors.grey),
+                                        border: OutlineInputBorder(
+                                          borderRadius: BorderRadius.circular(4.0),
+                                          borderSide: BorderSide(color: Colors.grey, width: 1.0),
                                         ),
-                                        maxLines: 3, // Allows multi-line input
-                                      ),
-                                    ),
-                                    SizedBox(width: 10.0),
-                                    GestureDetector(
-                                      onTap:(){
-                                        showDialog(
-                                          context: context,
-                                          builder: (BuildContext context) {
-                                            return AlertDialog(
-                                              backgroundColor: Colors.white,
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius: BorderRadius.zero,
-                                              ),
-                                              content: Column(
-                                                mainAxisSize: MainAxisSize.min,
-                                                children: [
-                                                  ListTile(
-                                                    title: Text("Camera"),
-                                                    onTap: () {
-                                                      Navigator.pop(context); // Close the dialog
-                                                    },
-                                                  ),
-                                                  Divider(),
-                                                  ListTile(
-                                                    title: Text("Gallery"),
-                                                    onTap: () {
-                                                      Navigator.pop(context); // Close the dialog
-                                                    },
-                                                  ),
-                                                ],
-                                              ),
-                                            );
-                                          },
-                                        );
-                                      }, // Show the dialog on tap
-                                      child: Container(
-                                        width: 75,
-                                        height: 75,
-                                        decoration: BoxDecoration(
-                                          border: Border.all(color: Colors.blue, width: 1.5),
-                                          borderRadius: BorderRadius.circular(8.0),
-                                          color: Colors.grey[100],
+                                        focusedBorder: OutlineInputBorder(
+                                          borderRadius: BorderRadius.circular(4.0),
+                                          borderSide: BorderSide(color: Colors.blueAccent, width: 2.0),
                                         ),
-                                        child: Icon(FlutterRemix.camera_line),
+                                        enabledBorder: OutlineInputBorder(
+                                          borderRadius: BorderRadius.circular(4.0),
+                                          borderSide: BorderSide(color: Colors.grey, width: 1.0),
+                                        ),
+                                        contentPadding: EdgeInsets.symmetric(
+                                          vertical: 12.0,
+                                          horizontal: 16.0,
+                                        ),
                                       ),
+                                      maxLines: 3, // Allows multi-line input
                                     ),
-                                  ],
-                                ),
+                                  ),
+                                  SizedBox(width: 10.0),
+                                  GestureDetector(
+                                    onTap:(){
+                                      showDialog(
+                                        context: context,
+                                        builder: (BuildContext context) {
+                                          return AlertDialog(
+                                            backgroundColor: Colors.white,
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius: BorderRadius.zero,
+                                            ),
+                                            content: Column(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                ListTile(
+                                                  dense: true,
+                                                  visualDensity: VisualDensity.compact,
+                                                  title: Text("Camera"),
+                                                  onTap: () {
+                                                    Navigator.pop(context); // Close the dialog
+                                                  },
+                                                ),
+                                                Divider(),
+                                                ListTile(
+                                                  dense: true,
+                                                  visualDensity: VisualDensity.compact,
+                                                  title: Text("Gallery"),
+                                                  onTap: () {
+                                                    Navigator.pop(context); // Close the dialog
+                                                  },
+                                                ),
+                                              ],
+                                            ),
+                                          );
+                                        },
+                                      );
+                                    }, // Show the dialog on tap
+                                    child: Container(
+                                      width: 75,
+                                      height: 75,
+                                      decoration: BoxDecoration(
+                                        border: Border.all(color: Colors.blue, width: 1.5),
+                                        borderRadius: BorderRadius.circular(8.0),
+                                        color: Colors.grey[100],
+                                      ),
+                                      child: Icon(FlutterRemix.camera_line),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
-
+                            Padding(
+                                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                                child: Container(
+                                  height: 70,
+                                  decoration: BoxDecoration(
+                                    border: Border.all(width: 1,color: Colors.grey),
+                                    borderRadius: BorderRadius.circular(5),
+                                  ),
+                                  child: Center(
+                                    child: Text("Attach document",style: TextStyle(fontSize: 11),),
+                                  ),
+                                )
+                            ),
                           ],
                         ),
                       ),
@@ -718,6 +1011,77 @@ class _Purchase extends State<Purchase> {
       ),
     );
   }
+  void selectPaymentmethod(BuildContext context){
+    showModalBottomSheet(
+      backgroundColor: Colors.white,
+      context: context,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(8),
+      ),
+      builder: (context) {
+        return StatefulBuilder(
+          builder: (context, setStateModal) { // Use setStateModal for local state changes
+            return Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text("Payment Type",style: TextStyle(fontSize: 20),),
+                      IconButton(
+                          onPressed: (){
+                            Navigator.pop(context);
+                          },
+                          icon: Icon(Remix.close_line)
+                      ),
+                    ],
+                  ),
+                ),
+                Divider(color: Colors.grey.shade200,thickness: 1,),
+                ListTile(
+                  leading: Icon(Icons.money, color: Colors.green),
+                  title: Text("Cash"),
+                  onTap: () {
+                    setState(() {
+                      selectedPaymentType = "Cash";
+                    });
+                    Navigator.pop(context);
+                  },
+                  tileColor: selectedPaymentType == "Cash"
+                      ? Colors.grey[200]
+                      : null,
+                ),
+                ListTile(
+                  leading: Icon(Icons.receipt_long, color: Colors.yellow),
+                  title: Text("Cheque"),
+                  onTap: () {
+                    setState(() {
+                      selectedPaymentType = "Cheque";
+                    });
+                    Navigator.pop(context);
+                  },
+                  tileColor: selectedPaymentType == "Cheque"
+                      ? Colors.grey[200]
+                      : null,
+                ),
+                Divider(),
+                ListTile(
+                  leading: Icon(Icons.add, color: Colors.blue),
+                  title: Text("Add Bank A/c"),
+                  onTap: () {
+                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>Add_Bank_Account()));
+                  },
+                ),
+              ],
+            );
+          },
+        );
+      },
+    );
+  }
+
 }
 
 List<String> PrefixName = ["None"];

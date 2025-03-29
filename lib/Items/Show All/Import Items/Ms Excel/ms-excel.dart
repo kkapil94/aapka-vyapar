@@ -3,6 +3,8 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'dart:io';
 
+import 'package:flutter/services.dart';
+
 class ExcelUploadScreen extends StatefulWidget {
   const ExcelUploadScreen({Key? key}) : super(key: key);
 
@@ -32,6 +34,11 @@ class _ExcelUploadScreenState extends State<ExcelUploadScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
+        systemOverlayStyle: SystemUiOverlayStyle(
+          statusBarColor: Colors.grey.shade300,
+          statusBarIconBrightness: Brightness.light,
+        ),
+        surfaceTintColor: Colors.white,
         backgroundColor: Colors.white,
         title:Text(
           'Upload Excel File',
@@ -45,11 +52,11 @@ class _ExcelUploadScreenState extends State<ExcelUploadScreen> {
       ),
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding:  EdgeInsets.all(16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
+               Text(
                 'Steps to Import',
                 style: TextStyle(
                   fontSize: 22,
@@ -57,10 +64,10 @@ class _ExcelUploadScreenState extends State<ExcelUploadScreen> {
                   color: Colors.black,
                 ),
               ),
-              const SizedBox(height: 24),
+               SizedBox(height: 24),
 
               // Step 1
-              const Text(
+               Text(
                 'Step 1',
                 style: TextStyle(
                   fontSize: 20,
@@ -68,7 +75,7 @@ class _ExcelUploadScreenState extends State<ExcelUploadScreen> {
                   color: Colors.redAccent,
                 ),
               ),
-              const Text(
+               Text(
                 'Create an Excel file with the following format',
                 style: TextStyle(
                   fontSize: 18,
@@ -77,7 +84,7 @@ class _ExcelUploadScreenState extends State<ExcelUploadScreen> {
               ),
 
               // Sample text
-              const Text(
+               Text(
                 'Sample',
                 style: TextStyle(
                   fontSize: 18,
@@ -88,7 +95,7 @@ class _ExcelUploadScreenState extends State<ExcelUploadScreen> {
 
               // Excel Sample Image
               Container(
-                margin: const EdgeInsets.symmetric(vertical: 12),
+                margin:  EdgeInsets.symmetric(vertical: 12),
                 decoration: BoxDecoration(
                   border: Border.all(color: Colors.grey.shade300),
                   borderRadius: BorderRadius.circular(4),
@@ -100,7 +107,7 @@ class _ExcelUploadScreenState extends State<ExcelUploadScreen> {
               ),
 
               // Step 2
-              const Text(
+               Text(
                 'Step 2',
                 style: TextStyle(
                   fontSize: 20,
@@ -108,17 +115,17 @@ class _ExcelUploadScreenState extends State<ExcelUploadScreen> {
                   color: Colors.redAccent,
                 ),
               ),
-              const Text(
+               Text(
                 'Upload the file(xlsx or xls) by clicking on the Upload File button below.',
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w500,
                 ),
               ),
-              const SizedBox(height: 16),
+               SizedBox(height: 16),
 
               // Step 3
-              const Text(
+               Text(
                 'Step 3',
                 style: TextStyle(
                   fontSize: 20,
@@ -126,7 +133,7 @@ class _ExcelUploadScreenState extends State<ExcelUploadScreen> {
                   color: Colors.redAccent,
                 ),
               ),
-              const Text(
+               Text(
                 'Verify the items from the file & complete the import.',
                 style: TextStyle(
                   fontSize: 18,
@@ -140,8 +147,8 @@ class _ExcelUploadScreenState extends State<ExcelUploadScreen> {
                 width: double.infinity,
                 padding: EdgeInsets.all(16),
                 child: ElevatedButton.icon(
-                  icon: const Icon(Icons.upload_file, color: Colors.white),
-                  label: const Text(
+                  icon:  Icon(Icons.upload_file, color: Colors.white),
+                  label:  Text(
                     'Upload File',
                     style: TextStyle(
                       fontSize: 15,
@@ -151,7 +158,7 @@ class _ExcelUploadScreenState extends State<ExcelUploadScreen> {
                   ),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Color(0xFFE03537),
-                    padding: const EdgeInsets.symmetric(vertical: 10),
+                    padding:  EdgeInsets.symmetric(vertical: 10),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30),
                     ),

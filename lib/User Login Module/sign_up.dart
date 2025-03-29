@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../main.dart';
 
@@ -44,7 +45,7 @@ class SignUp extends State<Sign_Up> {
     _phoneController.addListener(() {
       setState(() {
         _buttonColor =
-        _phoneController.text.length == 10 ? Colors.red : Colors.grey;
+        _phoneController.text.length == 10 ? Color(0xFFE03537): Colors.grey;
       });
     });
   }
@@ -58,6 +59,14 @@ class SignUp extends State<Sign_Up> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        systemOverlayStyle: SystemUiOverlayStyle(
+          statusBarColor: Colors.grey.shade300,
+          statusBarIconBrightness: Brightness.light,
+        ),
+        surfaceTintColor: Colors.white,
+        backgroundColor: Colors.white,
+      ),
       resizeToAvoidBottomInset: false, // This prevents keyboard overflow issues
       body: Container(
         color: Colors.white,
@@ -135,10 +144,10 @@ class SignUp extends State<Sign_Up> {
                 ),
               ),
               SizedBox(width: 8),
-              // TextField of phone number
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.07,
                 child: TextField(
+                  style: TextStyle(fontSize:MediaQuery.of(context).size.width * 0.045),
                   focusNode: _phoneFocusNode,
                   controller: _phoneController,
                   keyboardType: TextInputType.phone,
@@ -317,6 +326,10 @@ class VerifyingOtp extends State<Verifying_Otp>{
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
+        systemOverlayStyle: SystemUiOverlayStyle(
+          statusBarColor: Colors.grey.shade300,
+          statusBarIconBrightness: Brightness.light,
+        ),
         backgroundColor: Colors.white,
       ),
       body:Container(
@@ -381,7 +394,7 @@ class VerifyingOtp extends State<Verifying_Otp>{
                 width: double.infinity,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.red,
+                    backgroundColor: Color(0xFFE03537),
                   ),
                   onPressed: () {
                     Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>MyHomePage(title: "aapka vyapar")));

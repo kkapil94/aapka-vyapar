@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:remixicon/remixicon.dart';
 
 class Stock_Summary_By_Item_Category extends StatefulWidget {
@@ -22,7 +23,11 @@ class _Stock_Summary_By_Item_Category extends State<Stock_Summary_By_Item_Catego
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        surfaceTintColor: Colors.white,
+        systemOverlayStyle: SystemUiOverlayStyle(
+          statusBarColor: Color(0xFF00557D),
+          statusBarIconBrightness: Brightness.light,
+        ),
+        surfaceTintColor: Color(0xFF0078AA),
         backgroundColor: Color(0xFF0078AA),
         title: Text("Stock Summary By Item Category",style: TextStyle(color: Colors.white),),
         iconTheme: IconThemeData(

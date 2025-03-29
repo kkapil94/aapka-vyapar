@@ -1,6 +1,7 @@
 import 'package:demo/Home/Prefered_underline_appbar.dart';
 import 'package:demo/Items/Online%20Store/Manage%20Items%20Screen/Update%20Item%20Page/update-tems-page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:remixicon/remixicon.dart';
 
 class ManageItemsPage extends StatefulWidget {
@@ -382,6 +383,11 @@ class _ManageItemsPageState extends State<ManageItemsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        systemOverlayStyle: SystemUiOverlayStyle(
+          statusBarColor: Colors.grey.shade300,
+          statusBarIconBrightness: Brightness.light,
+        ),
+        surfaceTintColor: Colors.white,
         backgroundColor: Colors.white,
         title:Text('Items Preview', style: TextStyle(color: Colors.black)),
         bottom: Prefered_underline_appbar(),

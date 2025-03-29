@@ -1,5 +1,6 @@
 import 'package:demo/Home/Prefered_underline_appbar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:remixicon/remixicon.dart';
 
 class Active_Items extends StatefulWidget {
@@ -15,6 +16,10 @@ class _Active_Items extends State<Active_Items> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        systemOverlayStyle: SystemUiOverlayStyle(
+          statusBarColor: Colors.grey.shade300,
+          statusBarIconBrightness: Brightness.light,
+        ),
         surfaceTintColor: Colors.white,
         bottom: Prefered_underline_appbar(),
         title: Text("Active Items", style: TextStyle(color: Colors.black)),

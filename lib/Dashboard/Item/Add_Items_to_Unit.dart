@@ -1,6 +1,7 @@
 import 'package:demo/Home/Prefered_underline_appbar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class Add_Items_To_Unit extends StatefulWidget {
   const Add_Items_To_Unit({super.key});
@@ -26,6 +27,11 @@ class _Add_Items_To_UnitState extends State<Add_Items_To_Unit> {
 
     return Scaffold(
       appBar: AppBar(
+        systemOverlayStyle: SystemUiOverlayStyle(
+          statusBarColor: Colors.grey.shade300,
+          statusBarIconBrightness: Brightness.light,
+        ),
+        surfaceTintColor: Colors.white,
         title: const Text("Add Items to Unit"),
         backgroundColor: Colors.white,
         bottom: Prefered_underline_appbar(),

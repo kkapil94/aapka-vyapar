@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_remix/flutter_remix.dart';
 
 import 'Party_Additional_Fields.dart';
@@ -17,13 +18,18 @@ class PartySettings extends State<Party_Settings> {
   bool Loyalty_Points = false;
 
 
-  String shareTransactionAs = "Ask me Everytime"; // Dropdown selection
+  String shareTransactionAs = "Ask me Everytime";
 
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        systemOverlayStyle: SystemUiOverlayStyle(
+          statusBarColor: Colors.grey.shade300,
+          statusBarIconBrightness: Brightness.light,
+        ),
+        surfaceTintColor: Colors.white,
         title: Text(
           "Party",
           style: TextStyle(color: Colors.black),

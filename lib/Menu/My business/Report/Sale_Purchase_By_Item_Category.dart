@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:remixicon/remixicon.dart';
 
 class Sale_Purchase_By_Item_Category extends StatefulWidget {
@@ -127,6 +128,11 @@ class _Sale_Purchase_By_Item_Category extends State<Sale_Purchase_By_Item_Catego
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        systemOverlayStyle: SystemUiOverlayStyle(
+          statusBarColor: Color(0xFF00557D),
+          statusBarIconBrightness: Brightness.light,
+        ),
+        surfaceTintColor: Color(0xFF0078AA),
         backgroundColor: Color(0xFF0078AA),
         title: Text("Sale/Purchase By Item Category",style: TextStyle(color: Colors.white),),
         iconTheme: IconThemeData(

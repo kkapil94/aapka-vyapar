@@ -1,6 +1,7 @@
 import 'package:demo/Home/Prefered_underline_appbar.dart';
 import 'package:demo/Items/Show%20All/Import%20Items/Category%20Detail/category-details.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class ItemLibraryPage extends StatefulWidget {
   const ItemLibraryPage({Key? key}) : super(key: key);
@@ -132,6 +133,11 @@ class _ItemLibraryPageState extends State<ItemLibraryPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        systemOverlayStyle: SystemUiOverlayStyle(
+          statusBarColor: Colors.grey.shade300,
+          statusBarIconBrightness: Brightness.light,
+        ),
+        surfaceTintColor: Colors.white,
         backgroundColor: Colors.white,
         elevation: 0,
         title: Text('Item Library', style: TextStyle(color: Colors.black, fontSize: 20, fontWeight: FontWeight.bold,),),

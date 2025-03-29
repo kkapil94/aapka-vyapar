@@ -1,5 +1,6 @@
 import 'package:demo/Home/Prefered_underline_appbar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class Edit_store_info extends StatefulWidget {
   const Edit_store_info({Key? key}) : super(key: key);
@@ -80,6 +81,10 @@ class _Edit_store_info extends State<Edit_store_info> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        systemOverlayStyle: SystemUiOverlayStyle(
+          statusBarColor: Colors.grey.shade300,
+          statusBarIconBrightness: Brightness.light,
+        ),
         surfaceTintColor: Colors.white,
         backgroundColor: Colors.white,
         title: const Text(

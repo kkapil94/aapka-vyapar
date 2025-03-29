@@ -1,6 +1,7 @@
 import 'package:demo/Home/Prefered_underline_appbar.dart';
 import 'package:demo/Home/Transaction%20Details/Add%20Txn/Other%20Transaction/Expenses.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class Expense extends StatefulWidget {
   @override
@@ -23,6 +24,11 @@ class _ExpenseScreenState extends State<Expense> with SingleTickerProviderStateM
 
     return Scaffold(
       appBar: AppBar(
+        systemOverlayStyle: SystemUiOverlayStyle(
+          statusBarColor: Colors.grey.shade300,
+          statusBarIconBrightness: Brightness.light,
+        ),
+        surfaceTintColor: Colors.white,
         title: Text("Expense", style: TextStyle(color: Colors.black)),
         backgroundColor: Colors.white,
         iconTheme: IconThemeData(color: Colors.black),

@@ -2,6 +2,7 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_remix/flutter_remix.dart';
 import 'package:intl/intl.dart';
 
@@ -19,6 +20,11 @@ class _Notification extends State<Notification_page>
       length: 2, // Two tabs
       child: Scaffold(
         appBar: AppBar(
+          systemOverlayStyle: SystemUiOverlayStyle(
+            statusBarColor: Colors.grey.shade300,
+            statusBarIconBrightness: Brightness.light,
+          ),
+          surfaceTintColor: Colors.white,
           title: Text(
             "Notifications",
             style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black),

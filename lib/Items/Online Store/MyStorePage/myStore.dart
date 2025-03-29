@@ -1,6 +1,7 @@
 import 'package:demo/Home/Prefered_underline_appbar.dart';
 import 'package:demo/Items/Online%20Store/Edit%20Store%20Info/edit-store-info.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:remixicon/remixicon.dart';
 
 import '../Manage Items Screen/manage-items-screen.dart';
@@ -251,6 +252,10 @@ class _OnlineStoreScreenState extends State<OnlineStoreScreen>{
         ),
       ),
       appBar: AppBar(
+        systemOverlayStyle: SystemUiOverlayStyle(
+          statusBarColor: Colors.grey.shade300,
+          statusBarIconBrightness: Brightness.light,
+        ),
         surfaceTintColor: Colors.white,
         backgroundColor: Colors.white,
         title:Text("Online Store",style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),

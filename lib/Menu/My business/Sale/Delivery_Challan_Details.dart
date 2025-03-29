@@ -2,6 +2,7 @@ import 'package:demo/Home/Prefered_underline_appbar.dart';
 import 'package:demo/Home/Transaction%20Details/Add%20Txn/Sale%20Transaction/Delivery_Challan.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:remixicon/remixicon.dart';
 
 class Delivery_Challan_Details extends StatefulWidget {
@@ -23,6 +24,10 @@ class _Delivery_Challan_DetailsState extends State<Delivery_Challan_Details> {
 
     return Scaffold(
       appBar: AppBar(
+        systemOverlayStyle: SystemUiOverlayStyle(
+          statusBarColor: Colors.grey.shade300,
+          statusBarIconBrightness: Brightness.light,
+        ),
         surfaceTintColor: Colors.white,
         backgroundColor: Colors.white,
         bottom: Prefered_underline_appbar(),

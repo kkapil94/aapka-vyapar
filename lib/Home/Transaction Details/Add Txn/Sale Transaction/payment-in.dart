@@ -404,10 +404,10 @@ class PaymentIn extends State<Payment_in> {
                       ),
 
                       Container(height: 20,color: Colors.white,),
-                      SizedBox(height: 10,),
                       if (received_controller.text != null && received_controller.text.isNotEmpty)
                         Column(
                         children: [
+                          SizedBox(height: 10,),
 
                           //payment type
                           Container(

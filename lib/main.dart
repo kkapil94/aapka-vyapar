@@ -106,6 +106,10 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      systemOverlayStyle: SystemUiOverlayStyle(
+        statusBarColor: Colors.grey.shade300,
+        statusBarIconBrightness: Brightness.light,
+      ),
       surfaceTintColor: Colors.white,
       backgroundColor: Colors.white,
       elevation: 0,

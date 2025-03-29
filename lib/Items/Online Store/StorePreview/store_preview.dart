@@ -1,6 +1,7 @@
 import 'package:another_carousel_pro/another_carousel_pro.dart';
 import 'package:demo/Home/Prefered_underline_appbar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class Store_Preview extends StatefulWidget {
   const Store_Preview({super.key});
@@ -41,6 +42,11 @@ class _Store_PreviewState extends State<Store_Preview> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        systemOverlayStyle: SystemUiOverlayStyle(
+          statusBarColor: Colors.grey.shade300,
+          statusBarIconBrightness: Brightness.light,
+        ),
+        surfaceTintColor: Colors.white,
         backgroundColor: Colors.white,
         title:Text('Store Preview', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 20),),
         bottom: Prefered_underline_appbar(),

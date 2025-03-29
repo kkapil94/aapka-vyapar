@@ -1,5 +1,7 @@
 
+import 'package:demo/Home/Prefered_underline_appbar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_contacts/flutter_contacts.dart';
 import 'package:permission_handler/permission_handler.dart';
 
@@ -63,8 +65,16 @@ class ImportParty extends State<Import_Party> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
+        systemOverlayStyle: SystemUiOverlayStyle(
+          statusBarColor: Colors.grey.shade300,
+          statusBarIconBrightness: Brightness.light,
+        ),
+        surfaceTintColor: Colors.white,
+        backgroundColor: Colors.white,
         title: Text("Import Party from Contacts"),
+        bottom: Prefered_underline_appbar(),
       ),
       body: Container(
         padding: EdgeInsets.all(16),
