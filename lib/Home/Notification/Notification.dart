@@ -99,31 +99,75 @@ class _Notification extends State<Notification_page>
   var firstDate = DateTime.now();
   var lastDate = DateTime(DateTime.now().year, DateTime.now().month + 1, 0);
 
-  void _select_firstDate(BuildContext context) {
-    showDatePicker(
+  Future<void> _select_firstDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
       context: context,
-      firstDate: DateTime(DateTime.monthsPerYear),
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2000),
       lastDate: DateTime(2030),
-    ).then((picked) {
-      if (picked != null) {
-        setState(() {
-          firstDate = picked;
-        });
-      }
-    });
+      builder: (BuildContext context, Widget? child) {
+        return Theme(
+          data: ThemeData.light().copyWith(
+            colorScheme: const ColorScheme.light(
+              primary: Colors.blue,       // Header background
+              onPrimary: Colors.white,    // Header text
+              surface: Colors.white,      // Calendar background
+              onSurface: Colors.black,    // Calendar text
+              secondary: Colors.blue,     // Selected date background
+              onSecondary: Colors.white,  // Selected date text
+            ),
+            dialogBackgroundColor: Colors.white,
+            textButtonTheme: TextButtonThemeData(
+              style: TextButton.styleFrom(
+                foregroundColor: Colors.blue, // Button text color
+              ),
+            ),
+          ),
+          child: child!,
+        );
+      },
+    );
+
+    if (picked != null) {
+      setState(() {
+        firstDate = picked;
+      });
+    }
   }
-  void _select_lastDate(BuildContext context) {
-    showDatePicker(
+  Future<void> _select_lastDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
       context: context,
-      firstDate: DateTime.now(),
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2000),
       lastDate: DateTime(2030),
-    ).then((picked) {
-      if (picked != null) {
-        setState(() {
-          lastDate = picked;
-        });
-      }
-    });
+      builder: (BuildContext context, Widget? child) {
+        return Theme(
+          data: ThemeData.light().copyWith(
+            colorScheme: const ColorScheme.light(
+              primary: Colors.blue,
+              onPrimary: Colors.white,
+              surface: Colors.white,
+              onSurface: Colors.black,
+              secondary: Colors.blue,
+              onSecondary: Colors.white,
+            ),
+            dialogBackgroundColor: Colors.white,
+            textButtonTheme: TextButtonThemeData(
+              style: TextButton.styleFrom(
+                foregroundColor: Colors.blue,
+              ),
+            ),
+          ),
+          child: child!,
+        );
+      },
+    );
+
+    if (picked != null) {
+      setState(() {
+        lastDate = picked;
+      });
+    }
   }
 
   String? selected_timeDuration = "This week";

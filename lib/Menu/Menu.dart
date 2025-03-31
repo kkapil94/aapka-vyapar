@@ -14,6 +14,7 @@ import 'package:demo/Menu/My%20business/Sale/Delivery_Challan_Details.dart';
 import 'package:demo/Menu/My%20business/Sale/Estimate_Details.dart';
 import 'package:demo/Menu/My%20business/Sale/Sale_Return_Report.dart';
 import 'package:demo/Menu/My%20business/Sale/Sale_list.dart';
+import 'package:demo/Settings/Settings.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:remixicon/remixicon.dart';
@@ -201,7 +202,7 @@ class _MenuState extends State<Menu> {
                       ),
 
                       Divider(),
-                      _buildMenuItemWithIcon("Settings", Remix.settings_2_line,(){Navigator.push(context, MaterialPageRoute(builder: (context)=>Manage_Compony()));}),
+                      _buildMenuItemWithIcon("Settings", Remix.settings_2_line,(){Navigator.push(context, MaterialPageRoute(builder: (context)=>Settings()));}),
                       _buildMenuItemWithIcon("Rate this app", Remix.sparkling_line,(){Navigator.push(context, MaterialPageRoute(builder: (context)=>Manage_Compony()));}),
                     ],
                   ),

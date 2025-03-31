@@ -1,4 +1,5 @@
 import 'package:demo/Home/Home.dart';
+import 'package:demo/Items/Add_new_item.dart';
 import 'package:demo/Items/More%20Option/Categories.dart';
 import 'package:demo/Items/More%20Option/Inactive_Items.dart';
 import 'package:demo/Items/More%20Option/Units.dart';
@@ -31,302 +32,337 @@ class _ItemsPageContentState extends State<ItemsPageContent> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.blue.shade50,
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          children: [
-            // Quick Links Section
-            Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(10),
-              ),
-              padding: EdgeInsets.only(top: 8.0),
-              child: Column(
-                children: [
-                  Container(
-                    alignment: Alignment.centerLeft,
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 35, bottom: 7),
-                      child: Text(
-                        "Quick Links",
-                        style: TextStyle(fontSize: 15),
+      body: Container(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Stack(
+            children: [
+             Column(
+                  children: [
+                    // Quick Links Section
+                    Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      padding: EdgeInsets.only(top: 8.0),
+                      child: Column(
+                        children: [
+                          Container(
+                            alignment: Alignment.centerLeft,
+                            child: Padding(
+                              padding: const EdgeInsets.only(left: 35, bottom: 7),
+                              child: Text(
+                                "Quick Links",
+                                style: TextStyle(fontSize: 15),
+                              ),
+                            ),
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              //Add Txn
+                              QuickLink(
+                                icon: Remix.store_2_line,
+                                label: "Online Store",
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => OnlineStoreScreen()),
+                                  );
+                                },
+                              ),
+                              //Sale Report
+                              QuickLink(
+                                icon: FlutterRemix.funds_line,
+                                label: "Stock Summary",
+                                onTap: () {
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>Stock_Summary_Report()));
+                                },
+                              ),
+                              //Txn settings
+                              QuickLink(
+                                icon: Remix.settings_2_line,
+                                label: "Txn Settings",
+                                iconColor: Colors.red,
+                                onTap: (){
+                
+                                },
+                              ),
+                              //Show all
+                              QuickLink(
+                                icon: FlutterRemix.arrow_right_circle_line,
+                                label: "Show All",
+                                onTap: () {
+                                  More_Option(context);
+                                },
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
                     ),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      //Add Txn
-                      QuickLink(
-                        icon: Remix.store_2_line,
-                        label: "Online Store",
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => OnlineStoreScreen()),
-                          );
-                        },
-                      ),
-                      //Sale Report
-                      QuickLink(
-                        icon: FlutterRemix.funds_line,
-                        label: "Stock Summary",
-                        onTap: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context)=>Stock_Summary_Report()));
-                        },
-                      ),
-                      //Txn settings
-                      QuickLink(
-                        icon: Remix.settings_2_line,
-                        label: "Txn Settings",
-                        iconColor: Colors.red,
-                        onTap: (){
-
-                        },
-                      ),
-                      //Show all
-                      QuickLink(
-                        icon: FlutterRemix.arrow_right_circle_line,
-                        label: "Show All",
-                        onTap: () {
-                          More_Option(context);
-                        },
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(height: 10,),
-
-
-            ///searchabar
-            Container(
-              height: 40,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Container(
+                    SizedBox(height: 10,),
+                
+                
+                    ///searchabar
+                    Container(
+                      height: 40,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8),
-                        color: Colors.white,
                       ),
-                      child: TextField(
-                        decoration: InputDecoration(
-                          hintText: "Search for transaction",
-                          hintStyle:
-                          TextStyle(fontSize: 13, color: Colors.grey),
-                          prefixIcon: Icon(
-                            FlutterRemix.search_line,
-                            color: Colors.blue,
-                          ),
-                          suffixIcon:Icon(FlutterRemix.filter_2_line, color: Colors.blue,),
-                          border: OutlineInputBorder(
-                            borderSide: BorderSide.none,
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(width: 10,),
-                  Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    height: 40,
-                    width: 40,
-                    child: IconButton(
-                        onPressed: (){
-                          showModalBottomSheet(
-                              backgroundColor: Colors.white,
-                              context: context,
-                              builder: (context){
-                                return Container(
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(8),
+                                color: Colors.white,
+                              ),
+                              child: TextField(
+                                decoration: InputDecoration(
+                                  hintText: "Search for transaction",
+                                  hintStyle:
+                                  TextStyle(fontSize: 13, color: Colors.grey),
+                                  prefixIcon: Icon(
+                                    FlutterRemix.search_line,
+                                    color: Colors.blue,
+                                  ),
+                                  suffixIcon:Icon(FlutterRemix.filter_2_line, color: Colors.blue,),
+                                  border: OutlineInputBorder(
+                                    borderSide: BorderSide.none,
                                     borderRadius: BorderRadius.circular(8),
                                   ),
-                                  height: MediaQuery.of(context).size.height * 0.40,
-                                  child: Column(
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                                        child: Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text("More Options",style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),
-                                            IconButton(
-                                                onPressed: (){
-                                                  Navigator.pop(context);
+                                ),
+                              ),
+                            ),
+                          ),
+                          SizedBox(width: 10,),
+                          Container(
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            height: 40,
+                            width: 40,
+                            child: IconButton(
+                                onPressed: (){
+                                  showModalBottomSheet(
+                                      backgroundColor: Colors.white,
+                                      context: context,
+                                      builder: (context){
+                                        return Container(
+                                          decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            borderRadius: BorderRadius.circular(8),
+                                          ),
+                                          height: MediaQuery.of(context).size.height * 0.40,
+                                          child: Column(
+                                            children: [
+                                              Padding(
+                                                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                                child: Row(
+                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                  children: [
+                                                    Text("More Options",style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold),),
+                                                    IconButton(
+                                                        onPressed: (){
+                                                          Navigator.pop(context);
+                                                        },
+                                                        icon: Icon(Remix.close_line)
+                                                    ),
+                                                  ],
+                                                ),
+                                              ),
+                                              Divider(color: Colors.grey.shade200,thickness: 1,),
+                
+                                              ListTile(
+                                                onTap: (){
+                                                  Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=>Inactive_Items()));
                                                 },
-                                                icon: Icon(Remix.close_line)
+                                                dense: true,
+                                                visualDensity: VisualDensity.compact,
+                                                contentPadding: EdgeInsets.symmetric(horizontal: 8),
+                                                title: Text("Mark Items Active",style: TextStyle(fontSize: 15),),
+                                                trailing: Icon(Remix.arrow_right_s_line,size:22,),
+                                              ),
+                                              Divider(color: Colors.grey.shade200,thickness: 1,),
+                
+                
+                                              ListTile(
+                                                dense: true,
+                                                visualDensity: VisualDensity.compact,
+                                                contentPadding: EdgeInsets.symmetric(horizontal: 8),
+                                                title: Text("Mark Items Inactive",style: TextStyle(fontSize: 15),),
+                                                trailing: Icon(Remix.arrow_right_s_line,size:22,),
+                                              ),
+                                              Divider(color: Colors.grey.shade200,thickness: 1,),
+                
+                                              ListTile(
+                                                dense: true,
+                                                visualDensity: VisualDensity.compact,
+                                                contentPadding: EdgeInsets.symmetric(horizontal: 8),
+                                                title: Text("Show Inactive",style: TextStyle(fontSize: 15),),
+                                                trailing: Checkbox(
+                                                    activeColor: Colors.blueAccent,
+                                                    value: is_show_inactive,
+                                                    onChanged: (val){
+                                                      setState(() {
+                                                        is_show_inactive=val!;
+                                                      });
+                                                      Navigator.pop(context);
+                                                    }
+                                                ),
+                                              ),
+                                              Divider(color: Colors.grey.shade200,thickness: 1,),
+                
+                                              ListTile(
+                                                onTap: (){
+                                                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>Units()));
+                                                },
+                                                dense: true,
+                                                visualDensity: VisualDensity.compact,
+                                                contentPadding: EdgeInsets.symmetric(horizontal: 8),
+                                                title: Text("Untis",style: TextStyle(fontSize: 15),),
+                                                trailing: Icon(Remix.arrow_right_s_line,size:22,),
+                                              ),
+                                              Divider(color: Colors.grey.shade200,thickness: 1,),
+                
+                                              ListTile(
+                                                onTap: (){
+                                                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>Categories()));
+                                                },
+                                                dense: true,
+                                                visualDensity: VisualDensity.compact,
+                                                contentPadding: EdgeInsets.symmetric(horizontal: 8),
+                                                title: Text("Categories",style: TextStyle(fontSize: 15),),
+                                                trailing: Icon(Remix.arrow_right_s_line,size:22,),
+                                              ),
+                
+                                            ],
+                                          ),
+                                        );
+                                      }
+                                  );
+                                },
+                                icon: Icon(Remix.more_2_line)
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 10,),
+                
+                    // Item
+                    Expanded(
+                      child: ListView.builder(
+                          itemCount: 1,
+                          itemBuilder:(context,index){
+                            return GestureDetector(
+                              onTap: (){
+                                Navigator.push(context, MaterialPageRoute(builder: (context)=>ItemDetailsScreen(itemName: "Patoto", salePrice: 1200, purchasePrice: 300, inStock: 10)));
+                              },
+                              child: Container(
+                                width: double.infinity,
+                                padding: EdgeInsets.symmetric(vertical: 8,horizontal: 16),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                child: Column(
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text("Cofee",style: TextStyle(fontSize: 16),),
+                                        Row(
+                                          children: [
+                                            Container(
+                                              padding: EdgeInsets.symmetric(horizontal: 8,vertical: 4),
+                                              decoration: BoxDecoration(
+                                                color: Colors.grey.shade200,
+                                                borderRadius: BorderRadius.circular(10)
+                                              ),
+                                              child: Text("GROCERY",style: TextStyle(fontSize: 11),),
                                             ),
+                                            IconButton(onPressed: (){}, icon: Icon(Remix.share_forward_line,)),
                                           ],
                                         ),
-                                      ),
-                                      Divider(color: Colors.grey.shade200,thickness: 1,),
-                                      
-                                      ListTile(
-                                        onTap: (){
-                                          Navigator.pushReplacement(context,MaterialPageRoute(builder: (context)=>Inactive_Items()));
-                                        },
-                                        dense: true,
-                                        visualDensity: VisualDensity.compact,
-                                        contentPadding: EdgeInsets.symmetric(horizontal: 8),
-                                        title: Text("Mark Items Active",style: TextStyle(fontSize: 15),),
-                                        trailing: Icon(Remix.arrow_right_s_line,size:22,),
-                                      ),
-                                      Divider(color: Colors.grey.shade200,thickness: 1,),
-
-
-                                      ListTile(
-                                        dense: true,
-                                        visualDensity: VisualDensity.compact,
-                                        contentPadding: EdgeInsets.symmetric(horizontal: 8),
-                                        title: Text("Mark Items Inactive",style: TextStyle(fontSize: 15),),
-                                        trailing: Icon(Remix.arrow_right_s_line,size:22,),
-                                      ),
-                                      Divider(color: Colors.grey.shade200,thickness: 1,),
-
-                                      ListTile(
-                                        dense: true,
-                                        visualDensity: VisualDensity.compact,
-                                        contentPadding: EdgeInsets.symmetric(horizontal: 8),
-                                        title: Text("Show Inactive",style: TextStyle(fontSize: 15),),
-                                        trailing: Checkbox(
-                                            activeColor: Colors.blueAccent,
-                                            value: is_show_inactive,
-                                            onChanged: (val){
-                                              setState(() {
-                                                is_show_inactive=val!;
-                                              });
-                                              Navigator.pop(context);
-                                            }
-                                        ),
-                                      ),
-                                      Divider(color: Colors.grey.shade200,thickness: 1,),
-
-                                      ListTile(
-                                        onTap: (){
-                                          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>Units()));
-                                        },
-                                        dense: true,
-                                        visualDensity: VisualDensity.compact,
-                                        contentPadding: EdgeInsets.symmetric(horizontal: 8),
-                                        title: Text("Untis",style: TextStyle(fontSize: 15),),
-                                        trailing: Icon(Remix.arrow_right_s_line,size:22,),
-                                      ),
-                                      Divider(color: Colors.grey.shade200,thickness: 1,),
-
-                                      ListTile(
-                                        onTap: (){
-                                          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>Categories()));
-                                        },
-                                        dense: true,
-                                        visualDensity: VisualDensity.compact,
-                                        contentPadding: EdgeInsets.symmetric(horizontal: 8),
-                                        title: Text("Categories",style: TextStyle(fontSize: 15),),
-                                        trailing: Icon(Remix.arrow_right_s_line,size:22,),
-                                      ),
-
-                                    ],
-                                  ),
-                                );
-                              }
-                          );
-                        },
-                        icon: Icon(Remix.more_2_line)
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(height: 10,),
-
-            // Item
-            Expanded(
-              child: ListView.builder(
-                  itemCount: 1,
-                  itemBuilder:(context,index){
-                    return GestureDetector(
-                      onTap: (){
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=>ItemDetailsScreen(itemName: "Patoto", salePrice: 1200, purchasePrice: 300, inStock: 10)));
-                      },
-                      child: Container(
-                        width: double.infinity,
-                        padding: EdgeInsets.symmetric(vertical: 8,horizontal: 16),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: Column(
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text("Cofee",style: TextStyle(fontSize: 16),),
-                                Row(
-                                  children: [
-                                    Container(
-                                      padding: EdgeInsets.symmetric(horizontal: 8,vertical: 4),
-                                      decoration: BoxDecoration(
-                                        color: Colors.grey.shade200,
-                                        borderRadius: BorderRadius.circular(10)
-                                      ),
-                                      child: Text("GROCERY",style: TextStyle(fontSize: 11),),
+                                      ],
                                     ),
-                                    IconButton(onPressed: (){}, icon: Icon(Remix.share_forward_line,)),
+                                    SizedBox(height: 10,),
+                                    Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Text("Sale Price", style: TextStyle(color: Colors.grey.shade500, fontSize: 15)),
+                                              SizedBox(height: 4),
+                                              Text("₹ 100.00", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Colors.black)),
+                                            ],
+                                          ),
+                                          Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Text("Purchase Price", style: TextStyle(color: Colors.grey.shade500, fontSize: 15)),
+                                              SizedBox(height: 4),
+                                              Text("₹ 200.00", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Colors.black)),
+                                            ],
+                                          ),
+                                          Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Text("In stock", style: TextStyle(color: Colors.grey.shade500, fontSize: 15)),
+                                              SizedBox(height: 4),
+                                              Text("200.00", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Color(0xFF38C782))),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    SizedBox(height: 10,),
                                   ],
                                 ),
-                              ],
-                            ),
-                            SizedBox(height: 10,),
-                            Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text("Sale Price", style: TextStyle(color: Colors.grey.shade500, fontSize: 15)),
-                                      SizedBox(height: 4),
-                                      Text("₹ 100.00", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Colors.black)),
-                                    ],
-                                  ),
-                                  Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text("Purchase Price", style: TextStyle(color: Colors.grey.shade500, fontSize: 15)),
-                                      SizedBox(height: 4),
-                                      Text("₹ 200.00", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Colors.black)),
-                                    ],
-                                  ),
-                                  Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text("In stock", style: TextStyle(color: Colors.grey.shade500, fontSize: 15)),
-                                      SizedBox(height: 4),
-                                      Text("200.00", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Color(0xFF38C782))),
-                                    ],
-                                  ),
-                                ],
                               ),
-                            SizedBox(height: 10,),
-                          ],
-                        ),
+                            );
+                          }
                       ),
-                    );
-                  }
+                    ),
+                
+                  ],
+                ),
+             Positioned(
+                bottom: 20,
+                left: 0,
+                right: 0,
+                child: Center(
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      padding: EdgeInsets.all(14),
+                      backgroundColor: Color(0xFFE03537),
+                    ),
+                    onPressed: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=>Add_new_item()));
+                    },
+                    child:Row(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(Remix.box_3_line,color: Colors.white,size: 20,),
+                        const SizedBox(width: 8),
+                        Text(
+                          "Add new Items",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
               ),
-            ),
 
-          ],
+            ],
+          ),
         ),
       ),
     );

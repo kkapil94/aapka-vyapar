@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_remix/flutter_remix.dart';
 import 'package:remixicon/remixicon.dart';
-import '../../../BottomNavbar_save_buttons.dart';
 import '../../../Prefered_underline_appbar.dart';
 import '../../Show All/add_bank_account.dart';
 import 'Add_Items_to_Sale.dart';
